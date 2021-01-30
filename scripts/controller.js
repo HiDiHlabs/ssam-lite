@@ -108,7 +108,7 @@ function main() {
 
         var pointerCoordinates = parameterWindow;
 
-        function getClusterLabel(i){
+        function getClusterLabel(i) {
             return clusterLabels[i];
         }
     }
@@ -158,7 +158,7 @@ function main() {
 
     function runCelltypeAssignments() {
         celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
-        plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels,getClusterLabel);
+        plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel);
 
     };
 
@@ -167,17 +167,23 @@ function main() {
         width = Math.ceil(height * edgeRatio);
         document.getElementById("vf-size-information").innerHTML =
             "total size: (" + width + "," + height + "," + genes.length + "); " + Math.ceil(width * height * 32 * genes.length / 1024 ** 2) + " gB"
-        updateParameterVf();
+        if (document.getElementById('preview-generator') == 'block') {
+            updateParameterVf();
+        }
     };
 
     function updateSigma() {
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
-        updateParameterVf();
+        if (document.getElementById('preview-generator') == 'block') {
+            updateParameterVf();
+        }
     };
 
     function updateThreshold() {
         threshold = parseFloat(document.getElementById('threshold').value);
-        updateParameterCelltypes();
+        if (document.getElementById('preview-generator') == 'block') {
+            updateParameterCelltypes();
+        }
     };
 
     function toggleParameterGenerator() {
@@ -210,7 +216,7 @@ function main() {
         parameterY = []
 
         var rectCenter = [parameterWindow[0] / width * xmax, parameterWindow[1] / height * ymax];
-        var rectEdge = parameterWidth  / width * xmax;
+        var rectEdge = parameterWidth / width * xmax;
 
         for (var i = 0; i < X.length; i++) {
             if (X[i] > rectCenter[0] - rectEdge &&
@@ -227,7 +233,7 @@ function main() {
     function createParameterCoodinatesPlot() {
         updateParameterCoordinates();
         var rectCenter = [parameterWindow[0] / width * xmax, parameterWindow[1] / height * ymax];
-        var rectEdge = parameterWidth  / width * xmax;
+        var rectEdge = parameterWidth / width * xmax;
         var layoutRect = {
             shapes: [
                 //Unfilled Rectangle
@@ -257,9 +263,9 @@ function main() {
     };
 
     function updateRectangle(eventData) {
-        updateParameterRectangle(pointerCoordinates,parameterWidth*xmax/width);
-        parameterWindow = [Math.ceil(pointerCoordinates[1]/xmax*width),
-                           Math.ceil(pointerCoordinates[0]/xmax*width)];
+        updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
+        parameterWindow = [Math.ceil(pointerCoordinates[1] / xmax * width),
+        Math.ceil(pointerCoordinates[0] / xmax * width)];
         updateParameterCoordinates();
         updateParameterVf();
         console.log(pointerCoordinates);
@@ -267,7 +273,7 @@ function main() {
 
     function initiateButtons() {
 
-        
+
         document.getElementById('btn-signatures-hidden')
             .addEventListener('change', importSignatures);
         document.getElementById('btn-coordinates-hidden')
@@ -286,7 +292,7 @@ function main() {
         document.getElementById('threshold')
             .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
-            .addEventListener('click',runTutorial);
+            .addEventListener('click', runTutorial);
 
     };
 
