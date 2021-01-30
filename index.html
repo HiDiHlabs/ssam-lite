@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSAM.lite </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./scripts/pkgs/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./styles/styles.css" rel="stylesheet">
+</head>
+
+<body class="text-center" data-spy="scroll" data-target=".nav" data-offset="20">
+
+    <!-- header -->
+    <header class="masthead mb-auto">
+        <div class="inner">
+            <h3 class="masthead-brand">SSAM.net</h3>
+            <nav class="nav nav-masthead justify-content-center fixed-top">
+                <a class="nav-link active smooth-scroll" href="#section-home">Home</a>
+                <a class="nav-link smooth-scroll" href="#section-data">Data Center</a>
+                <a class="nav-link smooth-scroll" href="#section-parameters">Parameters</a>
+                <a class="nav-link smooth-scroll smooth-scroll" href="#section-analysis">Analysis</a>
+                <a class="nav-link smooth-scroll" href="#section-download">Download</a>
+                <a class="nav-link smooth-scroll" href="#section-about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- main content roll -->
+    <main role="main" class="inner cover">
+
+        <!-- home section -->
+        <div id="wrapper-home">
+            <div id="section-home" class="section-top-space, row" style="height:40vh"></div>
+            <!-- creates the space above section & serves as target for the nav-links -->
+            <div id="tutorial-modal" class="modal-content">
+                <p>Welcome to <i>SSAM Lite</i>. <br>
+                    This is a little tutorial to get you going.
+                    It will guide you through the data preparation, processing and presentation.
+                    <br>Have fun!
+                </p>
+                <p>
+                    <a id="button-tutorial-close" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                    <a href="#section-data" id="button-tutorial-next-0" class="btn btn-lg btn-secondary btn-next">
+                        Next</a>
+                </p>
+            </div>
+            <div class="section-main-space, row, container-fluid" , style="height:20vh;">
+
+                <h1 class="cover-heading">Spatial Sequencing Analysis Pipeline.</h1>
+                <p class="lead">SSAM.lite is a complete spatial sequencing analysis pipeline that runs entirely in your
+                    browser.
+                <p class="lead">
+                    <a href="#" id="button-tutorial" class="btn btn-lg btn-secondary btn-tutorial">Tutorial</a>
+                    <a id="button-go" href="#section-data" class="btn btn-lg btn-secondary smooth-scroll">Get going!</a>
+                </p>
+
+
+                </p>
+            </div>
+        </div>
+
+
+        <!-- data section -->
+        <div id="wrapper-data">
+            <div id="section-data" class="section-top-space, row" style="height:40vh"></div>
+            <div id="section-data-title">
+                <div class="row, container-fluid" style="height: 10vh;">
+                    <h1 class="cover-heading">Data Center</h1>
+                    <p class="lead">Click or drag&drop to upload your data.
+                    </p>
+                </div>
+                <div id="tutorial-modal-data" class="modal-content">
+                    <p>This is the <i>Data Center</i>. You can upload and display your data in this section. <br>
+                        Please download our test dataset to get familiar with the data formats and continue the
+                        tutorial:
+
+                    </p>
+                    <p>
+                        <a id="button-tutorial-close-1" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                        <a href="./resources/test_data/Codeluppi.zip" id="button-tutorial-download"
+                            class="btn btn-lg btn-secondary ">
+                            Codeluppi Dataset</a>
+                        <a href="#section-data-title" id="button-tutorial-next-1"
+                            class="btn btn-lg btn-secondary btn-next">
+                            Next</a>
+                    </p>
+                </div>
+                <div id="tutorial-modal-data-coords" class="modal-content">
+                    <p>Great! Now that you've downloaded the data, extract it to your hard drive. It contains two files:
+                        <i>coordinates.csv</i>
+                        and <i>signatures.csv</i>.
+                    </p>
+                    <p>Let's first have a look at coordinates.scv: The comma-seperated-value file contains the
+                        x,y-coordinates
+                        obtained from your spatial sequencing experiment.
+                        It is formatted as follows: </p>
+                    <img src="resources/imgs/tutorial/coordinate_prev.png" style="height: 100px">
+                    </p>
+                    <p>
+                        The file contains three columns: The first two contain X,Y-coordinates per molecule,
+                        the third one the molecule label.
+                    </p>
+
+                    <p>
+                        It's now time to upload the data! Click on the field 'coordinates' on the right and select
+                        coordinates.csv
+                        for
+                        the upload.
+                    </p>
+
+                    <p>
+                        <a id="button-tutorial-close-2" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                        <a href="#section-data-title" id="button-tutorial-next-2"
+                            class="btn btn-lg btn-secondary btn-next">
+                            Next</a>
+                    </p>
+                </div>
+
+
+                <div id="tutorial-modal-data-disp" class="modal-content">
+                    <p>The data center has a display function for you to investigate your data.
+                        You can navigate through the plot as follows:
+                    <ul>
+                        <li>right drag: Zoom in</li>
+                        <li>shift+right drag: Drag</li>
+                        <li>double click: Original view</li>
+                        <li>click legend: Switch on/off</li>
+                        <li>double click legend: Switch all</li>
+                    </ul>
+
+                    <i></i>.
+                    </p>
+
+                    <p>
+                        <a id="button-tutorial-close-3" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                        <a href="#section-data-title" id="button-tutorial-next-3"
+                            class="btn btn-lg btn-secondary btn-next">
+                            Next</a>
+                    </p>
+                </div>
+
+                <div id="tutorial-modal-data-sigs" class="modal-content">
+                    <p> <i>Signatures.csv</i> is formated as follows:
+                        <img src="./resources/imgs/tutorial/signatures_prev.png" style="height: 120px;"><br>
+                        The table contains cell-wise expression expectations, with columns showing mRNA class and rows
+                        showing cell
+                        types.
+                    </p>
+
+                    <p>Upload signatures.csv to inspect the data.</p>
+                    <p>
+                        <a id="button-tutorial-close-4" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                        <a id="button-tutorial-next-4" class="btn btn-lg btn-secondary btn-next"
+                            href="#section-parameters"> Next</a>
+                    </p>
+                </div>
+
+                <!-- row for buttons & displays" -->
+                <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center">
+                    <!-- field "coordinates" -->
+                    <div class="d-flex flex-wrap justify-content-center justify-content-lg-end align-items-lg-end"
+                        style=" min-width: 500px; width: 40vw">
+                        <div class="d-flex d-row data-button-wrap">
+                            <form class="md-form">
+                                <label for="btn-coordinates-hidden">
+                                    <div class=" btn btn-mdb-color ">
+                                        <input type="file" id="btn-coordinates-hidden" name="uploads-coordinates"
+                                            hidden />
+                                        <div style="position:relative; height: 150px;">
+                                            <img src="./resources/imgs/buttons/icon_coords.png"
+                                                for="btn-coordinates-hidden" class="img-thumbnail"
+                                                style="position: absolute; top: 0px; left: 0px; width: 110px"
+                                                alt="upload coordinates">
+                                            <div id="coordinate-loader" class="loader"
+                                                style="position: absolute; top: 55px; left: 35px; display: none;">
+                                            </div>
+                                        </div>
+                                        <h5>coordinates</h5>
+                                    </div>
+                                </label>
+                            </form>
+                        </div>
+                        <div class="d-flex d-row " id="coordinates-preview" ,
+                            style="width: 100%; height: 40vw; min-height: 350px; ">
+                        </div>
+                    </div>
+
+                    <!-- field "signatures" -->
+                    <div class="d-flex flex-wrap justify-content-center justify-content-lg-start align-items-lg-start"
+                        style=" min-width: 500px; width: 40vw">
+                        <!-- <div class="d-flex "> -->
+                        <div class="d-flex d-row data-button-wrap">
+                            <form class="md-form">
+                                <label for="btn-signatures-hidden">
+
+                                    <div class=" btn btn-mdb-color ">
+                                        <input type="file" id="btn-signatures-hidden" name="uploads-signatures"
+                                            hidden />
+                                        <div style="position:relative; height: 150px;">
+                                            <img src="./resources/imgs/buttons/icon_signatures.png"
+                                                for="btn-signatures-hidden" class="img-thumbnail"
+                                                style="position: absolute; top: 0px; left: 0px;"
+                                                alt="upload signatures">
+                                            <div id="signature-loader" class="loader"
+                                                style="position: absolute; top: 55px; left: 35px; display: none;">
+                                            </div>
+                                        </div>
+                                        <h5>signatures</h5>
+                                    </div>
+                                </label>
+                            </form>
+                        </div>
+
+                        <div class="d-flex d-row " id="signatures-preview" ,
+                            style="width: 100%; height: 40vw; min-height: 350px; ">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- parameters section -->
+        <div id="wrapper-parameters">
+            <div id="section-parameters" class="row section-top-space" style="height:30vh"></div>
+            <div id="section-parameters-main">
+                <div id="tutorial-modal-parameters" class="modal-content">
+                    <p> This is the section to hand-tune the most important SSAM parameters. 
+                        <p>
+                        SSAMlite provides a <i>preview function</i> that processes small tissue sub-sets on the fly
+                        to enable parameter optimization in real time.<br>
+                        Click <i>'Use preview generator'</i> to enable it! <br>
+                    </p>
+                    <p>
+                        The parameters to optimize are:
+                    </p>
+                    <ul>
+                        <li>Vector field shape: The size of our discrete analysis area in pixels.</li>
+                        <li>KDE kernel density: The 'smoothing factor' applied to the mRNA locations</li>
+                        <li>Assignment threshold: Threshold for discarding areas with low expression signal </li>
+                    </ul>
+                    <p>
+                        We'll now have a look at each parameter in detail.
+                    </p>
+                    </p>
+                    <p>
+                        <a id="button-tutorial-close-5" class="btn btn-lg btn-secondary btn-close"> Close</a>
+
+                        <a href="#section-parameters-main" id="button-tutorial-next-5"
+                            class="btn btn-lg btn-secondary btn-next">
+                            Next</a>
+                    </p>
+                </div>
+                <div id="tutorial-modal-parameters-coordinates" class="modal-content">
+                    <p>
+                    <p> The coordinates preview on the left lets you chose the subset of the tissue to calculate the
+                        preview on -simply click on the map to change it. </p>
+                    <p> Below you can set the size of the vector field matrix the mRNAs are projected upon.
+                        A larger matrix makes for a high resolution result but increases
+                        resource consumption.
+                    </p>
+                    <p>Select a tissue part that's suitable for parameter fitting and set a vector field
+                        size to fit your machine's memory.</p>
+
+                    <p>
+                        <a id="button-tutorial-close-6" class="btn btn-lg btn-secondary btn-close"> Close</a>
+
+                        <a href="#section-parameters-main" id="button-tutorial-next-6"
+                            class="btn btn-lg btn-secondary btn-next">
+                            Next</a>
+                    </p>
+                </div>
+                <div id="tutorial-modal-parameters-sigma" class="modal-content">
+                    <p>
+                    <p>
+                        Increasing the kernel bandwidth <i>'sigma'</i> (in pixels) creates a smooting effect between the
+                        different mRNA spots, which integrates the mRNA signal. The center plot should help
+                        optimize the value.
+                    </p>
+
+                    <p>
+                        The rightmost plot shows the algorithm's final celltype assignment. <br>
+                        Chose a <i>sigma</i> large enough to eliminate unwanted noise and at the same time 
+                        retain the desired structural detail in the result. <br>
+                        Chose the <i>threshold</i> to remove unwanted, low-signal areas from the result.
+                    </p>
+
+                    </p>
+
+                    <p>
+                        <a id="button-tutorial-close-7" class="btn btn-lg btn-secondary btn-close"> Close</a>
+
+                        <a href="#section-analysis" id="button-tutorial-next-7"
+                            class="btn btn-lg btn-secondary btn-next">
+                            Next</a>
+                    </p>
+                </div>
+
+                <div class="row, container-fluid" style="height: 120px;">
+                    <h1 class="cover-heading">Parameters</h1>
+                    <p class="lead">Use previews to find an optimal set of parameters for your analysis:
+                    </p>
+                </div>
+
+                <div id="btn-parameters" class="btn btn-lg btn-secondary">
+                    <div id="Progress-parameters Progress">
+                        <div id="bar-parameters">
+                            Use preview generator for parameter search
+                        </div>
+                    </div>
+                </div>
+
+                <div id="preview-generator" style="display: none; ">
+
+                    <div class="d-flex flex-row justify-content-center" style="height: 40vh;">
+
+                        <!-- field coordinates: -->
+                        <div id="parameter-coordinates" style="height: 100%; width: 30%; border: 2px solid white;">
+                        </div>
+
+                        <!-- field coordinates: -->
+                        <div id="parameter-vf" style="height: 100%; width: 30%; border: 2px solid white;"></div>
+
+                        <!-- field coordinates: -->
+                        <div id="parameter-celltypes" style="height: 100%; width: 30%; border: 2px solid white;"></div>
+
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column justify-content-center">
+
+                    <div class="d-flex flex-row justify-content-around" style="padding: 40px;">
+
+
+                        <div class="d-flex flex-column  slidecontainer">
+                            <div class="d-flex  justify-content-center">
+                                <label for="vf-width">Vector field width:</label>
+                            </div>
+                            <div class="d-flex p-2">
+                                <input type="number" id="vf-width" name="vf-width" min="1" value="500">
+                            </div>
+                            <div class="d-flex  justify-content-center">
+                                <div id="vf-size-information">total size: -</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column  slidecontainer">
+                            <div class="d-flex  justify-content-center">
+                                <label for="KDE-bandwidth">KDE kernel bandwidth (sigma):</label>
+                            </div>
+                            <div class="d-flex p-2">
+                                <input type="number" id="KDE-bandwidth" name="KDE-bandwidth" step="0.1" min="0.1"
+                                    value="1">
+                            </div>
+                            <div class="d-flex  justify-content-center">
+                                <div id="KDE-bandwidth-information">total size: -</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column  slidecontainer">
+                            <div class="d-flex  justify-content-center">
+                                <label for="vf-width">Cell assignment threshold:</label>
+                            </div>
+                            <div class="d-flex p-2">
+                                <input type="number" id="threshold" name="threshold" step=0.1 min="0" value="2">
+                            </div>
+                            <div class="d-flex  justify-content-center">
+                                <div id="threshold-information">total size: -</div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="d-flex flex-column  slidecontainer" style="padding: 10px; border: 2px solid white;">
+                            <div class="d-flex flex-row  justify-content-between">
+                                <div class="p-1">0</div>
+                                <div id="indicatorSigma" class="p-1" style="color: rgb(34, 90, 153);">0</div>
+                                <div class="p-1">0</div>
+                            </div>
+                            <div class="d-flex p-2">
+                                <input type="range" min="1" max="100" value="50" class="slider" id="inputSigma">
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- analysis section -->
+        <div id="wrapper-analysis">
+            <div id="section-analysis" class="row" style="height:30vh"></div>
+
+            <!-- section analysis-KDE -->
+            <div id="tutorial-modal-analysis-KDE" class="modal-content">
+                <p>Now we can start with the analysis: Klick on the button on the left to run a
+                    kernel density estimation on your dataset.
+
+                </p>
+                <p>
+                    <a id="button-tutorial-close-8" class="btn btn-lg btn-secondary btn-close"> Close</a>
+
+                    <a href="#section-assignments" id="button-tutorial-next-8"
+                        class="btn btn-lg btn-secondary btn-next">
+                        Next</a>
+                </p>
+            </div>
+            <div id="section-analysis-title">
+                <div class="row, container-fluid" style="height: 40px;">
+
+                    <h1 class="cover-heading">Analysis</h1>
+
+                </div>
+            </div>
+
+            <div id="section-KDE" style="padding: 30px;">
+                <h3>Step 1: Kernel Density Estimation </h3>
+                <p>As a fist step, we run a KDE that creates a density of mRNA expression by :
+                </p>
+                <p class="lead">
+                <div id="btn-KDE" class="btn btn-lg btn-secondary">
+                    <div id="Progress-KDE Progress">
+                        <div id="Bar-KDE">
+                            Run Kernel Density Estimation
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </p>
+            <div class="row, container-fluid">
+                <div id="vf-norm-preview" class="row, container-fluid" style="width: 80vw; height: 50vw;"></div>
+            </div>
+
+            <div id="section-assignments" class="row" style="height:10vh"></div>
+
+            <div id="tutorial-modal-analysis-assignments" class="modal-content">
+                <p>On to the last step of the ssamLite pipeline: Klick 'Infer Cell Types' to obtain an interactive cell
+                    type
+                    map.
+                </p>
+                <p>
+                    <a id="button-tutorial-close-9" class="btn btn-lg btn-secondary btn-close"> Close</a>
+
+                </p>
+            </div>
+
+            <div id="section-assignments-title" class="d-flex, flex-row,  container-fluid" style="padding: 10px;">
+                <h3>Step 2: Cell Assignments</h3>
+                <p>we can now infer cell types:
+                </p>
+                <p class="lead">
+                <div id="btn-types" class="btn btn-lg btn-secondary">
+                    <div id="Progress-Types Progress">
+                        <div id="Bar-Types">
+                            Infer Cell Types
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </p>
+            <div class="d-flex, flex-row, container-fluid">
+                <div id="celltypes-preview" class="d-flex flex-column container-fluid"
+                    style="width: 80vw; height: 50vw;">
+                    <div id="hoverinfo" class="d-flex align-self-start"></div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- download section -->
+        <div id="wrapper-download">
+            <div id="section-download" class="row" style="height:30vh"></div>
+            <div class="section-main-space, row, container-fluid" , style="height:20vh;">
+
+                <h1 class="cover-heading">Download</h1>
+
+            </div>
+        </div>
+
+
+        <!-- about section -->
+        <div id="wrapper-about">
+            <div id="section-about" class="row" style="height:30vh"></div>
+            <div class="section-main-space, row, container-fluid" , style="height:20vh;">
+
+                <h1 class="cover-heading">About</h1>
+
+                <div class="d-flex flex-column">
+                    <div style="text-align: center; padding: 20px;">
+                        The SSAM framework was conceived by Dr. Jeongbin Park
+                        as part of his PhD project at the Berlin Institute of Heath.
+                    </div>
+                    <div class="d-flex flex-row  justify-content-around" style="background-color: white; padding: 20px;    border-radius: 20px;
+                    ">
+                        <div class="d-flex">
+                            <a href="https://www.charite.de/" target="_blank" rel="noopener noreferrer">
+                                <img src="./resources/imgs/Logo_Charite.svg.png"
+                                    style="height: 40px; width: auto; padding: 5px;">
+                            </a>
+                        </div>
+                        <div class="d-flex">
+                            <a href="http://www.bihealth.org" target="_blank" rel="noopener noreferrer">
+                                <img src="./resources/imgs/logo_bihealth_en.png"
+                                    style="height: 40px; width: auto; padding: 5px;">
+                            </a>
+                        </div>
+
+
+                        <div class="d-flex">
+                            <a href="https://www.biorxiv.org/content/10.1101/800748v2" target="_blank"
+                                rel="noopener noreferrer">
+                                <img src="./resources/imgs/logo_biorxiv.png "
+                                    style="height: 40px; width: auto; padding: 5px;">
+                            </a>
+                        </div>
+
+                        <div class="d-flex">
+                            <a href="https://github.com/HiDiHlabs/ssam" target="_blank" rel="noopener noreferrer">
+                                <img src="./resources/imgs/GitHub-Mark.png"
+                                    style="height: 40px; width: auto; padding: 5px;">
+                            </a>
+                        </div>
+
+                        <div class="d-flex">
+                            <a href="https://www.dkfz.de/en/bioinformatik-genomik-systemgenetik/members.html"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="./resources/imgs/dkfz-logo.png"
+                                    style="height: 40px; width: auto; padding: 5px;">
+                            </a>
+                        </div>
+                    </div>
+                    <div style="color: gray; padding: 5px;">
+                        Designed and implemented by Sebastian Tiesmeyer, BIH.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+
+    <!-- importing external scripts here: -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="./scripts/pkgs/bootstrap-4.0.0//dist/js/bootstrap.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="./scripts/pkgs/plotly/plotly-latest.min.js"></script>
+
+
+    <script src="./scripts/model.js"></script>
+    <script src="./scripts/tutorial_generator.js"></script>
+    <script src="./scripts/view.js"></script>
+    <script src="./scripts/color_generator.js"></script>
+    <script src="./scripts/controller.js"></script>
+
+
+</body>
+
+
+</html>

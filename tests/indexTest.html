@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestPage</title>
+    <link href="styles.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+    <script src="../scripts/pkgs/jquery/jquery-3.5.1.min.js"></script>
+    <script src="../scripts/pkgs/plotly/plotly-latest.min.js"></script>
+    <script src="../scripts/color_generator.js "></script>
+    <script src="../scripts/model.js "></script>
+    <script src="../scripts/view.js "></script>
+    <script src="../scripts/controller.js "></script>
+</head>
+
+<body>
+
+    <h1>Welcome to ssamLites development test page!</h1>
+
+    <div  id="test-data-loader" class="test-section d-flex" style="height: 500px;">
+        <div class="test-title">Data Loader </div>
+        <div id="plot-coordinates" style="width: 45vw;"></div>
+        <div id="plot-signatures"  style="width: 45vw;"></div>
+    </div>
+
+    <div  id="test-KDE" class="test-section d-flex" style="height: 500px;">
+        <div class="test-title">KDE</div>
+        <div id="plot-vf-norm" style="width: 45vw;"></div>
+        <!-- <div id="plot-signatures"  style="width: 45vw;"></div> -->
+    </div>
+
+    <div  id="test-celltype-assignment" class="test-section d-flex" style="height: 500px;">
+        <div class="test-KDE">Celltype Assignment</div>
+        <div id="plot-celltype-map" style="width: 45vw;"></div>
+        <!-- <div id="plot-signatures"  style="width: 45vw;"></div> -->
+    </div>
+
+
+    <script src="tests.js"></script>
+
+</body>
+
+</html>
