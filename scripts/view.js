@@ -249,3 +249,17 @@ function updateParameterRectangle(clickCoords, rectWidth) {
 
     Plotly.relayout('parameter-coordinates', update)
 };
+
+function setVfSizeIndicator(width,height,genes){
+
+    var sizeIndicator;
+
+    if (width==0 || height ==0 || genes.length==0){
+        size = ' - ';
+    }else{
+        size = (width * height * genes.length * 32 / 2**30 ).toFixed(1) + " gB";
+    }
+
+        document.getElementById("vf-size-information").innerHTML =
+        "total size: (" + width + "," + height + "," + genes.length + "); " + size  ;
+};

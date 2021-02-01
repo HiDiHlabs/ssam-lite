@@ -92,7 +92,7 @@ function main() {
         var sigma = parseFloat(document.getElementById('KDE-bandwidth').value);     // KDE kernel width
 
         var height = parseFloat(document.getElementById('vf-width').value);         // vf height (pixels)
-        var width;      // vf width (pixels)
+        var width = 0;      // vf width (pixels)
         var edgeRatio = 1;// radion height/width
         var threshold = parseFloat(document.getElementById('threshold').value);     // cell/ecm cutoff
         var vf;         // tensor vectorfield
@@ -111,6 +111,7 @@ function main() {
         function getClusterLabel(i) {
             return clusterLabels[i];
         }
+        
     }
 
 
@@ -123,6 +124,7 @@ function main() {
 
         [signatureMatrix, clusterLabels, genes] = (processSignatures(await readFileAsync(fileToLoad)));
 
+        setVfSizeIndicator(width,height,genes);
 
         plotSignatures('signatures-preview', genes, clusterLabels, signatureMatrix.arraySync()).then(function () {
             document.getElementById("signature-loader").style.display = "none";
@@ -144,6 +146,7 @@ function main() {
 
         edgeRatio = xmax / ymax;
         width = Math.ceil(height * edgeRatio);
+        setVfSizeIndicator(width,height,genes);
 
         plotCoordinates('coordinates-preview', X, Y, ZGenes).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
@@ -165,8 +168,7 @@ function main() {
     function updateVfShape() {
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
-        document.getElementById("vf-size-information").innerHTML =
-            "total size: (" + width + "," + height + "," + genes.length + "); " + Math.ceil(width * height * 32 * genes.length / 1024 ** 2) + " gB"
+        setVfSizeIndicator(width,height,genes);
         if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterVf();
         }
