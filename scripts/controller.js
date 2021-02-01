@@ -89,12 +89,12 @@ function main() {
         var ZGenes;     // gene information
         var xmax;       // highest coordinate
         var ymax;       // lowest coordinate
-        var sigma = 1;    // KDE kernel width
+        var sigma = parseFloat(document.getElementById('KDE-bandwidth').value);     // KDE kernel width
 
-        var height = 300; // vf height (pixels)
+        var height = parseFloat(document.getElementById('vf-width').value);         // vf height (pixels)
         var width;      // vf width (pixels)
         var edgeRatio = 1;// radion height/width
-        var threshold = 10;
+        var threshold = parseFloat(document.getElementById('threshold').value);     // cell/ecm cutoff
         var vf;         // tensor vectorfield
         var vfNorm;     // tensor vfNorm
 
@@ -167,21 +167,23 @@ function main() {
         width = Math.ceil(height * edgeRatio);
         document.getElementById("vf-size-information").innerHTML =
             "total size: (" + width + "," + height + "," + genes.length + "); " + Math.ceil(width * height * 32 * genes.length / 1024 ** 2) + " gB"
-        if (document.getElementById('preview-generator') == 'block') {
+        if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterVf();
         }
     };
 
     function updateSigma() {
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
-        if (document.getElementById('preview-generator') == 'block') {
+        console.log(document.getElementById('preview-generator').style.display);
+
+        if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterVf();
         }
     };
 
     function updateThreshold() {
         threshold = parseFloat(document.getElementById('threshold').value);
-        if (document.getElementById('preview-generator') == 'block') {
+        if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterCelltypes();
         }
     };
