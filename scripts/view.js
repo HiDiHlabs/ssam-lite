@@ -79,7 +79,7 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
     }
 
 
-    Plotly.newPlot(div, data, layout_signatures, { responsive: true });
+    Plotly.react(div, data, layout_signatures, { responsive: true });
 };
 
 function plotVfNorm(div, vfNorm, layout = {}) {
@@ -104,7 +104,7 @@ function plotVfNorm(div, vfNorm, layout = {}) {
         // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
     };
 
-    Plotly.plot(div, data, layoutVfNorm);
+    Plotly.react(div, data, layoutVfNorm);
 
 };
 
@@ -139,6 +139,10 @@ function createColorMap(nColors) {
     }
     return [colorMap, tickvals]
 };
+
+function checkForExistingPlot(div){
+    return (document.getElementById(div).getElementsByClassName('plot-container').length>0);
+}
 
 function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null) {
 
@@ -175,7 +179,13 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             }
         }
     ];
-    Plotly.plot(div, data, layout, { responsive: true });
+    // console.log(document.getElementById(div),checkForExistingPlot(div));
+    // if (!checkForExistingPlot(div)) {
+        Plotly.react(div, data, layout, { responsive: true });
+    // }else{
+    //     console.log('updating...');
+    //     Plotly.update(div, data, layout, { responsive: true });
+    // }
 
     if (getClusterLabel != null) {
         var hoverInfo = document.getElementById('hoverinfo');
@@ -191,9 +201,9 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             z = eventData.points[0].z;
 
             if (z < 0) {
-                clusterLabel='-'
-            }else{
-                clusterLabel=getClusterLabel(z)
+                clusterLabel = '-'
+            } else {
+                clusterLabel = getClusterLabel(z)
             }
 
             hoverInfo.innerHTML = "x: " + x + "<br> y: " + y + "<br> " + clusterLabel;
@@ -250,16 +260,16 @@ function updateParameterRectangle(clickCoords, rectWidth) {
     Plotly.relayout('parameter-coordinates', update)
 };
 
-function setVfSizeIndicator(width,height,genes){
+function setVfSizeIndicator(width, height, genes) {
 
     var sizeIndicator;
 
-    if (width==0 || height ==0 || genes.length==0){
+    if (width == 0 || height == 0 || genes.length == 0) {
         size = ' - ';
-    }else{
-        size = (width * height * genes.length * 32 / 2**30 ).toFixed(1) + " gB";
+    } else {
+        size = (width * height * genes.length * 32 / 2 ** 30).toFixed(1) + " gB";
     }
 
-        document.getElementById("vf-size-information").innerHTML =
-        "total size: (" + width + "," + height + "," + genes.length + "); " + size  ;
+    document.getElementById("vf-size-information").innerHTML =
+        "total size: (" + width + "," + height + "," + genes.length + "); " + size;
 };
