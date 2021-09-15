@@ -158,7 +158,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
         'font': {
             color: 'white',
         },
-        'title': 'generated vector field norm:'
+        'title': 'generated tissue map:'
     }
 
     var data = [

@@ -44,7 +44,13 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=3) 
 
     }
 
-    vf = vfBuffer.toTensor();
+    try{
+        vf = vfBuffer.toTensor();
+    }
+    catch{
+        throw ("Exceeded");
+    }
+   
     vfNorm = vf.sum(2);
 
     return [vf, vfNorm];

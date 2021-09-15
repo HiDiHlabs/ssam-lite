@@ -89,12 +89,12 @@ function main() {
         var ZGenes;     // gene information
         var xmax;       // highest coordinate
         var ymax;       // lowest coordinate
-        var sigma = parseFloat(document.getElementById('KDE-bandwidth').value);     // KDE kernel width
+        var sigma = 1;   // KDE kernel width
 
-        var height = parseFloat(document.getElementById('vf-width').value);         // vf height (pixels)
+        var height = 500;         // vf height (pixels)
         var width = 0;      // vf width (pixels)
         var edgeRatio = 1;// radion height/width
-        var threshold = parseFloat(document.getElementById('threshold').value);     // cell/ecm cutoff
+        var threshold = 2;     // cell/ecm cutoff
         var vf;         // tensor vectorfield
         var vfNorm;     // tensor vfNorm
 
@@ -111,7 +111,7 @@ function main() {
         function getClusterLabel(i) {
             return clusterLabels[i];
         }
-        
+
     }
 
 
@@ -124,7 +124,7 @@ function main() {
 
         [signatureMatrix, clusterLabels, genes] = (processSignatures(await readFileAsync(fileToLoad)));
 
-        setVfSizeIndicator(width,height,genes);
+        setVfSizeIndicator(width, height, genes);
 
         plotSignatures('signatures-preview', genes, clusterLabels, signatureMatrix.arraySync()).then(function () {
             document.getElementById("signature-loader").style.display = "none";
@@ -146,7 +146,7 @@ function main() {
 
         edgeRatio = xmax / ymax;
         width = Math.ceil(height * edgeRatio);
-        setVfSizeIndicator(width,height,genes);
+        setVfSizeIndicator(width, height, genes);
 
         plotCoordinates('coordinates-preview', X, Y, ZGenes).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
@@ -161,6 +161,7 @@ function main() {
 
     function runCelltypeAssignments() {
         celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+
         plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel);
 
     };
@@ -168,9 +169,10 @@ function main() {
     function updateVfShape() {
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
-        setVfSizeIndicator(width,height,genes);
+        setVfSizeIndicator(width, height, genes);
         if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterVf();
+            updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
         }
     };
 
@@ -204,7 +206,11 @@ function main() {
 
     function updateParameterCelltypes() {
         parameterCelltypeMap = assignCelltypes(vfParameter, vfNormParameter, signatureMatrix, threshold);
-        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), clusterLabels);
+        labelsShort = clusterLabels.map(function(e) { 
+            return e.substring(0,5)+'.';
+          });
+          console.log(labelsShort);
+        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort);
     }
 
     function updateParameterVf() {
@@ -266,13 +272,14 @@ function main() {
         pointerCoordinates = [eventData.xvals[0], eventData.yvals[0]];
     };
 
+
     function updateRectangle(eventData) {
         updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
         parameterWindow = [Math.ceil(pointerCoordinates[1] / xmax * width),
         Math.ceil(pointerCoordinates[0] / xmax * width)];
         updateParameterCoordinates();
         updateParameterVf();
-        console.log(pointerCoordinates);
+        // console.log(pointerCoordinates);
     };
 
     function initiateButtons() {
@@ -297,6 +304,11 @@ function main() {
             .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
+
+        // Reset values @ page reload
+        document.getElementById('vf-width').value = 500;
+        document.getElementById('KDE-bandwidth').value = 1;
+        document.getElementById('threshold').value = 2;
 
     };
 
