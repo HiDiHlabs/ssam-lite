@@ -151,12 +151,23 @@ function main() {
         plotCoordinates('coordinates-preview', X, Y, ZGenes).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
         });
-    };
+    };899
 
     function runFullKDE() {
+
+        try{
+            $('#errMessage').remove();
         [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma, width, height);
 
         plotVfNorm('vf-norm-preview', vfNorm.arraySync());
+        }
+        catch(ex){
+            err = document.createElement('div', {role:"alert"})
+            err.id = "errMessage";
+            err.className = "alert alert-warning"; 
+            err.innerHTML = ("Memory exceeded. Please use a smaller vector field size.");
+            $('#vf-norm-preview').append(err)
+        }
     };
 
     function runCelltypeAssignments() {
@@ -167,6 +178,7 @@ function main() {
     };
 
     function updateVfShape() {
+        $('#errMessage').remove();
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
