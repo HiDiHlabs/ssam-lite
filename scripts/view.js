@@ -144,6 +144,14 @@ function checkForExistingPlot(div){
     return (document.getElementById(div).getElementsByClassName('plot-container').length>0);
 }
 
+function printErr(div,id,msg){
+    err = document.createElement('div', {role:"alert"})
+    err.id = id;
+    err.className = "alert alert-warning"; 
+    err.innerHTML = (msg);
+    $(div).append(err)
+}
+
 function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null) {
 
     [colorMap, tickVals] = createColorMap(clusterLabels.length);

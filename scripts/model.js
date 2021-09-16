@@ -1,5 +1,6 @@
 function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=3) {
 
+    console.log([height, width, genes.length]);
     var vfBuffer = tf.buffer([height, width, genes.length]);
 
     var x = 0;
@@ -37,9 +38,9 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=3) 
 
         }
 
-        else {
-            console.log(Zgenes[i], i, z);
-        }
+        // else {
+        //     // console.log(Zgenes[i], i, z);
+        // }
 
 
     }
