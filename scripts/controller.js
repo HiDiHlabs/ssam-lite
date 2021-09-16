@@ -158,7 +158,7 @@ function main() {
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
 
-        plotCoordinates('coordinates-preview', X, Y, ZGenes).then(function () {
+        plotCoordinates('coordinates-preview', X, Y, ZGenes, {'showlegend': true,}).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
         });
 
@@ -293,6 +293,7 @@ function main() {
                         color: 'rgba(255, 255, 255, 1)'
                     },
                 },],
+                'showlegend': false,
 
         }
 
