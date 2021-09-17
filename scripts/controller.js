@@ -79,6 +79,12 @@ function processCoordinates(allText) {
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
 
+function reloadPage(){
+    window.scrollTo(0, 0);
+    // document.getElementById('btn-coordinates-hidden').scrollIntoView();
+    location.reload(); 
+};
+
 function main() {
 
     {
@@ -165,7 +171,7 @@ function main() {
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
 
-        plotCoordinates('coordinates-preview', X, Y, ZGenes, {'showlegend': true,}).then(function () {
+        plotCoordinates('coordinates-preview', X, Y, ZGenes, { 'showlegend': true, }).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
         });
 
@@ -199,7 +205,7 @@ function main() {
         if (!signatureMatrix) {
             printErr('#celltypes-preview', 'errSign', 'Please load a signature matrix first.');
         }
-        else if (!vf ) {
+        else if (!vf) {
             printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
         }
         else {
@@ -300,7 +306,7 @@ function main() {
                         color: 'rgba(255, 255, 255, 1)'
                     },
                 },],
-                'showlegend': false,
+            'showlegend': false,
 
         }
 
@@ -336,6 +342,8 @@ function main() {
             .addEventListener('click', runFullKDE);
         document.getElementById('btn-types')
             .addEventListener('click', runCelltypeAssignments);
+        document.getElementById('btn-reload')
+            .addEventListener('click', reloadPage);
 
         document.getElementById('btn-parameters')
             .addEventListener('click', toggleParameterGenerator);
