@@ -181,8 +181,9 @@ body {
   padding: 20px;
   border: 1px solid #888;
   width: 500px;
-  /* height: 200px; */
   color: black;
+  max-height: 70%;
+  overflow-y: auto;
 }
 #tutorial-modal-data{
   left: 5%;
@@ -215,6 +216,7 @@ body {
   left: 5%;
   width: 300px;
   display: none;
+  height: 500px;
 }
 
 #tutorial-modal-parameters-coordinates{

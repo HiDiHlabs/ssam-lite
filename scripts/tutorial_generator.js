@@ -9,7 +9,7 @@ function runTutorial() {
     'analysis-KDE', 'analysis-assignments']
 
     document.getElementById('tutorial-modal').style.display = 'block';
-
+    document.getElementById('button-tutorial').removeEventListener('click', runTutorial);;
     $('.btn-next').click(function () {
         event.preventDefault();
         var sectionTo = $(this).attr('href');
@@ -26,6 +26,7 @@ function runTutorial() {
         event.preventDefault();
         console.log($(this));
         (this).parentElement.parentElement.style.display = 'none';
+        document.getElementById('button-tutorial').addEventListener('click', runTutorial);
         tutorialMode = false;
     });
 
