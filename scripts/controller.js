@@ -125,7 +125,6 @@ function main() {
         console.log('loading signatures');
         document.getElementById("signature-loader").style.display = "block";   //display waiting symbol
 
-        vf = null;
 
         var fileToLoad = document.getElementById("btn-signatures-hidden").files[0];
 
@@ -144,6 +143,14 @@ function main() {
 
     async function importCoordinates(path) {
         $('#errCoords').remove();
+
+        vf = null;
+        X = [];        // mRNA x coordinates
+        Y = [];          // mRNA y coordinates
+        ZGenes = [];     // gene information
+        xmax = [];       // highest coordinate
+        ymax = [];       // lowest coordinate
+
         console.log(ZGenes);
         console.log('loading coordinates');
         document.getElementById("coordinate-loader").style.display = "block";   //display waiting symbol
