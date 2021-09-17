@@ -19,25 +19,36 @@ and double-click the *index.html* to open it in your default Web Browser.
 SSAM-lite-server
 ----------------
 
-To connet to SSAM-lite-server, you will need to to open your favourite Web Browser (not IE)
+To connect to SSAM-lite-server, you will need to to open your favourite Web Browser (not IE)
 and enter the correct IP address and port in the form {ip}:{port} (e.g. 127.0.0.1:5000).
-However, the IP and port depends on your local setup. Talk to your SSAM-lite coordinator.
+However, the IP and port depends on your local setup. Talk to your responsible SSAM-lite coordinator.
+
+Navigation
+===========
+
+Navigation is straight-forward. You can either scroll up and down to switch between the different steps
+or you can use the navigation bar in the top of the window to directly jump to any section.
+
+Furthermore, the "Get going!" button will bring you to the data center to start the analysis
+by uploading your data.
 
 
 Data
 ===========
 
+The Data will be uploaded in the **Data Center** section of the tool. By clicking the "Coordinates" 
+or "Signatures" button and selecting the correct files.
 To be able to use SSAM-lite you need to prepare your data in csv format.
-
-Two input files are required:
+Two input files are required and must be structured as follows:
 
 mRNA Coordinates
     This file needs to be of the form Gene, x-coordinate, y-coordinate.
     The name of the headers are irrelevant, however their order needs to be kept.
-    Negative coordinates are possible.
+    Negative coordinates are possible and the units do not matter. However, their magnitude 
+    might have an influence on proper parameter values later on.
 
     +----------+-----------+-----------+
-    | Gene     | x         | y         |
+    | Gene     |   x       |   y       |
     +----------+-----------+-----------+
     | Gene A   |   0.5     |   1.3     |
     +----------+-----------+-----------+
@@ -69,6 +80,7 @@ Gene Signatures
     But remember that the gene names from the coordinates and the signatures need to be the same
     (or at least the two sets of names must be at least partially overlapping).
 
+Once both files are loaded you can proceed with setting the parameters for your analysis.
 
 Parameters
 ===========
@@ -79,13 +91,33 @@ however we will briefly describe the purpose and effect of the parameters
 that can be set by the user to obtain optimal results.
 
 Vector field width
-    asdhas
+    The vector field width defines the horizontal pixel count of the output images.
+    This is necessary as the KDE will be projected onto discrete locations (the pixels).
+
+    A higher value will result in higher resolution but also in increased processing time and memory
+    as well as size of the output images.
 
 KDE kernel bandwidth (sigma)
-    dsälifhsdfälgh
+    The kernel bandwidth TODO definition?
+
+    A higher value will result in an increased smoothing of the mRNA density estimation.
 
 Cell assignment threshold
-    sdlfh
+    This threshold is used to decide whether a pixel in the KDE projection belongs to
+    a cell or not. It is visualised in the parameter preview to help find an 
+    optimal value.
+
+
+Each of the parameters can be set in their respective field and applied by hitting Enter.
+For a more intuitive parameter selection you can open a preview by clicking "Use preview generator for parameter search".
+This will display the results of a subset of your data with the currently set parameters and lets you 
+interactively explore and tune your parameter set.
+
+.. image:: ../res/imgs/ParameterPreview.png
+  :width: 800
+  :alt: Screenshot of the Parameter preview section
+
+Once you are happy with your choice you can proceed with the actual analysis.
 
 
 Analysis
@@ -93,15 +125,15 @@ Analysis
 
 To run the analysis, you start by clicking "Run Kernel Density Estimation" below
 "Step 1: Kernel Density Estimation" and wait until processing is finished.
-After it finished, the KDE estimates will be displayed in a plot (see example below).
+Once it finished, the KDE estimates will be displayed in a plot (see example below).
 This step is the computationally most expensive and might tak a few minutes.
 
 .. note::
-    Your Browser might warn you that the current site is slowing it down.
+    If you are using SSAM-lite-solo your Browser might warn you that it is being slowed down by the current site.
     This is normal due to the heavy computation running in the background and can be ignored.
 
 .. image:: ../res/imgs/KDE.png
-  :width: 600
+  :width: 800
   :alt: KDE estimation given the previously set parameters
 
 Next, given the KDE estimates you can start inferring cell types.
@@ -109,7 +141,7 @@ Scroll down to "Step 2: Cell Assignments" and click on "Infer Cell Types".
 The inferred cell types will be displayed in a new plot.
 
 .. image:: ../res/imgs/inferredCelltypes.png
-  :width: 600
+  :width: 800
   :alt: Cell types inferred from KDE using the provided gene signatures
 
 If you are not content with the results you can go back to the parameters section

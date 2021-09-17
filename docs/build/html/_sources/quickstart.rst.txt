@@ -26,14 +26,15 @@ Download the test data from ..... TODO
 My first analysis
 =================
 
-Open the *index.html* from the directory you just unzipped.
+Open the *index.html* from the unzipped SSAM-lite directory by double-clicking.
 
 Click on **Get going!**
 
-Click on "coordinates" and select the *coordinates.csv* from the sample data.
-Do the same for the "signatures" (obviously use the *signature.csv* this time, *duh!*)
+Click on "Coordinates" and select the *coordinates.csv* from the sample data.
+Do the same for the "Signatures" (obviously use the *signature.csv* this time, *duh!*)
 
-Time is flying by so we skip the "Parameters" section heading straight for "Analysis" and click on "Run Kernel Density Estimation".
+Time is flying by so we skip the "Parameters" section, leaving them at their default values,
+heading straight for "Analysis" and click on "Run Kernel Density Estimation".
 Time for a short break now, this step might take 2 mins.
 
 When the KDE has been estimated scroll further down and hit "Infer Cell Types". Done!
