@@ -20,8 +20,8 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
             paper_bgcolor: 'rgba(0,0,0,0.4)',
             plot_bgcolor: 'rgba(0,0,0,1)',
             'title': 'mRNA map',
-            'showlegend': true,
-            'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
+            'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
+             font:{color: '#dddddd'},
         }, ...layoutCoordinates
     };
 
@@ -142,6 +142,14 @@ function createColorMap(nColors) {
 
 function checkForExistingPlot(div){
     return (document.getElementById(div).getElementsByClassName('plot-container').length>0);
+}
+
+function printErr(div,id,msg){
+    err = document.createElement('div', {role:"alert"})
+    err.id = id;
+    err.className = "alert alert-warning"; 
+    err.innerHTML = (msg);
+    $(div).append(err)
 }
 
 function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null) {

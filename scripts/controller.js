@@ -47,6 +47,7 @@ function processSignatures(allText) {
 function processCoordinates(allText) {
     var allTextLines = allText.split(/\r\n|\n/);
 
+    genes = [];
     ZGenes = [];
     X = [];
     Y = [];
@@ -68,13 +69,14 @@ function processCoordinates(allText) {
         X.push(x);
         Y.push(y);
         ZGenes.push(line[0]);
+        if (!genes.includes(line[0])) genes.push(line[0]);
     }
 
     var edgeRatio = Math.ceil(xmax / ymax);
     var width = Math.ceil(500);
     var height = Math.ceil(width / edgeRatio);
 
-    return [X, Y, ZGenes, xmax, ymax, edgeRatio, width, height];
+    return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
 
 function main() {
@@ -83,6 +85,9 @@ function main() {
         var genes = [];
         var clusterLabels;
         var signatureMatrix;
+
+        var coordinatesLoaded = false;
+        var signaturesLoaded = false;
 
         var X;          // mRNA x coordinates
         var Y;          // mRNA y coordinates
@@ -120,6 +125,7 @@ function main() {
         console.log('loading signatures');
         document.getElementById("signature-loader").style.display = "block";   //display waiting symbol
 
+
         var fileToLoad = document.getElementById("btn-signatures-hidden").files[0];
 
         [signatureMatrix, clusterLabels, genes] = (processSignatures(await readFileAsync(fileToLoad)));
@@ -130,10 +136,20 @@ function main() {
             document.getElementById("signature-loader").style.display = "none";
         });
 
+        signaturesLoaded = true;
+        $('#errSign').remove();
 
     };
 
     async function importCoordinates(path) {
+        $('#errCoords').remove();
+
+        vf = null;
+        X = [];        // mRNA x coordinates
+        Y = [];          // mRNA y coordinates
+        ZGenes = [];     // gene information
+        xmax = [];       // highest coordinate
+        ymax = [];       // lowest coordinate
 
         console.log(ZGenes);
         console.log('loading coordinates');
@@ -142,31 +158,58 @@ function main() {
         var fileToLoad = document.getElementById("btn-coordinates-hidden").files[0];
 
 
-        [X, Y, ZGenes, xmax, ymax, edgeRatio, width, height] = processCoordinates(await readFileAsync(fileToLoad));
+        [X, Y, ZGenes, coordGenes, xmax, ymax, edgeRatio, width, height] = processCoordinates(await readFileAsync(fileToLoad));
+        if (!genes.length) genes = coordGenes; //use genes from the coordinate file for now, e.g. kde
 
         edgeRatio = xmax / ymax;
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
 
-        plotCoordinates('coordinates-preview', X, Y, ZGenes).then(function () {
+        plotCoordinates('coordinates-preview', X, Y, ZGenes, {'showlegend': true,}).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
         });
+
+        coordinatesLoaded = true;
     };
 
     function runFullKDE() {
-        [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma, width, height);
+        $('#errCoords').remove();
+        $('#errVF').remove();
+        if (coordinatesLoaded) {
 
-        plotVfNorm('vf-norm-preview', vfNorm.arraySync());
+            try {
+                $('#errMemory').remove();
+                [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma, width, height);
+
+                plotVfNorm('vf-norm-preview', vfNorm.arraySync());
+            }
+            catch (ex) {
+                printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
+                console.log(ex);
+            }
+        }
+        else {
+            printErr('#vf-norm-preview', 'errCoords', "Please load a coordinate file first.")
+        }
     };
 
     function runCelltypeAssignments() {
-        celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
-
-        plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel);
-
+        $('#errSign').remove();
+        $('#errVF').remove();
+        if (!signatureMatrix) {
+            printErr('#celltypes-preview', 'errSign', 'Please load a signature matrix first.');
+        }
+        else if (!vf ) {
+            printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
+        }
+        else {
+            celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel);
+        }
     };
 
     function updateVfShape() {
+        $('#errMemory').remove();
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
@@ -206,10 +249,10 @@ function main() {
 
     function updateParameterCelltypes() {
         parameterCelltypeMap = assignCelltypes(vfParameter, vfNormParameter, signatureMatrix, threshold);
-        labelsShort = clusterLabels.map(function(e) { 
-            return e.substring(0,5)+'.';
-          });
-          console.log(labelsShort);
+        labelsShort = clusterLabels.map(function (e) {
+            return e.substring(0, 5) + '.';
+        });
+        console.log(labelsShort);
         plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort);
     }
 
@@ -257,6 +300,7 @@ function main() {
                         color: 'rgba(255, 255, 255, 1)'
                     },
                 },],
+                'showlegend': false,
 
         }
 
@@ -266,12 +310,11 @@ function main() {
         document.getElementById('parameter-coordinates')
             .on('plotly_click', updateRectangle);
         updateParameterVf();
-    }
+    };
 
     function updatePointerCoordinates(eventData) {
         pointerCoordinates = [eventData.xvals[0], eventData.yvals[0]];
     };
-
 
     function updateRectangle(eventData) {
         updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
