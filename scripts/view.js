@@ -21,7 +21,9 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
             plot_bgcolor: 'rgba(0,0,0,1)',
             'title': 'mRNA map',
             'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
-             font:{color: '#dddddd'},
+            font: { color: '#dddddd' },
+            xaxis: {},
+            yaxis: { scaleanchor: "x", },
         }, ...layoutCoordinates
     };
 
@@ -45,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.plot(div, data, layoutCoordinates);
+    Plotly.newPlot(div, data, layoutCoordinates);
 };
 
 async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
@@ -101,10 +103,13 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             color: 'white',
         },
         'title': 'generated vector field norm:',
+
+        'xaxis': {},
+        'yaxis': { scaleanchor: "x", },
         // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
     };
 
-    Plotly.react(div, data, layoutVfNorm);
+    Plotly.newPlot(div, data, layoutVfNorm);
 
 };
 
@@ -140,14 +145,14 @@ function createColorMap(nColors) {
     return [colorMap, tickvals]
 };
 
-function checkForExistingPlot(div){
-    return (document.getElementById(div).getElementsByClassName('plot-container').length>0);
+function checkForExistingPlot(div) {
+    return (document.getElementById(div).getElementsByClassName('plot-container').length > 0);
 }
 
-function printErr(div,id,msg){
-    err = document.createElement('div', {role:"alert"})
+function printErr(div, id, msg) {
+    err = document.createElement('div', { role: "alert" })
     err.id = id;
-    err.className = "alert alert-warning"; 
+    err.className = "alert alert-warning";
     err.innerHTML = (msg);
     $(div).append(err)
 }
@@ -166,7 +171,9 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
         'font': {
             color: 'white',
         },
-        'title': 'generated tissue map:'
+        'title': 'generated tissue map:',
+        'xaxis': {},
+        'yaxis': { scaleanchor: "x", },
     }
 
     var data = [
@@ -189,7 +196,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
     ];
     // console.log(document.getElementById(div),checkForExistingPlot(div));
     // if (!checkForExistingPlot(div)) {
-        Plotly.react(div, data, layout, { responsive: true });
+    Plotly.react(div, data, layout, { responsive: true });
     // }else{
     //     console.log('updating...');
     //     Plotly.update(div, data, layout, { responsive: true });
