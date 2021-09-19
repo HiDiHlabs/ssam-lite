@@ -247,6 +247,16 @@ function hideParameterGenerator() {
     buttonParameters.innerHTML = 'Use preview generator for parameter search';
 }
 
+function refreshParameterGenerator() {
+    var previewGenerator = document.getElementById('preview-generator');
+    var buttonParameters = document.getElementById('bar-parameters');
+
+    previewGenerator.style.display = "block";
+    buttonParameters.innerHTML = 'Refresh preview generator';
+}
+
+
+
 function updateParameterRectangle(clickCoords, rectWidth) {
     // update_layout_parameters(rect_center = clickCoords);
 
