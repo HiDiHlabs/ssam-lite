@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Solo or Server?" href="solo_vs_server.html" />
-    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+    <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,7 +41,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">quickstart / tldr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#open-ssam-lite">Open SSAM-lite</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ssam-lite-solo">SSAM-lite-solo</a></li>
@@ -91,14 +90,14 @@ read <a class="reference internal" href="installation.html#supported-browsers"><
 <em>solo</em> or <em>server</em> version. However, the usage afterwards will be (almost) identical.</p>
 <section id="ssam-lite-solo">
 <h3>SSAM-lite-solo<a class="headerlink" href="#ssam-lite-solo" title="Permalink to this headline"></a></h3>
-<p>SSAM-lite-solo runs locally on your computer. It is executed by your Browser
-and to open it you onyl need to navigate to the unzipped SSAM-lite directory
-and double-click the <em>index.html</em> to open it in your default Web Browser.</p>
+<p>SSAM-lite-solo runs locally on your computer. It is executed by your browser
+and to open it you only need to navigate to the unzipped SSAM-lite directory
+and double-click the <em>index.html</em> and it will start in your default web browser.</p>
 </section>
 <section id="ssam-lite-server">
 <h3>SSAM-lite-server<a class="headerlink" href="#ssam-lite-server" title="Permalink to this headline"></a></h3>
-<p>To connect to SSAM-lite-server, you will need to to open your favourite Web Browser (not IE)
-and enter the correct IP address and port in the form {ip}:{port} (e.g. 127.0.0.1:5000).
+<p>To connect to SSAM-lite-server, you will need to to open your favourite web browser (not IE)
+and type the correct IP address and port in the form {ip}:{port} (e.g. 127.0.0.1:5000) into the address bar.
 However, the IP and port depends on your local setup. Talk to your responsible SSAM-lite coordinator.</p>
 </section>
 </section>
@@ -111,12 +110,12 @@ by uploading your data.</p>
 </section>
 <section id="data">
 <h2>Data<a class="headerlink" href="#data" title="Permalink to this headline"></a></h2>
-<p>The Data will be uploaded in the <strong>Data Center</strong> section of the tool. By clicking the “Coordinates”
+<p>The data will be uploaded in the <strong>Data Center</strong> section of the tool. By clicking the “Coordinates”
 or “Signatures” button and selecting the correct files.
 To be able to use SSAM-lite you need to prepare your data in csv format.
 Two input files are required and must be structured as follows:</p>
 <dl>
-<dt>mRNA Coordinates</dt><dd><p>This file needs to be of the form Gene, x-coordinate, y-coordinate.
+<dt>mRNA Coordinates</dt><dd><p>This file needs to be of the form gene, x-coordinate, y-coordinate.
 The name of the headers are irrelevant, however their order needs to be kept.
 Negative coordinates are possible and the units do not matter. However, their magnitude
 might have an influence on proper parameter values later on.</p>
@@ -127,30 +126,30 @@ might have an influence on proper parameter values later on.</p>
 <col style="width: 34%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p>Gene</p></td>
-<td><p>x</p></td>
+<tr class="row-odd"><td><p>gene,</p></td>
+<td><p>x,</p></td>
 <td><p>y</p></td>
 </tr>
-<tr class="row-even"><td><p>Gene A</p></td>
-<td><p>0.5</p></td>
+<tr class="row-even"><td><p>gene A,</p></td>
+<td><p>0.5,</p></td>
 <td><p>1.3</p></td>
 </tr>
-<tr class="row-odd"><td><p>Gene A</p></td>
-<td><p>1.1</p></td>
+<tr class="row-odd"><td><p>gene A,</p></td>
+<td><p>1.1,</p></td>
 <td><p>2.1</p></td>
 </tr>
-<tr class="row-even"><td><p>Gene B</p></td>
-<td><p>0.4</p></td>
+<tr class="row-even"><td><p>gene B,</p></td>
+<td><p>0.4,</p></td>
 <td><p>0.5</p></td>
 </tr>
 </tbody>
 </table>
 </dd>
-<dt>Gene Signatures</dt><dd><p>This file should be a matrix of Cell types by Genes.
-The first column and row contains the names of Cell types and Genes, respectively. All the other cell values
+<dt>Gene Signatures</dt><dd><p>This file should be a matrix of cell types by genes.
+The first column and row contains the names of cell types and genes, respectively. All the other cell values
 are gene scores … TODO  how to define this …
 This will later be used to assign each pixel to a cell type (or leave them unclassified)
-based on the Kernel Density Estimation.</p>
+based on the kernel density estimation.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 30%" />
@@ -159,24 +158,24 @@ based on the Kernel Density Estimation.</p>
 <col style="width: 24%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td></td>
-<td><p>Gene A</p></td>
-<td><p>Gene B</p></td>
-<td><p>Gene C</p></td>
+<tr class="row-odd"><td><p>,</p></td>
+<td><p>gene A,</p></td>
+<td><p>gene B,</p></td>
+<td><p>gene C</p></td>
 </tr>
-<tr class="row-even"><td><p>Celltype A</p></td>
-<td><p>0.5</p></td>
-<td><p>-0.5</p></td>
+<tr class="row-even"><td><p>cell type A,</p></td>
+<td><p>0.5,</p></td>
+<td><p>-0.5,</p></td>
 <td><p>1.3</p></td>
 </tr>
-<tr class="row-odd"><td><p>Celltype B</p></td>
-<td><p>-0.2</p></td>
-<td><p>1.1</p></td>
+<tr class="row-odd"><td><p>cell type B,</p></td>
+<td><p>-0.2,</p></td>
+<td><p>1.1,</p></td>
 <td><p>2.1</p></td>
 </tr>
-<tr class="row-even"><td><p>Celltype C</p></td>
-<td><p>0.3</p></td>
-<td><p>0.4</p></td>
+<tr class="row-even"><td><p>cell type C,</p></td>
+<td><p>0.3,</p></td>
+<td><p>0.4,</p></td>
 <td><p>0.5</p></td>
 </tr>
 </tbody>
@@ -185,30 +184,33 @@ based on the Kernel Density Estimation.</p>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The name of the genes sre not relevant as there is no database used in the background.
+<p>The name of the genes need not be correct as there is no database used in the background.
 But remember that the gene names from the coordinates and the signatures need to be the same
-(or at least the two sets of names must be at least partially overlapping).</p>
+(or more specifically the two sets of names must be partially overlapping).</p>
 </div>
 <p>Once both files are loaded you can proceed with setting the parameters for your analysis.</p>
 </section>
 <section id="parameters">
 <h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline"></a></h2>
-<p>For a deep understanding of the SSAM framework we would refer the user to the
+<p>For a more detailed explanation of the SSAM framework we would refer the user to the
 <a class="reference external" href="https://www.nature.com/articles/s41467-021-23807-4">SSAM publication</a>,
 however we will briefly describe the purpose and effect of the parameters
 that can be set by the user to obtain optimal results.</p>
 <dl>
 <dt>Vector field width</dt><dd><p>The vector field width defines the horizontal pixel count of the output images.
-This is necessary as the KDE will be projected onto discrete locations (the pixels).</p>
+This is necessary as the kernel density estimation (KDE) will be projected onto
+discrete locations (the pixels).</p>
 <p>A higher value will result in higher resolution but also in increased processing time and memory
 as well as size of the output images.</p>
 </dd>
-<dt>KDE kernel bandwidth (sigma)</dt><dd><p>The kernel bandwidth TODO definition?</p>
+<dt>KDE kernel bandwidth (sigma)</dt><dd><p>SSAM-lite uses a Gaussian kernel and the kernel bandwidth defines the “range” of
+integration of data points (mRNA spots) for the KDE.</p>
 <p>A higher value will result in an increased smoothing of the mRNA density estimation.</p>
 </dd>
 <dt>Cell assignment threshold</dt><dd><p>This threshold is used to decide whether a pixel in the KDE projection belongs to
-a cell or not. It is visualised in the parameter preview to help find an
-optimal value.</p>
+a cell or not.</p>
+<p>As help to pick an optimal value you can check the KDE estimate (middle plot in the parameter preview)
+to find the intensity that should serve as cutoff point.</p>
 </dd>
 </dl>
 <p>Each of the parameters can be set in their respective field and applied by hitting Enter.
@@ -226,7 +228,7 @@ Once it finished, the KDE estimates will be displayed in a plot (see example bel
 This step is the computationally most expensive and might tak a few minutes.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are using SSAM-lite-solo your Browser might warn you that it is being slowed down by the current site.
+<p>If you are using SSAM-lite-solo your browser might warn you that it is being slowed down by the current site.
 This is normal due to the heavy computation running in the background and can be ignored.</p>
 </div>
 <a class="reference internal image-reference" href="_images/KDE.png"><img alt="KDE estimation given the previously set parameters" src="_images/KDE.png" style="width: 800px;" /></a>
@@ -234,14 +236,14 @@ This is normal due to the heavy computation running in the background and can be
 Scroll down to “Step 2: Cell Assignments” and click on “Infer Cell Types”.
 The inferred cell types will be displayed in a new plot.</p>
 <a class="reference internal image-reference" href="_images/inferredCelltypes.png"><img alt="Cell types inferred from KDE using the provided gene signatures" src="_images/inferredCelltypes.png" style="width: 800px;" /></a>
-<p>If you are not content with the results you can go back to the parameters section
+<p>If you are not satisfied with the results you can go back to the parameters section
 and refine those before rerunning the analysis.</p>
 </section>
 <section id="save-results">
 <h2>Save results<a class="headerlink" href="#save-results" title="Permalink to this headline"></a></h2>
 <p>All plots are produced with <a class="reference external" href="https://plotly.com/">Plotly</a> and can be downloaded
 by hovering over the plot which triggers a legend to appear in the upper right corner,
-now click the Camera icon which lets you download the current plot as png file.</p>
+now click the camera icon which lets you download the current plot as png file.</p>
 </section>
 </section>
 
@@ -249,7 +251,7 @@ now click the Camera icon which lets you download the current plot as png file.<
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="solo_vs_server.html" class="btn btn-neutral float-right" title="Solo or Server?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
