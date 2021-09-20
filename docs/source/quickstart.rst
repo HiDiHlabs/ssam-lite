@@ -13,7 +13,7 @@ For those of us
 Installation
 ============
 
-Click `here <https://github.com/sebastiantiesmeyer/ssamLite/archive/refs/heads/main.zip>`__
+Click `here <https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.zip>`__
 to download SSAM-lite-solo as zip, and extract it.
 
 
