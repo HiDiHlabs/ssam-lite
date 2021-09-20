@@ -20,7 +20,12 @@ to download SSAM-lite-solo as zip, and extract it.
 Test data
 =========
 
-Download the test data from ..... TODO
+Download the test data from Zenodo via 
+
+.. code-block:: bash
+
+   wget https://zenodo.org/record/ .... TODO
+
 
 
 My first analysis

@@ -14,7 +14,7 @@ Supported Browsers
 ==================
 
 TODO
-We should add some stuff about requirments etc
+We should add some stuff about requirements etc
 
 
 SSAM-lite-solo
@@ -26,6 +26,7 @@ The installation of SSAM-lite-solo could not be easier. You either clone the
 .. code-block:: bash
 
    git clone https://github.com/sebastiantiesmeyer/ssamLite
+
 
 or download it as zip-file from GitHub and then extract it.
 
@@ -45,6 +46,7 @@ To install SSAM-lite-server you first need to clone the
 
     git clone https://github.com/sebastiantiesmeyer/ssamLiteDev
 
+
 How to handle signatures ????
 Download singatures: https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0
 Place signatures in data/genetics/ ???
@@ -56,9 +58,11 @@ Next we create a ``conda`` environment (TODO we should provide a yaml?) and acti
     conda create -n flask
     conda activate flask
 
+
 .. note::
 
     You can set the environment name to your preferences.
+
 
 Now we need to install some dependencies. TODO should we provide versions of the packages?
 
@@ -66,13 +70,18 @@ Now we need to install some dependencies. TODO should we provide versions of the
 
     conda install flask numpy pandas
 
+
 And start the server.
+
+.. code-block:: bash
+
     cd /ssamLiteDev/scripts/flask
     export FLASK_APP=run.py
     export FLASK_ENV=development
     flask run
 
-Open browser at 127.0.0.1:5000
+
+Type in the address bar of your browser: 127.0.0.1:5000
 
 This definitely needs to be explained.
 However, somebody with a little bit expertise should do this,
