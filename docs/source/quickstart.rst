@@ -31,7 +31,7 @@ Download the test data from Zenodo via
 My first analysis
 =================
 
-Open the *index.html* from the unzipped SSAM-lite directory by double-clicking.
+Open the *SSAM-lite.html* from the unzipped SSAM-lite directory by double-clicking.
 
 Click on **Get going!**
 

@@ -17,7 +17,7 @@ SSAM-lite-solo
 
 SSAM-lite-solo runs locally on your computer. It is executed by your browser
 and to open it you only need to navigate to the unzipped SSAM-lite directory
-and double-click the *index.html* and it will start in your default web browser.
+and double-click the *SSAM-lite.html* and it will start in your default web browser.
 
 SSAM-lite-server
 ----------------

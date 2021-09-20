@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'SSAM-lite'
-copyright = '2021, Niklas Müller-Bötticher ans Shashwat Sahay'
-author = 'Niklas Müller-Bötticher ans Shashwat Sahay'
+copyright = '2021, Niklas Müller-Bötticher and Shashwat Sahay'
+author = 'Niklas Müller-Bötticher and Shashwat Sahay'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'
