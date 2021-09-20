@@ -215,6 +215,7 @@ function main() {
     };
 
     function updateVfShape() {
+        togglePreviewGenerator();
         $('#errMemory').remove();
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
@@ -226,6 +227,7 @@ function main() {
     };
 
     function updateSigma() {
+        togglePreviewGenerator();
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
         console.log(document.getElementById('preview-generator').style.display);
 
@@ -235,6 +237,7 @@ function main() {
     };
 
     function updateThreshold() {
+        togglePreviewGenerator();
         threshold = parseFloat(document.getElementById('threshold').value);
         if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterCelltypes();
@@ -355,20 +358,20 @@ function main() {
 
         document.getElementById('btn-parameters')
             .addEventListener('click', toggleParameterGenerator);
-        // document.getElementById('vf-width')
-        //     .addEventListener('change', updateVfShape);
-        // document.getElementById('KDE-bandwidth')
-        //     .addEventListener('change', updateSigma);
-        // document.getElementById('threshold')
-        //     .addEventListener('change', updateThreshold);
+        document.getElementById('vf-width')
+            .addEventListener('change', updateVfShape);
+        document.getElementById('KDE-bandwidth')
+            .addEventListener('change', updateSigma);
+        document.getElementById('threshold')
+            .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
-        document.getElementById('vf-width')
-            .addEventListener("change", togglePreviewGenerator);
-        document.getElementById('KDE-bandwidth')
-            .addEventListener("change", togglePreviewGenerator);
-        document.getElementById('threshold')
-            .addEventListener("change", togglePreviewGenerator);
+        // document.getElementById('vf-width')
+        //     .addEventListener("change", togglePreviewGenerator);
+        // document.getElementById('KDE-bandwidth')
+        //     .addEventListener("change", togglePreviewGenerator);
+        // document.getElementById('threshold')
+        //     .addEventListener("change", togglePreviewGenerator);
 
         // Reset values @ page reload
         document.getElementById('vf-width').value = 500;
