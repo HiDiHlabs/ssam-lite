@@ -2,13 +2,13 @@
 
 ... is a lightweight, browser-based implementation of the [SSAM framework](https://www.nature.com/articles/s41467-021-23807-4).
 It provides the functionality of SSAMs most popular and widely used features in a graphical user interface
-with a few functions added for convenience and ease of use. It neiteher requires specialised computational experts 
+with a few functions added for convenience and ease of use. It neither requires specialised computational experts 
 nor hardware to handle and process data and thus can be run on a modest laptop.
 
 
 Author: Sebastian Tiesmeyer (sebastian.tiesmeyer@bih-charite.de)<sup>1</sup>
 
-<sup>1</sup> Digital Health Center, Berlin Institute of Health (BIH) and Charité – Universitätsmedizin, Berlin, Germany
+<sup>1</sup> Digital Health Center, Berlin Institute of Health (BIH) at Charité – Universitätsmedizin, Berlin, Germany
 
 
 ## Installation

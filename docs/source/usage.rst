@@ -2,8 +2,19 @@
 Usage
 ####################
 
+Test Data
+==============
+
 If you want to follow our usage guide along with some sample data you can download a sample data set from
-Zenodo (https://zenodo.org/doi????).
+Zenodo (https://zenodo.org/record/5517607).
+
+Three sample data sets are available:
+
+#. **Codeluppi_osmFISH**: an osmFISH dataset of the mouse somatosensory cortex from `Codeluppi et al., *Nature methods*, 2018 <https://www.nature.com/articles/s41592-018-0175-z>`__.
+#. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., *Gastroenterology*, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
+#. **Qian_ISS_CA1**: an ISS dataset of the mouse hippocampal area CA1 from `Qian et al., *Nature methods*, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__. Due to the size of this data set there are also subsets available.
+
+The datasets have been modified to fit the SSAM-lite input format.
 
 Open SSAM-lite
 ==============
@@ -26,6 +37,7 @@ To connect to SSAM-lite-server, you will need to to open your favourite web brow
 and type the correct IP address and port in the form {ip}:{port} (e.g. 127.0.0.1:5000) into the address bar.
 However, the IP and port depends on your local setup. Talk to your responsible SSAM-lite coordinator.
 
+
 Navigation
 ===========
 
@@ -46,8 +58,8 @@ Two input files are required and must be structured as follows:
 
 mRNA Coordinates
     This file needs to be of the form gene, x-coordinate, y-coordinate.
-    The name of the headers are irrelevant, however their order needs to be kept.
-    Negative coordinates are possible and the units do not matter. However, their magnitude 
+    The name of the headers are irrelevant, however their order needs to be kept. 
+    Negative coordinates are possible and the units are irrelevant, however, their magnitude 
     might have an influence on proper parameter values later on.
 
     +----------+-----------+-----------+
@@ -59,6 +71,10 @@ mRNA Coordinates
     +----------+-----------+-----------+
     | gene B,  |   0.4,    |   0.5     |
     +----------+-----------+-----------+
+
+.. note::
+    Additional columns will not affect the analysis, as long as the first three columns
+    are the ones shown above and are in the correct order.
 
 Gene Signatures
     This file should be a matrix of cell types by genes. 

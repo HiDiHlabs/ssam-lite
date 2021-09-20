@@ -24,8 +24,9 @@ Download the test data from Zenodo via
 
 .. code-block:: bash
 
-   wget https://zenodo.org/record/ .... TODO
+   wget https://zenodo.org/record/5517607
 
+... TODO does it need unzipping?
 
 
 My first analysis

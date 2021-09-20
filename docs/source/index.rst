@@ -8,7 +8,7 @@ What is SSAM-lite?
 
 SSAM-lite is a lightweight, browser-based implementation of the `SSAM framework <https://www.nature.com/articles/s41467-021-23807-4>`__.
 It provides the functionality of SSAMs most popular and widely used features in a graphical user interface
-with a few functions added for convenience and ease of use. It neiteher requires specialised computational experts 
+with a few functions added for convenience and ease of use. It neither requires specialised computational experts 
 nor hardware to handle and process data and thus can be run on a modest laptop.
 
 The SSAM framework allows for cell segmentation-free identification of cell-types by integrating prior knowledge of 

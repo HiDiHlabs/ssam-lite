@@ -42,6 +42,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">quickstart / tldr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#test-data">Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#open-ssam-lite">Open SSAM-lite</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#ssam-lite-solo">SSAM-lite-solo</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ssam-lite-server">SSAM-lite-server</a></li>
@@ -83,6 +84,18 @@
              
   <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h1>
+<section id="test-data">
+<h2>Test Data<a class="headerlink" href="#test-data" title="Permalink to this headline"></a></h2>
+<p>If you want to follow our usage guide along with some sample data you can download a sample data set from
+Zenodo (<a class="reference external" href="https://zenodo.org/record/5517607">https://zenodo.org/record/5517607</a>).</p>
+<p>Three sample data sets are available:</p>
+<ol class="arabic simple">
+<li><p><strong>Codeluppi_osmFISH</strong>: an osmFISH dataset of the mouse somatosensory cortex from <a class="reference external" href="https://www.nature.com/articles/s41592-018-0175-z">Codeluppi et al., *Nature methods*, 2018</a>.</p></li>
+<li><p><strong>Tosti_ISS_Pancreas</strong>: an ISS dataset of the human pancreas from <a class="reference external" href="https://doi.org/10.1053/j.gastro.2020.11.010">Tosti et al., *Gastroenterology*, 2021</a>.</p></li>
+<li><p><strong>Qian_ISS_CA1</strong>: an ISS dataset of the mouse hippocampal area CA1 from <a class="reference external" href="https://www.nature.com/articles/s41592-019-0631-4">Qian et al., *Nature methods*, 2020</a>. Due to the size of this data set there are also subsets available.</p></li>
+</ol>
+<p>The datasets have been modified to fit the SSAM-lite input format.</p>
+</section>
 <section id="open-ssam-lite">
 <h2>Open SSAM-lite<a class="headerlink" href="#open-ssam-lite" title="Permalink to this headline"></a></h2>
 <p>SSAM-lite will be opened (and executed) in your Web Browser. For a list of compatible Browsers
@@ -92,7 +105,7 @@ read <a class="reference internal" href="installation.html#supported-browsers"><
 <h3>SSAM-lite-solo<a class="headerlink" href="#ssam-lite-solo" title="Permalink to this headline"></a></h3>
 <p>SSAM-lite-solo runs locally on your computer. It is executed by your browser
 and to open it you only need to navigate to the unzipped SSAM-lite directory
-and double-click the <em>index.html</em> and it will start in your default web browser.</p>
+and double-click the <em>SSAM-lite.html</em> and it will start in your default web browser.</p>
 </section>
 <section id="ssam-lite-server">
 <h3>SSAM-lite-server<a class="headerlink" href="#ssam-lite-server" title="Permalink to this headline"></a></h3>
@@ -117,7 +130,7 @@ Two input files are required and must be structured as follows:</p>
 <dl>
 <dt>mRNA Coordinates</dt><dd><p>This file needs to be of the form gene, x-coordinate, y-coordinate.
 The name of the headers are irrelevant, however their order needs to be kept.
-Negative coordinates are possible and the units do not matter. However, their magnitude
+Negative coordinates are possible and the units are irrelevant, however, their magnitude
 might have an influence on proper parameter values later on.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -145,6 +158,13 @@ might have an influence on proper parameter values later on.</p>
 </tbody>
 </table>
 </dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Additional columns will not affect the analysis, as long as the first three columns
+are the ones shown above and are in the correct order.</p>
+</div>
+<dl>
 <dt>Gene Signatures</dt><dd><p>This file should be a matrix of cell types by genes.
 The first column and row contains the names of cell types and genes, respectively. All the other cell values
 are gene scores … TODO  how to define this …
@@ -258,7 +278,7 @@ now click the camera icon which lets you download the current plot as png file.<
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021, Niklas Müller-Bötticher ans Shashwat Sahay.</p>
+    <p>&#169; Copyright 2021, Niklas Müller-Bötticher and Shashwat Sahay.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
