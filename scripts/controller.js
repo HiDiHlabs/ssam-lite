@@ -247,7 +247,11 @@ function main() {
         if (previewGenerator.style.display === "none") {
             displayParameterGenerator();
             createParameterCoodinatesPlot();
+        } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")){
+            displayParameterGenerator();
+            createParameterCoodinatesPlot();
         } else {
+            console.log(document.getElementById("bar-parameters").innerHTML);
             hideParameterGenerator();
         }
 
@@ -330,6 +334,10 @@ function main() {
         updateParameterVf();
         // console.log(pointerCoordinates);
     };
+    function togglePreviewGenerator() {
+        // console.log('Hellow')
+        refreshParameterGenerator()
+    }
 
     function initiateButtons() {
 
@@ -347,14 +355,20 @@ function main() {
 
         document.getElementById('btn-parameters')
             .addEventListener('click', toggleParameterGenerator);
-        document.getElementById('vf-width')
-            .addEventListener('change', updateVfShape);
-        document.getElementById('KDE-bandwidth')
-            .addEventListener('change', updateSigma);
-        document.getElementById('threshold')
-            .addEventListener('change', updateThreshold);
+        // document.getElementById('vf-width')
+        //     .addEventListener('change', updateVfShape);
+        // document.getElementById('KDE-bandwidth')
+        //     .addEventListener('change', updateSigma);
+        // document.getElementById('threshold')
+        //     .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
+        document.getElementById('vf-width')
+            .addEventListener("change", togglePreviewGenerator);
+        document.getElementById('KDE-bandwidth')
+            .addEventListener("change", togglePreviewGenerator);
+        document.getElementById('threshold')
+            .addEventListener("change", togglePreviewGenerator);
 
         // Reset values @ page reload
         document.getElementById('vf-width').value = 500;
@@ -363,6 +377,12 @@ function main() {
 
     };
 
+    function initiateDataToggle(){
+        $('[data-toggle="KDE-bandwidth"]').tooltip();
+        $('[data-toggle="vf-width"]').tooltip();
+        $('[data-toggle="threshold"]').tooltip();
+    };
+    initiateDataToggle();
     initiateButtons();
 
 }

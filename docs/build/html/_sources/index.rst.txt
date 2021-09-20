@@ -1,0 +1,65 @@
+.. SSAM-lite documentation master file, created by
+   sphinx-quickstart on Thu Sep 16 13:38:45 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+What is SSAM-lite?
+##################
+
+SSAM-lite is a lightweight, browser-based implementation of the `SSAM framework <https://www.nature.com/articles/s41467-021-23807-4>`__.
+It provides the functionality of SSAMs most popular and widely used features in a graphical user interface
+with a few functions added for convenience and ease of use.
+
+
+TODO what does SSAM do
+
+
+Citations
+=================
+
+TODO please correct me!
+
+Sebastian Tiesmeyer, Shashwat Sahay, Niklas Mueller-Boetticher, Roland Eils, Sebastian Mackowiak, Naveed Ishaque.
+2021.
+"`SSAM-lite: a light-weight web-based framework for analysis of spatially resolved transcriptomics data <https://biorxiv.org>`__"
+*bioRxiv*. doi: 10.1101/2021....
+
+
+License
+=================
+
+TODO do we stick to the MIT license
+
+MIT License
+
+Copyright (c) 2021 sebastiantiesmeyer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   quickstart
+   installation
+   tutorial
+   usage
+   solo_vs_server
