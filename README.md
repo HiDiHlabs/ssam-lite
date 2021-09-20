@@ -6,12 +6,12 @@ with a few functions added for convenience and ease of use. It neiteher requires
 nor hardware to handle and process data and thus can be run on a modest laptop.
 
 
-Author: Sebastian Tiesmeyer (sebastian.tiesmeyere@bih-charite.de)<sup>1</sup>
+Author: Sebastian Tiesmeyer (sebastian.tiesmeyer@bih-charite.de)<sup>1</sup>
 
 <sup>1</sup> Digital Health Center, Berlin Institute of Health (BIH) and Charité – Universitätsmedizin, Berlin, Germany
 
 
-## Installattion
+## Installation
 
 https://ssam-lite.readthedocs.io/en/latest/installation.html
 
