@@ -2,6 +2,9 @@
 Usage
 ####################
 
+If you want to follow our usage guide along with some sample data you can download a sample data set from
+Zenodo (https://zenodo.org/doi????).
+
 Open SSAM-lite
 ==============
 
