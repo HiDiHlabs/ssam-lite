@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSAM.lite </title>
+    <title>SSAM-lite </title>
 
     <!-- Bootstrap core CSS -->
     <link href="./scripts/pkgs/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
             <div id="section-home" class="section-top-space, row" style="height:40vh"></div>
             <!-- creates the space above section & serves as target for the nav-links -->
             <div id="tutorial-modal" class="modal-content">
-                <p>Welcome to <i>SSAM Lite</i>. <br>
+                <p>Welcome to <i>SSAM-lte</i>. <br>
                     This is a little tutorial to get you going.
                     It will guide you through the data preparation, processing and presentation.
                     <br>Have fun!
@@ -50,7 +50,7 @@
             <div class="section-main-space, row, container-fluid" , style="height:20vh;">
 
                 <h1 class="cover-heading">Spatial Sequencing Analysis Pipeline.</h1>
-                <p class="lead">SSAM.lite is a complete spatial sequencing analysis pipeline that runs entirely in your
+                <p class="lead">SSAM-lite is a complete spatial sequencing analysis pipeline that runs entirely in your
                     browser.
                 <p class="lead">
                     <a href="#" id="button-tutorial" class="btn btn-lg btn-secondary btn-tutorial">Tutorial</a>
@@ -231,7 +231,7 @@
                 <div id="tutorial-modal-parameters" class="modal-content">
                     <p> This is the section to hand-tune the most important SSAM parameters.
                     <p>
-                        SSAMlite provides a <i>preview function</i> that processes small tissue sub-sets on the fly
+                        SSAM-lite provides a <i>preview function</i> that processes small tissue sub-sets on the fly
                         to enable parameter optimization in real time.<br>
                         Click <i>'Use preview generator'</i> to enable it! <br>
                     </p>
@@ -338,7 +338,11 @@
 
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
-                                <label for="vf-width" data-toggle="vf-width" title="The size of our discrete analysis area in pixels">Vector field width:</label>
+                                <label for="vf-width" data-toggle="vf-width" title="The size of our discrete analysis area in pixels">Vector field width
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                    </svg>
+                                </label>
                             </div>
                             <div class="d-flex p-2">
                                 <input type="number" id="vf-width" name="vf-width" min="1" value="500">
@@ -349,7 +353,11 @@
                         </div>
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
-                                <label for="KDE-bandwidth" data-toggle="KDE-bandwidth" title="The 'smoothing factor' applied to the mRNA locations">KDE kernel bandwidth (sigma):</label>
+                                <label for="KDE-bandwidth" data-toggle="KDE-bandwidth" title="The 'smoothing factor' applied to the mRNA locations">KDE kernel bandwidth (sigma) 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                    </svg>
+                                </label>
                             </div>
                             <div class="d-flex p-2">
                                 <input type="number" id="KDE-bandwidth" name="KDE-bandwidth" step="0.1" min="0.1"
@@ -360,7 +368,11 @@
 
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
-                                <label for="vf-width" data-toggle="threshold" title="Threshold for discarding areas with low expression signal">Cell assignment threshold:</label>
+                                <label for="vf-width" data-toggle="threshold" title="Threshold for discarding areas with low expression signal">Cell assignment threshold 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                    </svg>
+                                </label>
                             </div>
                             <div class="d-flex p-2">
                                 <input type="number" id="threshold" name="threshold" step=0.1 min="0" value="2">
@@ -433,7 +445,7 @@
             <div id="section-assignments" class="row" style="height:10vh"></div>
 
             <div id="tutorial-modal-analysis-assignments" class="modal-content">
-                <p>On to the last step of the ssamLite pipeline: Klick 'Infer Cell Types' to obtain an interactive cell
+                <p>On to the last step of the SSAM-lite pipeline: Klick 'Infer Cell Types' to obtain an interactive cell
                     type
                     map.
                 </p>
@@ -503,22 +515,22 @@
                     <div style="text-align: center; padding-top: 40px; padding-bottom: 15px;">
                         The SSAM framework was conceived by Dr. Jeongbin Park
                         as part of his PhD project at the Berlin Institute of Health.
-                        Read the original <a href="https://www.nature.com/articles/s41467-021-23807-4" target="_blank" rel="noopener noreferrer"><u>publication</u></a> 
+                        Read the original <a href="https://www.nature.com/articles/s41467-021-23807-4" target="_blank" rel="noopener noreferrer"><u>SSAM publication</u></a> 
                         to learn more about the methods.
                     </div>
                     <div style="text-align: center; padding: 15px;">
-                        SSAMlite has been designed and implemented by Seastian Tiesmeyer at the Berlin Institute of Health.
-                        Learn more about SSAMlite <a href="https://www.biorxiv.org/" target="_blank" rel="noopener noreferrer"><u>here</u></a>. <!-- TODO update Link. -->
+                        SSAM-lite has been designed and implemented by Seastian Tiesmeyer at the Berlin Institute of Health.
+                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/" target="_blank" rel="noopener noreferrer"><u>here</u></a>. <!-- TODO update Link. -->
                     </div>
                     <div style="text-align: center; padding: 15px;">
-                        For a comprehensive documentation of the SSAMlite tool check out our 
-                        <a href="https://readthedocs.org/" target="_blank" rel="noopener noreferrer"><u>Read the Docs page</u></a>. <!-- TODO update link. -->
+                        For a comprehensive documentation of the SSAM-lite tool check out our 
+                        <a href="https://ssam-lite.readthedocs.io" target="_blank" rel="noopener noreferrer"><u>Read the Docs page</u></a>.
                     </div>
                     <div style="text-align: center; padding-top: 15px; padding-bottom: 5px;">
-                        If you are using SSAMlite for your research please cite:
+                        If you are using SSAM-lite for your research please cite:
                     </div>
                     <div style="text-align: center; padding-top: 5px; padding-bottom: 50px;">
-                        Tiesmeyer S, et al. 2021. SSAMlite. <i>bioRxiv</i>. doi: 10.1101/2021.... <!-- TODO update citation -->
+                        Tiesmeyer S, et al. 2021. SSAM-lite. <i>bioRxiv</i>. doi: 10.1101/2021.... <!-- TODO update citation -->
                     </div>
                     
 
@@ -538,15 +550,15 @@
 
 
                         <div class="d-flex">
-                            <a href="https://www.biorxiv.org/content/10.1101/800748v2" target="_blank"
+                            <a href="https://www.biorxiv.org/content/10.1101/800748v2" target="_blank" 
                                 rel="noopener noreferrer">
                                 <img src="./resources/imgs/logo_biorxiv.png "
                                     style="height: 40px; width: auto; padding: 5px;">
-                            </a>
+                            </a> <!-- TODO update Link. -->
                         </div>
 
                         <div class="d-flex">
-                            <a href="https://github.com/HiDiHlabs/ssam" target="_blank" rel="noopener noreferrer">
+                            <a href="https://github.com/HiDiHlabs/ssam-lite" target="_blank" rel="noopener noreferrer">
                                 <img src="./resources/imgs/GitHub-Mark.png"
                                     style="height: 40px; width: auto; padding: 5px;">
                             </a>

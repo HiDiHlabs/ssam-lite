@@ -13,7 +13,7 @@ For those of us
 Installation
 ============
 
-Click `here <https://github.com/sebastiantiesmeyer/ssamLite/archive/refs/heads/main.zip>`__
+Click `here <https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.zip>`__
 to download SSAM-lite-solo as zip, and extract it.
 
 
@@ -24,14 +24,15 @@ Download the test data from Zenodo via
 
 .. code-block:: bash
 
-   wget https://zenodo.org/record/ .... TODO
+   wget https://zenodo.org/record/5517607
 
+... TODO does it need unzipping?
 
 
 My first analysis
 =================
 
-Open the *index.html* from the unzipped SSAM-lite directory by double-clicking.
+Open the *SSAM-lite.html* from the unzipped SSAM-lite directory by double-clicking.
 
 Click on **Get going!**
 
