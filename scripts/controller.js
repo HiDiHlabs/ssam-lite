@@ -234,7 +234,7 @@ function main() {
         
                 // }
 
-                plotVfNorm('vf-norm-preview', vfNorm.arraySync(), layout);
+                plotVfNorm('vf-norm-preview', vfNorm.arraySync(), );
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
