@@ -48,6 +48,8 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
     }
 
     Plotly.newPlot(div, data, layoutCoordinates);
+    document.getElementById('divScale').style.display = 'block';
+
 };
 
 async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
@@ -92,24 +94,31 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             type: 'heatmapgl',
             colorscale: 'Viridis',
             'showgrid': false,
-        }
-    ];
-    var layoutVfNorm = {                     // all "layout" attributes: #layout
-        paper_bgcolor: 'rgba(0,0,0,0.7)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        showlegend: false,
-        showscale: false,
-        'font': {
-            color: 'white',
         },
-        'title': 'generated vector field norm:',
 
-        'xaxis': {},
-        'yaxis': { scaleanchor: "x", },
-        // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
-    };
+    ];
 
-    Plotly.newPlot(div, data, layoutVfNorm);
+    var layoutVfNorm = {
+        ...{                  // all "layout" attributes: #layout
+            paper_bgcolor: 'rgba(0,0,0,0.7)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            showlegend: false,
+            showscale: true,
+            'font': {
+                color: 'white',
+            },
+            'title': 'generated vector field norm:',
+
+            'xaxis': {},
+            'yaxis': { scaleanchor: "x", },
+
+            'showlegend': false,
+            
+        },
+        ...layout
+    }
+
+    Plotly.newPlot(div, data, layoutVfNorm, {editable: true});
 
 };
 
@@ -192,7 +201,17 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
                 ticktext: tickText,
 
             }
-        }
+        },
+        // {
+
+        //     x: [0, 1, 2],
+        //     y: [3, 3, 3],
+        //     mode: 'lines+text',
+        //     name: 'Lines and Text',
+        //     text: ['Text G', 'Text H', 'Text I'],
+        //     textposition: 'bottom',
+        //     type: 'scatter'
+        // }
     ];
     // console.log(document.getElementById(div),checkForExistingPlot(div));
     // if (!checkForExistingPlot(div)) {

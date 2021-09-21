@@ -41,7 +41,6 @@ function processSignatures(allText) {
     signatureBuffer = signatureBuffer.toTensor();
 
     return [signatureBuffer, clusterLabels, genes];
-
 };
 
 function processCoordinates(allText) {
@@ -108,6 +107,7 @@ function main() {
         var threshold = 2;     // cell/ecm cutoff
         var vf;         // tensor vectorfield
         var vfNorm;     // tensor vfNorm
+        var scale = 1;
 
         var parameterWindow = [250, 250];
         var parameterWidth = 50;
@@ -178,6 +178,33 @@ function main() {
         coordinatesLoaded = true;
     };
 
+    function updateScale(event){
+        let valOld = scale;
+        let val = event.srcElement.valueAsNumber;
+        if (val <= 0){
+            val = 1;
+            event.srcElement.value='-'
+        }
+        else{
+            scale = val;
+        }
+        
+        rescale = valOld/val;
+        scale = val;
+
+        xmax = xmax*rescale;
+        ymax = ymax*rescale;
+
+        // xmax = xmax*rescale;
+        X=X.map(function(x) { return x * rescale; })
+        Y=Y.map(function(x) { return x * rescale; })
+
+        plotCoordinates('coordinates-preview', X, Y, ZGenes, { 'showlegend': true, });
+
+        console.log(rescale);
+
+    }
+
     function runFullKDE() {
         $('#errCoords').remove();
         $('#errVF').remove();
@@ -185,9 +212,29 @@ function main() {
 
             try {
                 $('#errMemory').remove();
-                [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma, width, height);
+                [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma/xmax*height, width, height);
 
-                plotVfNorm('vf-norm-preview', vfNorm.arraySync());
+                // layout =  {
+                //     shapes: [
+                //         //Unfilled Rectangle
+                //         {
+                //             type: 'rect',
+                //             xref: 'x',
+                //             yref: 'y',
+                //             x0: 10,
+                //             y0: 0.05,
+                //             x1: 200,
+                //             y1: 102,
+                //             fillcolor: 'rgba(0,0,0,50',
+                //             line: {
+                //                 color: 'rgba(255, 255, 255, 1)'
+                //             },
+                //         },],
+                //     // 'showlegend': false,
+        
+                // }
+
+                plotVfNorm('vf-norm-preview', vfNorm.arraySync(), layout);
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
@@ -369,6 +416,9 @@ function main() {
             .addEventListener("change", togglePreviewGenerator);
         document.getElementById('threshold')
             .addEventListener("change", togglePreviewGenerator);
+        document.getElementById('exampleScale')
+            .addEventListener("change", updateScale); 
+
 
         // Reset values @ page reload
         document.getElementById('vf-width').value = 500;
