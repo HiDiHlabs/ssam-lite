@@ -410,10 +410,9 @@ function main() {
         document.getElementById('KDE-bandwidth')
             .addEventListener('change', updateSigma);
         document.getElementById('threshold')
-            .addEventListener("change", togglePreviewGenerator);
-        document.getElementById('exampleScale')
-            .addEventListener("change", updateScale); 
-
+        //     .addEventListener("change", togglePreviewGenerator);
+        // document.getElementById('exampleScale')
+        //     .addEventListener("change", updateScale); 
             .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
