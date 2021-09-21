@@ -25,7 +25,7 @@ The installation of SSAM-lite-solo could not be easier. You either clone the
 
 .. code-block:: bash
 
-   git clone https://github.com/HiDiHlabs/ssam-lite
+   git clone https://github.com/HiDiHlabs/ssam-lite.git
 
 
 or download it as zip-file from GitHub and then extract it.
@@ -37,27 +37,20 @@ That is literally all, you are ready to go.
 SSAM-lite-server
 ================
 
-Will this be implemented?
-
 To install SSAM-lite-server you first need to clone the
-`GitHub repository <https://github.com/sebastiantiesmeyer/ssamLiteDev>`__
+`GitHub repository <https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server>`__
 
 .. code-block:: bash
 
-    git clone https://github.com/sebastiantiesmeyer/ssamLiteDev
+    git clone https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server.git
 
 
-How to handle signatures ????
-Download singatures: https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0
-Place signatures in data/genetics/ ???
-
-Next we create a ``conda`` environment (TODO we should provide a yaml?) and activate it.
+Next we create a ``conda`` environment and activate it.
 
 .. code-block:: bash
 
     conda create -n flask
     conda activate flask
-
 
 .. note::
 

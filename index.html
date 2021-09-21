@@ -36,7 +36,7 @@
             <div id="section-home" class="section-top-space, row" style="height:40vh"></div>
             <!-- creates the space above section & serves as target for the nav-links -->
             <div id="tutorial-modal" class="modal-content">
-                <p>Welcome to <i>SSAM-lte</i>. <br>
+                <p>Welcome to <b><i>SSAM-lite</i></b>. <br>
                     This is a little tutorial to get you going.
                     It will guide you through the data preparation, processing and presentation.
                     <br>Have fun!
@@ -73,16 +73,16 @@
                     </p>
                 </div>
                 <div id="tutorial-modal-data" class="modal-content">
-                    <p>This is the <i>Data Center</i>. You can upload and display your data in this section. <br>
+                    <p>This is the <b>Data Center</b>, where you can upload and display your data. <br>
                         Please download our test dataset to get familiar with the data formats and continue the
                         tutorial:
 
                     </p>
                     <p>
                         <a id="button-tutorial-close-1" class="btn btn-lg btn-secondary btn-close"> Close</a>
-                        <a href="./resources/test_data/Codeluppi.zip" id="button-tutorial-download"
-                            class="btn btn-lg btn-secondary ">
-                            Codeluppi Dataset</a>
+                        <a href="https://zenodo.org/record/5517607" id="button-tutorial-download"
+                            class="btn btn-lg btn-secondary " target="_blank" rel="noopener noreferrer">
+                            Dataset download</a>
                         <a href="#section-data-title" id="button-tutorial-next-1"
                             class="btn btn-lg btn-secondary btn-next">
                             Next</a>
@@ -93,7 +93,7 @@
                         <i>coordinates.csv</i>
                         and <i>signatures.csv</i>.
                     </p>
-                    <p>Let's first have a look at coordinates.scv: The comma-seperated-value file contains the
+                    <p>Let's first have a look at <i>coordinates.csv</i>: The comma-seperated-value file contains the
                         x,y-coordinates
                         obtained from your spatial sequencing experiment.
                         It is formatted as follows: </p>
@@ -101,14 +101,14 @@
                     </p>
                     <p>
                         The file contains three columns: The first one contains the molecule label, the other two
-                        contain X,Y-coordinates per molecule.
+                        contain X,Y-coordinates per molecule. The column names do not matter, but you need to keep their order if 
+                        you work with your own data.
                     </p>
 
                     <p>
-                        It's now time to upload the data! Click on the field 'coordinates' on the right and select
-                        coordinates.csv
-                        for
-                        the upload.
+                        It's now time to upload the data! Click on the 'coordinates' button on the right and select
+                        <i>coordinates.csv</i>
+                        for the upload.
                     </p>
 
                     <p>
@@ -121,7 +121,7 @@
 
 
                 <div id="tutorial-modal-data-disp" class="modal-content">
-                    <p>The data center has a display function for you to investigate your data.
+                    <p>The Data Center has a display function for you to investigate your data.
                         You can navigate through the plot as follows:
                     <ul>
                         <li>right drag: Zoom in</li>
@@ -130,8 +130,6 @@
                         <li>click legend: Switch on/off</li>
                         <li>double click legend: Switch all</li>
                     </ul>
-
-                    <i></i>.
                     </p>
 
                     <p>
@@ -143,14 +141,13 @@
                 </div>
 
                 <div id="tutorial-modal-data-sigs" class="modal-content">
-                    <p> <i>Signatures.csv</i> is formated as follows:
+                    <p> The <i>signatures.csv</i> is formated as follows:
                         <img src="./resources/imgs/tutorial/signatures_prev.png" style="height: 120px;"><br>
                         The table contains cell-wise expression expectations, with columns showing mRNA class and rows
-                        showing cell
-                        types.
+                        showing cell types.
                     </p>
 
-                    <p>Upload signatures.csv to inspect the data.</p>
+                    <p>Upload <i>signatures.csv</i> to inspect the data.</p>
                     <p>
                         <a id="button-tutorial-close-4" class="btn btn-lg btn-secondary btn-close"> Close</a>
                         <a id="button-tutorial-next-4" class="btn btn-lg btn-secondary btn-next"
@@ -229,19 +226,19 @@
             <div id="section-parameters" class="row section-top-space" style="height:30vh"></div>
             <div id="section-parameters-main">
                 <div id="tutorial-modal-parameters" class="modal-content">
-                    <p> This is the section to hand-tune the most important SSAM parameters.
+                    <p> In the <b>Parameters</b> section you can hand-tune the most important SSAM parameters.
                     <p>
                         SSAM-lite provides a <i>preview function</i> that processes small tissue sub-sets on the fly
                         to enable parameter optimization in real time.<br>
-                        Click <i>'Use preview generator'</i> to enable it! <br>
+                        Click <i>'Use preview generator for parameter search'</i> to enable it! <br>
                     </p>
                     <p>
                         The parameters to optimize are:
                     </p>
                     <ul>
-                        <li>Vector field shape: The size of our discrete analysis area in pixels.</li>
-                        <li>KDE kernel density: The 'smoothing factor' applied to the mRNA locations</li>
-                        <li>Assignment threshold: Threshold for discarding areas with low expression signal </li>
+                        <li>Vector field width: The size of our discrete analysis area in pixels.</li>
+                        <li>KDE kernel bandwidth: The 'smoothing factor' applied to the mRNA locations.</li>
+                        <li>Cell assignment threshold: Threshold for discarding areas with low expression signal.</li>
                     </ul>
                     <p>
                         We'll now have a look at each parameter in detail.
@@ -258,13 +255,13 @@
                 <div id="tutorial-modal-parameters-coordinates" class="modal-content">
                     <p>
                     <p> The coordinates preview on the left lets you chose the subset of the tissue to calculate the
-                        preview on -simply click on the map to change it. </p>
-                    <p> Below you can set the size of the vector field matrix the mRNAs are projected upon.
-                        A larger matrix makes for a high resolution result but increases
+                        preview on - simply click on the map to change it (but be patient as it might take a moment 
+                        for the adjustment to be computed). </p>
+                    <p> Below you can set the size of the vector field matrix the mRNAs are projected on.
+                        A larger matrix makes for a high resolution result but increases the
                         resource consumption.
                     </p>
-                    <p>Select a tissue part that's suitable for parameter fitting and set a vector field
-                        size to fit your machine's memory.</p>
+                    <p>Select a tissue part that's suitable for parameter fitting and set a vector field width to fit your machine's memory.</p>
 
                     <p>
                         <a id="button-tutorial-close-6" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -278,7 +275,7 @@
                     <p>
                     <p>
                         Increasing the kernel bandwidth <i>'sigma'</i> (in pixels) creates a smooting effect between the
-                        different mRNA spots, which integrates the mRNA signal. The center plot should help
+                        different mRNA spots, which integrates the mRNA signal. The center plot should help you
                         optimize the value.
                     </p>
 
@@ -293,10 +290,8 @@
 
                     <p>
                         <a id="button-tutorial-close-7" class="btn btn-lg btn-secondary btn-close"> Close</a>
-
                         <a href="#section-analysis" id="button-tutorial-next-7"
-                            class="btn btn-lg btn-secondary btn-next">
-                            Next</a>
+                            class="btn btn-lg btn-secondary btn-next"> Next</a>
                     </p>
                 </div>
 
@@ -403,13 +398,14 @@
 
             <!-- section analysis-KDE -->
             <div id="tutorial-modal-analysis-KDE" class="modal-content">
-                <p>Now we can start with the analysis: Click on the button on the left to run a
+                <p>Now we can start with the <b>Analysis</b>: Click on the button on the left to run a
                     kernel density estimation on your dataset.
 
                 </p>
+                <p>This is the computationally most expensive step and might take a few minutes.
+                </p>
                 <p>
                     <a id="button-tutorial-close-8" class="btn btn-lg btn-secondary btn-close"> Close</a>
-
                     <a href="#section-assignments" id="button-tutorial-next-8"
                         class="btn btn-lg btn-secondary btn-next">
                         Next</a>
@@ -445,15 +441,29 @@
             <div id="section-assignments" class="row" style="height:10vh"></div>
 
             <div id="tutorial-modal-analysis-assignments" class="modal-content">
-                <p>On to the last step of the SSAM-lite pipeline: Klick 'Infer Cell Types' to obtain an interactive cell
-                    type
-                    map.
+                <p>On to the last step of the SSAM-lite pipeline: Click 'Infer Cell Types' to obtain an interactive cell
+                    type map.
                 </p>
                 <p>
                     <a id="button-tutorial-close-9" class="btn btn-lg btn-secondary btn-close"> Close</a>
-
+                    <a href="#section-assignments" id="button-tutorial-next-9"
+                        class="btn btn-lg btn-secondary btn-next">
+                        Next</a>
                 </p>
             </div>
+
+            
+            <div id="tutorial-modal-download" class="modal-content">
+                <p>To <b>download your results</b> you can hover over the image you want to save. A legend will appear 
+                    in the top-right corner of the plot which allows you to save it as png by clicking on the camera icon.
+                </p>
+                <p>The only thing left now is to analyze your own data!
+                </p>
+                <p>
+                    <a id="button-tutorial-close-10" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                </p>
+            </div>
+
 
             <div id="section-assignments-title" class="d-flex, flex-row,  container-fluid" style="padding: 10px;">
                 <h3>Step 2: Cell Assignments</h3>
@@ -497,7 +507,7 @@
 
                 <div id="btn-reload" class="btn btn-lg btn-secondary">
 
-                    clear analysis
+                    Clear analysis
 
                 </div>
             </div>

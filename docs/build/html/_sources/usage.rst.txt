@@ -10,9 +10,9 @@ Zenodo (https://zenodo.org/record/5517607).
 
 Three sample data sets are available:
 
-#. **Codeluppi_osmFISH**: an osmFISH dataset of the mouse somatosensory cortex from `Codeluppi et al., *Nature methods*, 2018 <https://www.nature.com/articles/s41592-018-0175-z>`__.
-#. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., *Gastroenterology*, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
-#. **Qian_ISS_CA1**: an ISS dataset of the mouse hippocampal area CA1 from `Qian et al., *Nature methods*, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__. Due to the size of this data set there are also subsets available.
+#. **Codeluppi_osmFISH**: an osmFISH dataset of the mouse somatosensory cortex from `Codeluppi et al., Nature methods, 2018 <https://www.nature.com/articles/s41592-018-0175-z>`__.
+#. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., Gastroenterology, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
+#. **Qian_ISS_CA1**: an ISS dataset of the mouse hippocampal area CA1 from `Qian et al., Nature methods, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__. Due to the size of this data set there are also subsets available.
 
 The datasets have been modified to fit the SSAM-lite input format.
 
@@ -46,6 +46,21 @@ or you can use the navigation bar in the top of the window to directly jump to a
 
 Furthermore, the "Get going!" button will bring you to the data center to start the analysis
 by uploading your data.
+
+Adjusting plots
+----------------
+
+SSAM-lite lets you interactively explore and adjust the plots to your needs.
+
+- Zooming in: right drag an area to zoom into
+- Navigate: Shift + right drag
+- Original view: double click
+- Hide/display genes: click gene in legend (double click hides all except selected gene)
+
+Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
+which offers some additional functionality.
+
+Additional information on data point can be displayed by hovering over it.
 
 
 Data
@@ -134,7 +149,8 @@ Cell assignment threshold
 Each of the parameters can be set in their respective field and applied by hitting Enter.
 For a more intuitive parameter selection you can open a preview by clicking "Use preview generator for parameter search".
 This will display the results of a subset of your data with the currently set parameters and lets you 
-interactively explore and tune your parameter set.
+interactively explore and tune your parameter set. To adjust the preview area click into the left-most plot and wait for
+the browser to recalculate (this might take a few moments).
 
 .. image:: ../res/imgs/ParameterPreview.png
   :width: 800
@@ -175,5 +191,5 @@ Save results
 ================
 
 All plots are produced with `Plotly <https://plotly.com/>`__ and can be downloaded
-by hovering over the plot which triggers a legend to appear in the upper right corner,
+by hovering over the plot which triggers a control panel to appear in the upper right corner,
 now click the camera icon which lets you download the current plot as png file.
