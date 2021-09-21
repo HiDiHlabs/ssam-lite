@@ -78,10 +78,10 @@ function processCoordinates(allText) {
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
 
-function reloadPage(){
+function reloadPage() {
     window.scrollTo(0, 0);
     // document.getElementById('btn-coordinates-hidden').scrollIntoView();
-    location.reload(); 
+    location.reload();
 };
 
 function main() {
@@ -178,32 +178,174 @@ function main() {
         coordinatesLoaded = true;
     };
 
-    function updateScale(event){
+    function updateScale(event) {
         let valOld = scale;
         let val = event.srcElement.valueAsNumber;
-        if (val <= 0){
+        if (val <= 0) {
             val = 1;
-            event.srcElement.value='-'
+            event.srcElement.value = '-'
         }
-        else{
+        else {
             scale = val;
         }
-        
-        rescale = valOld/val;
+
+        rescale = valOld / val;
         scale = val;
 
-        xmax = xmax*rescale;
-        ymax = ymax*rescale;
+        xmax = xmax * rescale;
+        ymax = ymax * rescale;
 
         // xmax = xmax*rescale;
-        X=X.map(function(x) { return x * rescale; })
-        Y=Y.map(function(x) { return x * rescale; })
+        X = X.map(function (x) { return x * rescale; })
+        Y = Y.map(function (x) { return x * rescale; })
 
         plotCoordinates('coordinates-preview', X, Y, ZGenes, { 'showlegend': true, });
 
         console.log(rescale);
 
     }
+
+
+    function updateVfNormScalebar(event) {
+
+
+        div = $('#vf-norm-preview')[0];
+
+        console.log(event["xaxis.autorange"]);
+
+        if (!event["xaxis.autorange"]) {
+
+            var xrange = event["xaxis.range"];
+            var yrange = event["yaxis.range"];
+
+        }
+        else {
+            var xrange = [0,width];
+            var yrange = [0,height];
+        }
+
+        starty = yrange[0] + (yrange[1] - yrange[0]) / 8
+        endy = yrange[0] + (yrange[1] - yrange[0]) / 7
+
+        umPerPx = xmax / width;
+
+        start = xrange[0] + (xrange[1] - xrange[0]) / 8
+        end = xrange[0] + (xrange[1] - xrange[0]) / 3
+        center = start + (end - start) / 2;
+
+        var length = (end - start) * umPerPx;
+        var decimals = Math.ceil(Math.log10(length)) - 1;
+        var inter = length / (Math.pow(10, decimals));
+
+        var lengthRound = Math.ceil(inter) * Math.pow(10, decimals);
+
+
+        end = start + lengthRound / umPerPx
+
+        text = lengthRound + " μm";
+
+        console.log(center, div.layout.shapes[0])
+
+        length = Math.ceil(Math.random() * 40);
+
+        var rect = div.layout.shapes[0];
+        rect.x0 = center - lengthRound / 2 / umPerPx * 1.1;
+        rect.x1 = center + lengthRound / 2 / umPerPx * 1.1;
+
+        var horizontal = div.layout.shapes[1];
+        horizontal.x0 = center - lengthRound / 2 / umPerPx;
+        horizontal.x1 = center + lengthRound / 2 / umPerPx;
+
+        var capLeft = div.layout.shapes[2];
+        capLeft.x0 = center - lengthRound / 2 / umPerPx;
+        capLeft.x1 = center - lengthRound / 2 / umPerPx;
+
+        var capRight = div.layout.shapes[3];
+        capRight.x0 = center + lengthRound / 2 / umPerPx;
+        capRight.x1 = center + lengthRound / 2 / umPerPx;
+
+        var textAnnot = div.layout.annotations[0];
+        textAnnot.x = center;
+        textAnnot.text = text;
+
+        layout = {
+            'shapes': [rect, horizontal, capLeft, capRight],
+            'annotations': [textAnnot]
+        }
+        Plotly.update('vf-norm-preview', {}, layout);
+    }
+
+
+
+    function updateCtMapScalebar(event) {
+
+        div = $('#celltypes-preview')[0];
+
+        console.log(event);
+        if (!event["xaxis.autorange"]) {
+
+            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
+            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
+
+        }
+        else {
+            var xrange = [0,width];
+            var yrange = [0,height];
+        }
+
+
+        starty = yrange[0] + (yrange[1] - yrange[0]) / 8
+        endy = yrange[0] + (yrange[1] - yrange[0]) / 7
+
+        umPerPx = xmax / width;
+
+        start = xrange[0] + (xrange[1] - xrange[0]) / 8
+        end = xrange[0] + (xrange[1] - xrange[0]) / 3
+        center = start + (end - start) / 2;
+
+        var length = (end - start) * umPerPx;
+        var decimals = Math.ceil(Math.log10(length)) - 1;
+        var inter = length / (Math.pow(10, decimals));
+
+        var lengthRound = Math.ceil(inter) * Math.pow(10, decimals);
+
+
+        end = start + lengthRound / umPerPx
+
+        text = lengthRound + " μm";
+
+        console.log(div.layout)
+
+        length = Math.ceil(Math.random() * 40);
+
+        var rect = div.layout.shapes[0];
+        rect.x0 = center - lengthRound / 2 / umPerPx * 1.1;
+        rect.x1 = center + lengthRound / 2 / umPerPx * 1.1;
+
+        var horizontal = div.layout.shapes[1];
+        horizontal.x0 = center - lengthRound / 2 / umPerPx;
+        horizontal.x1 = center + lengthRound / 2 / umPerPx;
+
+        var capLeft = div.layout.shapes[2];
+        capLeft.x0 = center - lengthRound / 2 / umPerPx;
+        capLeft.x1 = center - lengthRound / 2 / umPerPx;
+
+        var capRight = div.layout.shapes[3];
+        capRight.x0 = center + lengthRound / 2 / umPerPx;
+        capRight.x1 = center + lengthRound / 2 / umPerPx;
+
+        var textAnnot = div.layout.annotations[0];
+        textAnnot.x = center;
+        textAnnot.text = text;
+
+        layout = {
+            'shapes': [rect, horizontal, capLeft, capRight],
+            'annotations': [textAnnot]
+        }
+        Plotly.update('celltypes-preview', {}, layout);
+    }
+
+
 
     function runFullKDE() {
         $('#errCoords').remove();
@@ -212,29 +354,12 @@ function main() {
 
             try {
                 $('#errMemory').remove();
-                [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma/xmax*height, width, height);
+                [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma / xmax * height, width, height);
 
-                // layout =  {
-                //     shapes: [
-                //         //Unfilled Rectangle
-                //         {
-                //             type: 'rect',
-                //             xref: 'x',
-                //             yref: 'y',
-                //             x0: 10,
-                //             y0: 0.05,
-                //             x1: 200,
-                //             y1: 102,
-                //             fillcolor: 'rgba(0,0,0,50',
-                //             line: {
-                //                 color: 'rgba(255, 255, 255, 1)'
-                //             },
-                //         },],
-                //     // 'showlegend': false,
-        
-                // }
+                umPerPx = xmax / width;
 
-                plotVfNorm('vf-norm-preview', vfNorm.arraySync(), );
+                plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
+                document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
@@ -257,7 +382,9 @@ function main() {
         }
         else {
             celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
-            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel);
+            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx));
+            umPerPx = xmax / width;
+            document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
         }
     };
 
@@ -297,7 +424,7 @@ function main() {
         if (previewGenerator.style.display === "none") {
             displayParameterGenerator();
             createParameterCoodinatesPlot();
-        } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")){
+        } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")) {
             displayParameterGenerator();
             createParameterCoodinatesPlot();
         } else {
@@ -319,7 +446,7 @@ function main() {
     function updateParameterVf() {
         [vfParameter, vfNormParameter] = runKDE(parameterX, parameterY, parameterZ,
             genes, parameterWidth * xmax / width * 2, parameterWidth * ymax / height * 2,
-            sigma, parameterWidth * 2, parameterWidth * 2);
+            sigma/xmax * height, parameterWidth * 2, parameterWidth * 2);
         plotVfNorm('parameter-vf', vfNormParameter.arraySync());
         updateParameterCelltypes();
     };
@@ -411,9 +538,9 @@ function main() {
             .addEventListener('change', updateSigma);
         document.getElementById('threshold')
         //     .addEventListener("change", togglePreviewGenerator);
-        // document.getElementById('exampleScale')
-        //     .addEventListener("change", updateScale); 
-            .addEventListener('change', updateThreshold);
+        document.getElementById('exampleScale')
+            .addEventListener("change", updateScale);
+        // .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
         // document.getElementById('vf-width')
@@ -430,7 +557,7 @@ function main() {
 
     };
 
-    function initiateDataToggle(){
+    function initiateDataToggle() {
         $('[data-toggle="KDE-bandwidth"]').tooltip();
         $('[data-toggle="vf-width"]').tooltip();
         $('[data-toggle="threshold"]').tooltip();

@@ -22,7 +22,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
             'title': 'mRNA map',
             'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
             font: { color: '#dddddd' },
-            xaxis: {},
+            xaxis: { title: 'μm' },
             yaxis: { scaleanchor: "x", },
         }, ...layoutCoordinates
     };
@@ -86,6 +86,96 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
     Plotly.react(div, data, layout_signatures, { responsive: true });
 };
 
+function generateScalebar(start = 30, end = 120, umPerPx = 1) {
+
+    linestyle = {
+        color: 'rgba(255, 255, 255, 1)',
+        width: 2
+    };
+
+
+    var length = (end - start) * umPerPx;
+    var decimals = Math.ceil(Math.log10(length)) - 1;
+    var inter = length / (Math.pow(10, decimals));
+
+    var lengthRound = Math.ceil(inter) * Math.pow(10, decimals);
+
+    console.log(length, decimals, inter, lengthRound);
+
+    end = start + lengthRound / umPerPx
+
+    text = lengthRound + " μm";
+
+    layout = {
+        // text
+        annotations: [{
+            showarrow: false,
+            text: '<b>' + text + '</b>',
+            align: "center",
+            yref: 'paper',
+            x: (start + end) / 2,
+            xanchor: "center",
+            y: 0.05,
+            yanchor: "bottom",
+            font: {
+                size: 13,
+            }
+        },],
+        shapes: [
+            //Surrounding box Rectangle
+            {
+                type: 'rect',
+                yref: 'paper',
+                x0: start - 10,
+                y0: 0.012,
+                x1: end + 10,
+                y1: 0.06,
+                fillcolor: 'rgba(0,0,0,0.6)',
+                line: {
+                    color: 'rgba(255, 255, 255, 1)',
+                    width: 1.2
+                },
+            },
+            //horizontal line
+            {
+                type: 'line',
+                yref: 'paper',
+                x0: start,
+                y0: 0.03,
+                x1: end,
+                y1: 0.03,
+                // fillcolor: 'rgba(255,255,255,1)',
+                line: linestyle,
+            },
+            {
+                //caps
+                type: 'line',
+                yref: 'paper',
+                x0: start,
+                y0: 0.02,
+                x1: start,
+                y1: 0.04,
+                // fillcolor: 'rgba(0,0,0,0.6)',
+                line: linestyle
+            },
+            {
+                type: 'line',
+                yref: 'paper',
+                x0: end,
+                y0: 0.02,
+                x1: end,
+                y1: 0.04,
+                fillcolor: 'rgba(0,0,0,0.6)',
+                line: linestyle
+            },
+
+        ]
+
+    }
+
+    return layout;
+}
+
 function plotVfNorm(div, vfNorm, layout = {}) {
 
     var data = [
@@ -109,16 +199,16 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             },
             'title': 'generated vector field norm:',
 
-            'xaxis': {},
-            'yaxis': { scaleanchor: "x", },
+            'xaxis': { title: 'px' },
+            'yaxis': { scaleanchor: "x", title: 'px' },
 
             'showlegend': false,
-            
+
         },
         ...layout
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, {editable: true});
+    Plotly.newPlot(div, data, layoutVfNorm, { editable: true });
 
 };
 
@@ -166,23 +256,25 @@ function printErr(div, id, msg) {
     $(div).append(err)
 }
 
-function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null) {
+function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}) {
 
     [colorMap, tickVals] = createColorMap(clusterLabels.length);
 
     var tickText = ['ECM'].concat(clusterLabels)
 
     var layout = {
-        paper_bgcolor: 'rgba(0,0,0,0.7)',
-        plot_bgcolor: 'rgba(0,0,0,0)',
-        showlegend: false,
-        showscale: false,
-        'font': {
-            color: 'white',
-        },
-        'title': 'generated tissue map:',
-        'xaxis': {},
-        'yaxis': { scaleanchor: "x", },
+        ...{
+            paper_bgcolor: 'rgba(0,0,0,0.7)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            showlegend: false,
+            showscale: false,
+            'font': {
+                color: 'white',
+            },
+            'title': 'generated tissue map:',
+            'xaxis': {},
+            'yaxis': { scaleanchor: "x", },
+        }, ...layout
     }
 
     var data = [
