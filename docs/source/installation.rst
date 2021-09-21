@@ -21,11 +21,11 @@ SSAM-lite-solo
 ==============
 
 The installation of SSAM-lite-solo could not be easier. You either clone the 
-`GitHub repository <https://github.com/sebastiantiesmeyer/ssamLite>`__
+`GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
 
 .. code-block:: bash
 
-   git clone https://github.com/sebastiantiesmeyer/ssamLite
+   git clone https://github.com/HiDiHlabs/ssam-lite
 
 
 or download it as zip-file from GitHub and then extract it.
