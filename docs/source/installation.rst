@@ -68,14 +68,15 @@ And start the server.
 
 .. code-block:: bash
 
-    cd /ssamLiteDev/scripts/flask
+    cd /ssam-lite-server/flask
     export FLASK_APP=run.py
     export FLASK_ENV=development
     flask run
 
+The ``flask`` default port will be 5000.
 
-Type in the address bar of your browser: 127.0.0.1:5000
+.. note::
 
-This definitely needs to be explained.
-However, somebody with a little bit expertise should do this,
-most of it will be config dependent and people installing this will most likely know what they are doing!
+   The port and further settings can be made in the *run.py* file or when starting the app with
+   ``flask run``. For further information we would refer the reader to the 
+   `flask documentation <https://flask.palletsprojects.com/>`__. 

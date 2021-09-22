@@ -12,7 +12,7 @@ Three sample data sets are available:
 
 #. **Codeluppi_osmFISH**: an osmFISH dataset of the mouse somatosensory cortex from `Codeluppi et al., Nature methods, 2018 <https://www.nature.com/articles/s41592-018-0175-z>`__.
 #. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., Gastroenterology, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
-#. **Qian_ISS_CA1**: an ISS dataset of the mouse hippocampal area CA1 from `Qian et al., Nature methods, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__. Due to the size of this data set there are also subsets available.
+#. **Qian_ISS_CA1**: ISS datasets of the mouse hippocampal area CA1 from `Qian et al., Nature methods, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__.
 
 The datasets have been modified to fit the SSAM-lite input format.
 

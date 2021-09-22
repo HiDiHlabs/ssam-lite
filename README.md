@@ -1,4 +1,4 @@
-# SSAM-lite
+# SSAM-lite-solo
 
 ... is a lightweight, browser-based implementation of the [SSAM framework](https://www.nature.com/articles/s41467-021-23807-4).
 It provides the functionality of SSAMs most popular and widely used features in a graphical user interface
@@ -10,10 +10,15 @@ Author: Sebastian Tiesmeyer (sebastian.tiesmeyer@bih-charite.de)<sup>1</sup>
 
 <sup>1</sup> Digital Health Center, Berlin Institute of Health (BIH) at Charité – Universitätsmedizin, Berlin, Germany
 
+## Choose your flavour
+
+You might also want to check out the [SSAM-lite-server](https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server) implementation.
+
+For a guide to help you choose read https://ssam-lite.readthedocs.io/en/latest/solo_vs_server.html
 
 ## Installation
 
-https://ssam-lite.readthedocs.io/en/latest/installation.html
+https://ssam-lite.readthedocs.io/en/latest/installation.html#ssam-lite-solo
 
 
 ## Documentation
@@ -35,7 +40,7 @@ Sebastian Tiesmeyer, Shashwat Sahay, Niklas Mueller-Boetticher, Roland Eils, Seb
 
 MIT License
 
-Copyright (c) 2021 sebastiantiesmeyer
+Copyright (c) 2021 Sebastian Tiesmeyer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
