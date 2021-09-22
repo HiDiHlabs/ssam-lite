@@ -1,4 +1,4 @@
-function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=3) {
+function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=2) {
 
     console.log([height, width, genes.length]);
     var vfBuffer = tf.buffer([height, width, genes.length]);
@@ -9,6 +9,8 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=3) 
     var val = 0;
     var counter = 0;
     var n_steps = Math.ceil(sigma*nStds);
+
+    console.log(sigma,n_steps);
 
     var normalization = 1/(1*Math.PI*sigma**2)**0.5
 

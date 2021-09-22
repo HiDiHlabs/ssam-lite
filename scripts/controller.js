@@ -389,7 +389,7 @@ function main() {
     };
 
     function updateVfShape() {
-        togglePreviewGenerator();
+        // togglePreviewGenerator();
         $('#errMemory').remove();
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
@@ -401,7 +401,7 @@ function main() {
     };
 
     function updateSigma() {
-        togglePreviewGenerator();
+        // togglePreviewGenerator();
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
         console.log(document.getElementById('preview-generator').style.display);
 
@@ -411,7 +411,7 @@ function main() {
     };
 
     function updateThreshold() {
-        togglePreviewGenerator();
+        // togglePreviewGenerator();
         threshold = parseFloat(document.getElementById('threshold').value);
         if (document.getElementById('preview-generator').style.display == 'block') {
             updateParameterCelltypes();
@@ -424,9 +424,9 @@ function main() {
         if (previewGenerator.style.display === "none") {
             displayParameterGenerator();
             createParameterCoodinatesPlot();
-        } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")) {
-            displayParameterGenerator();
-            createParameterCoodinatesPlot();
+        // } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")) {
+        //     displayParameterGenerator();
+        //     createParameterCoodinatesPlot();
         } else {
             console.log(document.getElementById("bar-parameters").innerHTML);
             hideParameterGenerator();
@@ -537,10 +537,10 @@ function main() {
         document.getElementById('KDE-bandwidth')
             .addEventListener('change', updateSigma);
         document.getElementById('threshold')
+            .addEventListener('change', updateThreshold);
         //     .addEventListener("change", togglePreviewGenerator);
         document.getElementById('exampleScale')
             .addEventListener("change", updateScale);
-        // .addEventListener('change', updateThreshold);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
         // document.getElementById('vf-width')
