@@ -13,6 +13,8 @@ function readFileAsync(file) {
     })
 };
 
+
+
 function processSignatures(allText) {
 
     var genes;
@@ -178,6 +180,25 @@ function main() {
         coordinatesLoaded = true;
     };
 
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+        console.log('kewl!')
+    }
+
+    function dropCoords(ev) {
+        ev.preventDefault();
+        let path = ev.dataTransfer.items[0].getAsFile()
+        importCoordinates(path)
+    }
+
+    function dropSignatures(ev) {
+        ev.preventDefault();
+        let path = ev.dataTransfer.items[0].getAsFile()
+        importSignatures(path)
+    }
+
+
     function updateScale(event) {
         let valOld = scale;
         let val = event.srcElement.valueAsNumber;
@@ -220,8 +241,8 @@ function main() {
 
         }
         else {
-            var xrange = [0,width];
-            var yrange = [0,height];
+            var xrange = [0, width];
+            var yrange = [0, height];
         }
 
         starty = yrange[0] + (yrange[1] - yrange[0]) / 8
@@ -289,8 +310,8 @@ function main() {
 
         }
         else {
-            var xrange = [0,width];
-            var yrange = [0,height];
+            var xrange = [0, width];
+            var yrange = [0, height];
         }
 
 
@@ -424,9 +445,9 @@ function main() {
         if (previewGenerator.style.display === "none") {
             displayParameterGenerator();
             createParameterCoodinatesPlot();
-        // } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")) {
-        //     displayParameterGenerator();
-        //     createParameterCoodinatesPlot();
+            // } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")) {
+            //     displayParameterGenerator();
+            //     createParameterCoodinatesPlot();
         } else {
             console.log(document.getElementById("bar-parameters").innerHTML);
             hideParameterGenerator();
@@ -446,7 +467,7 @@ function main() {
     function updateParameterVf() {
         [vfParameter, vfNormParameter] = runKDE(parameterX, parameterY, parameterZ,
             genes, parameterWidth * xmax / width * 2, parameterWidth * ymax / height * 2,
-            sigma/xmax * height, parameterWidth * 2, parameterWidth * 2);
+            sigma / xmax * height, parameterWidth * 2, parameterWidth * 2);
         plotVfNorm('parameter-vf', vfNormParameter.arraySync());
         updateParameterCelltypes();
     };
@@ -518,11 +539,20 @@ function main() {
 
     function initiateButtons() {
 
-
         document.getElementById('btn-signatures-hidden')
             .addEventListener('change', importSignatures);
         document.getElementById('btn-coordinates-hidden')
             .addEventListener('change', importCoordinates);
+
+        document.getElementById('coordinates-dragzone')
+            .addEventListener("dragover", allowDrop);
+        document.getElementById('coordinates-dragzone')
+            .addEventListener("drop", dropCoords);
+        document.getElementById('signatures-dragzone')
+            .addEventListener("dragover", allowDrop);
+        document.getElementById('signatures-dragzone')
+            .addEventListener("drop", dropSignatures);
+
         document.getElementById('btn-KDE')
             .addEventListener('click', runFullKDE);
         document.getElementById('btn-types')
