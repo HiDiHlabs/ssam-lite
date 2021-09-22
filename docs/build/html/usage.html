@@ -48,7 +48,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#ssam-lite-server">SSAM-lite-server</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#navigation">Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#navigation">Navigation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adjusting-plots">Adjusting plots</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#data">Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#analysis">Analysis</a></li>
@@ -90,9 +93,9 @@
 Zenodo (<a class="reference external" href="https://zenodo.org/record/5517607">https://zenodo.org/record/5517607</a>).</p>
 <p>Three sample data sets are available:</p>
 <ol class="arabic simple">
-<li><p><strong>Codeluppi_osmFISH</strong>: an osmFISH dataset of the mouse somatosensory cortex from <a class="reference external" href="https://www.nature.com/articles/s41592-018-0175-z">Codeluppi et al., *Nature methods*, 2018</a>.</p></li>
-<li><p><strong>Tosti_ISS_Pancreas</strong>: an ISS dataset of the human pancreas from <a class="reference external" href="https://doi.org/10.1053/j.gastro.2020.11.010">Tosti et al., *Gastroenterology*, 2021</a>.</p></li>
-<li><p><strong>Qian_ISS_CA1</strong>: an ISS dataset of the mouse hippocampal area CA1 from <a class="reference external" href="https://www.nature.com/articles/s41592-019-0631-4">Qian et al., *Nature methods*, 2020</a>. Due to the size of this data set there are also subsets available.</p></li>
+<li><p><strong>Codeluppi_osmFISH</strong>: an osmFISH dataset of the mouse somatosensory cortex from <a class="reference external" href="https://www.nature.com/articles/s41592-018-0175-z">Codeluppi et al., Nature methods, 2018</a>.</p></li>
+<li><p><strong>Tosti_ISS_Pancreas</strong>: an ISS dataset of the human pancreas from <a class="reference external" href="https://doi.org/10.1053/j.gastro.2020.11.010">Tosti et al., Gastroenterology, 2021</a>.</p></li>
+<li><p><strong>Qian_ISS_CA1</strong>: an ISS dataset of the mouse hippocampal area CA1 from <a class="reference external" href="https://www.nature.com/articles/s41592-019-0631-4">Qian et al., Nature methods, 2020</a>. Due to the size of this data set there are also subsets available.</p></li>
 </ol>
 <p>The datasets have been modified to fit the SSAM-lite input format.</p>
 </section>
@@ -120,6 +123,19 @@ However, the IP and port depends on your local setup. Talk to your responsible S
 or you can use the navigation bar in the top of the window to directly jump to any section.</p>
 <p>Furthermore, the “Get going!” button will bring you to the data center to start the analysis
 by uploading your data.</p>
+<section id="adjusting-plots">
+<h3>Adjusting plots<a class="headerlink" href="#adjusting-plots" title="Permalink to this headline"></a></h3>
+<p>SSAM-lite lets you interactively explore and adjust the plots to your needs.</p>
+<ul class="simple">
+<li><p>Zooming in: right drag an area to zoom into</p></li>
+<li><p>Navigate: Shift + right drag</p></li>
+<li><p>Original view: double click</p></li>
+<li><p>Hide/display genes: click gene in legend (double click hides all except selected gene)</p></li>
+</ul>
+<p>Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
+which offers some additional functionality.</p>
+<p>Additional information on data point can be displayed by hovering over it.</p>
+</section>
 </section>
 <section id="data">
 <h2>Data<a class="headerlink" href="#data" title="Permalink to this headline"></a></h2>
@@ -236,7 +252,8 @@ to find the intensity that should serve as cutoff point.</p>
 <p>Each of the parameters can be set in their respective field and applied by hitting Enter.
 For a more intuitive parameter selection you can open a preview by clicking “Use preview generator for parameter search”.
 This will display the results of a subset of your data with the currently set parameters and lets you
-interactively explore and tune your parameter set.</p>
+interactively explore and tune your parameter set. To adjust the preview area click into the left-most plot and wait for
+the browser to recalculate (this might take a few moments).</p>
 <a class="reference internal image-reference" href="_images/ParameterPreview.png"><img alt="Screenshot of the Parameter preview section" src="_images/ParameterPreview.png" style="width: 800px;" /></a>
 <p>Once you are happy with your choice you can proceed with the actual analysis.</p>
 </section>
@@ -262,7 +279,7 @@ and refine those before rerunning the analysis.</p>
 <section id="save-results">
 <h2>Save results<a class="headerlink" href="#save-results" title="Permalink to this headline"></a></h2>
 <p>All plots are produced with <a class="reference external" href="https://plotly.com/">Plotly</a> and can be downloaded
-by hovering over the plot which triggers a legend to appear in the upper right corner,
+by hovering over the plot which triggers a control panel to appear in the upper right corner,
 now click the camera icon which lets you download the current plot as png file.</p>
 </section>
 </section>
