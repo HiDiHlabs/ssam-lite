@@ -2,10 +2,10 @@
 Installation
 ############
 
-SSAM-lite comes in two flavors -- SSAM-lite-solo and SSAM-lite-server.
+SSAM-lite comes in two flavours -- SSAM-lite-solo and SSAM-lite-server.
 While the usage is almost identical the installation differs quite a lot.
-If you need some help deciding which of the two fits your needs best and what the differences are follow the guide
-:ref:`solo-or-server`
+If you need some help deciding which of the two fits your needs best and 
+what the differences are follow the guide :ref:`solo-or-server`
 
 
 .. _supported-browsers:
@@ -38,11 +38,11 @@ SSAM-lite-server
 ================
 
 To install SSAM-lite-server you first need to clone the
-`GitHub repository <https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server>`__
+`GitHub repository <https://github.com/HiDiHlabs/ssam-lite-server>`__
 
 .. code-block:: bash
 
-    git clone https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server.git
+    git clone https://github.com/HiDiHlabs/ssam-lite-server.git
 
 
 Next we create a ``conda`` environment and activate it.
@@ -64,19 +64,16 @@ Now we need to install some dependencies. TODO should we provide versions of the
     conda install flask numpy pandas
 
 
-And start the server.
+Finally, start the Flask app (the default port will be 5000).
 
 .. code-block:: bash
 
-    cd /ssam-lite-server/flask
-    export FLASK_APP=run.py
-    export FLASK_ENV=development
+    export FLASK_APP=./ssam-lite-server/flask/run.py
     flask run
 
-The ``flask`` default port will be 5000.
 
 .. note::
 
    The port and further settings can be made in the *run.py* file or when starting the app with
    ``flask run``. For further information we would refer the reader to the 
-   `flask documentation <https://flask.palletsprojects.com/>`__. 
+   `Flask documentation <https://flask.palletsprojects.com/>`__. 

@@ -55,7 +55,7 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 - Zooming in: right drag an area to zoom into
 - Navigate: Shift + right drag
 - Original view: double click
-- Hide/display genes: click gene in legend (double click hides all except selected gene)
+- Hide/display genes in Data Center: click gene in legend (double click hides all except selected gene)
 
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
@@ -93,9 +93,9 @@ mRNA Coordinates
 
 Gene Signatures
     This file should be a matrix of cell types by genes. 
-    The first column and row contains the names of cell types and genes, respectively. All the other cell values
-    are gene scores ... TODO  how to define this ...
-    This will later be used to assign each pixel to a cell type (or leave them unclassified)
+    The first column and row contains the names of cell types and genes, respectively. The cell values
+    are the cell type-wise expression expectations.
+    These will later be used to assign each pixel to a cell type (or leave them unclassified)
     based on the kernel density estimation.
 
     +--------------+----------+-----------+-----------+

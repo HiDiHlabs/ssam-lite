@@ -1,4 +1,4 @@
-# SSAM-lite-solo
+# SSAM-lite
 
 ... is a lightweight, browser-based implementation of the [SSAM framework](https://www.nature.com/articles/s41467-021-23807-4).
 It provides the functionality of SSAMs most popular and widely used features in a graphical user interface
@@ -12,7 +12,7 @@ Author: Sebastian Tiesmeyer (sebastian.tiesmeyer@bih-charite.de)<sup>1</sup>
 
 ## Choose your flavour
 
-You might also want to check out the [SSAM-lite-server](https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server) implementation.
+You might also want to check out the [SSAM-lite-server](https://github.com/HiDiHlabs/ssam-lite-server) implementation.
 
 For a guide to help you choose read https://ssam-lite.readthedocs.io/en/latest/solo_vs_server.html
 
