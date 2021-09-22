@@ -2,10 +2,10 @@
 Installation
 ############
 
-SSAM-lite comes in two flavors -- SSAM-lite-solo and SSAM-lite-server.
+SSAM-lite comes in two flavours -- SSAM-lite-solo and SSAM-lite-server.
 While the usage is almost identical the installation differs quite a lot.
-If you need some help deciding which of the two fits your needs best and what the differences are follow the guide
-:ref:`solo-or-server`
+If you need some help deciding which of the two fits your needs best and 
+what the differences are follow the guide :ref:`solo-or-server`
 
 
 .. _supported-browsers:
@@ -25,7 +25,7 @@ The installation of SSAM-lite-solo could not be easier. You either clone the
 
 .. code-block:: bash
 
-   git clone https://github.com/HiDiHlabs/ssam-lite
+   git clone https://github.com/HiDiHlabs/ssam-lite.git
 
 
 or download it as zip-file from GitHub and then extract it.
@@ -37,27 +37,20 @@ That is literally all, you are ready to go.
 SSAM-lite-server
 ================
 
-Will this be implemented?
-
 To install SSAM-lite-server you first need to clone the
-`GitHub repository <https://github.com/sebastiantiesmeyer/ssamLiteDev>`__
+`GitHub repository <https://github.com/HiDiHlabs/ssam-lite-server>`__
 
 .. code-block:: bash
 
-    git clone https://github.com/sebastiantiesmeyer/ssamLiteDev
+    git clone https://github.com/HiDiHlabs/ssam-lite-server.git
 
 
-How to handle signatures ????
-Download singatures: https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0
-Place signatures in data/genetics/ ???
-
-Next we create a ``conda`` environment (TODO we should provide a yaml?) and activate it.
+Next we create a ``conda`` environment and activate it.
 
 .. code-block:: bash
 
     conda create -n flask
     conda activate flask
-
 
 .. note::
 
@@ -71,18 +64,16 @@ Now we need to install some dependencies. TODO should we provide versions of the
     conda install flask numpy pandas
 
 
-And start the server.
+Finally, start the Flask app (the default port will be 5000).
 
 .. code-block:: bash
 
-    cd /ssamLiteDev/scripts/flask
-    export FLASK_APP=run.py
-    export FLASK_ENV=development
+    export FLASK_APP=./ssam-lite-server/flask/run.py
     flask run
 
 
-Type in the address bar of your browser: 127.0.0.1:5000
+.. note::
 
-This definitely needs to be explained.
-However, somebody with a little bit expertise should do this,
-most of it will be config dependent and people installing this will most likely know what they are doing!
+   The port and further settings can be made in the *run.py* file or when starting the app with
+   ``flask run``. For further information we would refer the reader to the 
+   `Flask documentation <https://flask.palletsprojects.com/>`__. 

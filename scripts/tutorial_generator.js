@@ -6,7 +6,7 @@ function runTutorial() {
 
     var tutorialWindowNames = ['data', 'data-coords', 'data-disp', 'data-sigs', 
     'parameters', 'parameters-coordinates', 'parameters-sigma',
-    'analysis-KDE', 'analysis-assignments']
+    'analysis-KDE', 'analysis-assignments', 'download']
 
     document.getElementById('tutorial-modal').style.display = 'block';
     document.getElementById('button-tutorial').removeEventListener('click', runTutorial);;

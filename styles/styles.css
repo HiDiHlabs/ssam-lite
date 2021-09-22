@@ -198,6 +198,7 @@ body {
   right: 5%;
   width: 400px;
   display: none;
+  height: 500px;
 }
 
 #tutorial-modal-data-disp{
@@ -238,6 +239,12 @@ body {
 }
 
 #tutorial-modal-analysis-assignments{
+  display: none;
+  left: 5%;
+  width: 300px;
+}
+
+#tutorial-modal-download{
   display: none;
   left: 5%;
   width: 300px;
