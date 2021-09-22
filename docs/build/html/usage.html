@@ -15,10 +15,11 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Solo or Server?" href="solo_vs_server.html" />
+    <link rel="next" title="Local or Server?" href="local_vs_server.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -39,12 +40,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">What is SSAM-lite?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">quickstart / tldr</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#test-data">Test Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#open-ssam-lite">Open SSAM-lite</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ssam-lite-solo">SSAM-lite-solo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ssam-lite">SSAM-lite</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ssam-lite-server">SSAM-lite-server</a></li>
 </ul>
 </li>
@@ -58,7 +60,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#save-results">Save results</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="solo_vs_server.html">Solo or Server?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local_vs_server.html">Local or Server?</a></li>
 </ul>
 
         </div>
@@ -95,7 +97,7 @@ Zenodo (<a class="reference external" href="https://zenodo.org/record/5517607">h
 <ol class="arabic simple">
 <li><p><strong>Codeluppi_osmFISH</strong>: an osmFISH dataset of the mouse somatosensory cortex from <a class="reference external" href="https://www.nature.com/articles/s41592-018-0175-z">Codeluppi et al., Nature methods, 2018</a>.</p></li>
 <li><p><strong>Tosti_ISS_Pancreas</strong>: an ISS dataset of the human pancreas from <a class="reference external" href="https://doi.org/10.1053/j.gastro.2020.11.010">Tosti et al., Gastroenterology, 2021</a>.</p></li>
-<li><p><strong>Qian_ISS_CA1</strong>: an ISS dataset of the mouse hippocampal area CA1 from <a class="reference external" href="https://www.nature.com/articles/s41592-019-0631-4">Qian et al., Nature methods, 2020</a>. Due to the size of this data set there are also subsets available.</p></li>
+<li><p><strong>Qian_ISS_CA1</strong>: ISS datasets of the mouse hippocampal area CA1 from <a class="reference external" href="https://www.nature.com/articles/s41592-019-0631-4">Qian et al., Nature methods, 2020</a>.</p></li>
 </ol>
 <p>The datasets have been modified to fit the SSAM-lite input format.</p>
 </section>
@@ -103,10 +105,10 @@ Zenodo (<a class="reference external" href="https://zenodo.org/record/5517607">h
 <h2>Open SSAM-lite<a class="headerlink" href="#open-ssam-lite" title="Permalink to this headline"></a></h2>
 <p>SSAM-lite will be opened (and executed) in your Web Browser. For a list of compatible Browsers
 read <a class="reference internal" href="installation.html#supported-browsers"><span class="std std-ref">Supported Browsers</span></a>. Connecting to SSAM-lite depends on whether you want to use the
-<em>solo</em> or <em>server</em> version. However, the usage afterwards will be (almost) identical.</p>
-<section id="ssam-lite-solo">
-<h3>SSAM-lite-solo<a class="headerlink" href="#ssam-lite-solo" title="Permalink to this headline"></a></h3>
-<p>SSAM-lite-solo runs locally on your computer. It is executed by your browser
+<em>local</em> or <em>server</em> version. However, the usage afterwards will be (almost) identical.</p>
+<section id="ssam-lite">
+<h3>SSAM-lite<a class="headerlink" href="#ssam-lite" title="Permalink to this headline"></a></h3>
+<p>SSAM-lite runs locally on your computer. It is executed by your browser
 and to open it you only need to navigate to the unzipped SSAM-lite directory
 and double-click the <em>SSAM-lite.html</em> and it will start in your default web browser.</p>
 </section>
@@ -130,7 +132,7 @@ by uploading your data.</p>
 <li><p>Zooming in: right drag an area to zoom into</p></li>
 <li><p>Navigate: Shift + right drag</p></li>
 <li><p>Original view: double click</p></li>
-<li><p>Hide/display genes: click gene in legend (double click hides all except selected gene)</p></li>
+<li><p>Hide/display genes in Data Center: click gene in legend (double click hides all except selected gene)</p></li>
 </ul>
 <p>Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.</p>
@@ -173,6 +175,9 @@ might have an influence on proper parameter values later on.</p>
 </tr>
 </tbody>
 </table>
+<p>Below the plot for the mRNA coordinates you can see an input field for the <em>scaling factor</em>.
+This is required to calculate an accurate scale bar for the final plots. The unit is <span class="math notranslate nohighlight">\(\mu m^{-1}\)</span>
+which means that if in your input 10 units (e.g. pixels) are 1 <span class="math notranslate nohighlight">\(\mu m\)</span> you would enter 10 there.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -182,9 +187,9 @@ are the ones shown above and are in the correct order.</p>
 </div>
 <dl>
 <dt>Gene Signatures</dt><dd><p>This file should be a matrix of cell types by genes.
-The first column and row contains the names of cell types and genes, respectively. All the other cell values
-are gene scores … TODO  how to define this …
-This will later be used to assign each pixel to a cell type (or leave them unclassified)
+The first column and row contains the names of cell types and genes, respectively. The cell values
+are the cell type-wise expression expectations.
+These will later be used to assign each pixel to a cell type (or leave them unclassified)
 based on the kernel density estimation.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -241,12 +246,15 @@ as well as size of the output images.</p>
 </dd>
 <dt>KDE kernel bandwidth (sigma)</dt><dd><p>SSAM-lite uses a Gaussian kernel and the kernel bandwidth defines the “range” of
 integration of data points (mRNA spots) for the KDE.</p>
-<p>A higher value will result in an increased smoothing of the mRNA density estimation.</p>
+<p>A higher value will result in an increased smoothing of the mRNA density estimation.
+See example below.</p>
+<a class="reference internal image-reference" href="_images/KDE_Optimization.png"><img alt="Screenshot of two different kernel bandwidth" src="_images/KDE_Optimization.png" style="width: 600px;" /></a>
 </dd>
 <dt>Cell assignment threshold</dt><dd><p>This threshold is used to decide whether a pixel in the KDE projection belongs to
 a cell or not.</p>
 <p>As help to pick an optimal value you can check the KDE estimate (middle plot in the parameter preview)
-to find the intensity that should serve as cutoff point.</p>
+to find the intensity that should serve as cutoff point. See example below.</p>
+<a class="reference internal image-reference" href="_images/Threshold_Optimization.png"><img alt="Screenshot of two cell assignment thresholds" src="_images/Threshold_Optimization.png" style="width: 600px;" /></a>
 </dd>
 </dl>
 <p>Each of the parameters can be set in their respective field and applied by hitting Enter.
@@ -265,7 +273,7 @@ Once it finished, the KDE estimates will be displayed in a plot (see example bel
 This step is the computationally most expensive and might tak a few minutes.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are using SSAM-lite-solo your browser might warn you that it is being slowed down by the current site.
+<p>If you are using SSAM-lite (local) your browser might warn you that it is being slowed down by the current site.
 This is normal due to the heavy computation running in the background and can be ignored.</p>
 </div>
 <a class="reference internal image-reference" href="_images/KDE.png"><img alt="KDE estimation given the previously set parameters" src="_images/KDE.png" style="width: 800px;" /></a>
@@ -281,6 +289,7 @@ and refine those before rerunning the analysis.</p>
 <p>All plots are produced with <a class="reference external" href="https://plotly.com/">Plotly</a> and can be downloaded
 by hovering over the plot which triggers a control panel to appear in the upper right corner,
 now click the camera icon which lets you download the current plot as png file.</p>
+<a class="reference internal image-reference" href="_images/DownloadPlot.png"><img alt="Downloading plots" src="_images/DownloadPlot.png" style="width: 800px;" /></a>
 </section>
 </section>
 
@@ -289,7 +298,7 @@ now click the camera icon which lets you download the current plot as png file.<
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="solo_vs_server.html" class="btn btn-neutral float-right" title="Solo or Server?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="local_vs_server.html" class="btn btn-neutral float-right" title="Local or Server?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

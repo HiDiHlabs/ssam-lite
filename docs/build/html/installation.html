@@ -39,15 +39,20 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">What is SSAM-lite?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">quickstart / tldr</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#supported-browsers">Supported Browsers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ssam-lite-solo">SSAM-lite-solo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ssam-lite-server">SSAM-lite-server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-browsers">Supported Browsers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ssam-lite-server">SSAM-lite-server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ssam-lite">SSAM-lite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">SSAM-lite-server</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="solo_vs_server.html">Solo or Server?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local_vs_server.html">Local or Server?</a></li>
 </ul>
 
         </div>
@@ -76,30 +81,38 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
-<p>SSAM-lite comes in two flavors – SSAM-lite-solo and SSAM-lite-server.
+<p>SSAM-lite comes in two flavours – SSAM-lite and SSAM-lite-server.
 While the usage is almost identical the installation differs quite a lot.
-If you need some help deciding which of the two fits your needs best and what the differences are follow the guide
-<a class="reference internal" href="solo_vs_server.html#solo-or-server"><span class="std std-ref">Solo or Server?</span></a></p>
+If you need some help deciding which of the two fits your needs best and
+what the differences are follow the guide <a class="reference internal" href="local_vs_server.html#local-or-server"><span class="std std-ref">Local or Server?</span></a></p>
+<a class="reference internal image-reference" href="_images/solo_vs_server.png"><img alt="Setup for SSAM-lite vs server" src="_images/solo_vs_server.png" style="width: 800px;" /></a>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
 <section id="supported-browsers">
-<span id="id1"></span><h2>Supported Browsers<a class="headerlink" href="#supported-browsers" title="Permalink to this headline"></a></h2>
-<p>TODO
-We should add some stuff about requirements etc</p>
+<span id="id1"></span><h3>Supported Browsers<a class="headerlink" href="#supported-browsers" title="Permalink to this headline"></a></h3>
+<p>SSAM-lite should run on all modern browsers supporting JavaScript ES5 … TODO</p>
 </section>
-<section id="ssam-lite-solo">
-<h2>SSAM-lite-solo<a class="headerlink" href="#ssam-lite-solo" title="Permalink to this headline"></a></h2>
-<p>The installation of SSAM-lite-solo could not be easier. You either clone the
+<section id="ssam-lite-server">
+<h3>SSAM-lite-server<a class="headerlink" href="#ssam-lite-server" title="Permalink to this headline"></a></h3>
+<p>TODO any requirements here? otherwise remove this section?</p>
+</section>
+</section>
+<section id="ssam-lite">
+<h2>SSAM-lite<a class="headerlink" href="#ssam-lite" title="Permalink to this headline"></a></h2>
+<p>The installation of SSAM-lite could not be easier. You either clone the
 <a class="reference external" href="https://github.com/HiDiHlabs/ssam-lite">GitHub repository</a></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/HiDiHlabs/ssam-lite.git
 </pre></div>
 </div>
-<p>or download it as zip-file from GitHub and then extract it.</p>
+<p>or click <a class="reference external" href="https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.zip">here</a>
+to download it as zip-file from GitHub and then extract it.</p>
 <p>That is literally all, you are ready to go.</p>
 </section>
-<section id="ssam-lite-server">
-<h2>SSAM-lite-server<a class="headerlink" href="#ssam-lite-server" title="Permalink to this headline"></a></h2>
+<section id="id2">
+<h2>SSAM-lite-server<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
 <p>To install SSAM-lite-server you first need to clone the
-<a class="reference external" href="https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server">GitHub repository</a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/HiDiHlabs/HiDiHlabs-ssam-lite-server.git
+<a class="reference external" href="https://github.com/HiDiHlabs/ssam-lite-server">GitHub repository</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/HiDiHlabs/ssam-lite-server.git
 </pre></div>
 </div>
 <p>Next we create a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment and activate it.</p>
@@ -115,17 +128,17 @@ conda activate flask
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install flask numpy pandas
 </pre></div>
 </div>
-<p>And start the server.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /ssamLiteDev/scripts/flask
-<span class="nb">export</span> <span class="nv">FLASK_APP</span><span class="o">=</span>run.py
-<span class="nb">export</span> <span class="nv">FLASK_ENV</span><span class="o">=</span>development
+<p>Finally, start the Flask app (the default port will be 5000).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">FLASK_APP</span><span class="o">=</span>./ssam-lite-server/flask/run.py
 flask run
 </pre></div>
 </div>
-<p>Type in the address bar of your browser: 127.0.0.1:5000</p>
-<p>This definitely needs to be explained.
-However, somebody with a little bit expertise should do this,
-most of it will be config dependent and people installing this will most likely know what they are doing!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The port and further settings can be made in the <em>run.py</em> file or when starting the app with
+<code class="docutils literal notranslate"><span class="pre">flask</span> <span class="pre">run</span></code>. For further information we would refer the reader to the
+<a class="reference external" href="https://flask.palletsprojects.com/">Flask documentation</a>.</p>
+</div>
 </section>
 </section>
 

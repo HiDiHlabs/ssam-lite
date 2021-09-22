@@ -2,25 +2,36 @@
 Installation
 ############
 
-SSAM-lite comes in two flavours -- SSAM-lite-solo and SSAM-lite-server.
+SSAM-lite comes in two flavours -- SSAM-lite and SSAM-lite-server.
 While the usage is almost identical the installation differs quite a lot.
 If you need some help deciding which of the two fits your needs best and 
-what the differences are follow the guide :ref:`solo-or-server`
+what the differences are follow the guide :ref:`local-or-server`
 
+.. image:: ../res/imgs/solo_vs_server.png
+  :width: 800
+  :alt: Setup for SSAM-lite vs server
+
+
+Requirements
+============
 
 .. _supported-browsers:
 
 Supported Browsers
-==================
+------------------
 
-TODO
-We should add some stuff about requirements etc
+SSAM-lite should run on all modern browsers supporting JavaScript ES5 ... TODO
+
+SSAM-lite-server
+----------------
+
+TODO any requirements here? otherwise remove this section?
 
 
-SSAM-lite-solo
-==============
+SSAM-lite
+=========
 
-The installation of SSAM-lite-solo could not be easier. You either clone the 
+The installation of SSAM-lite could not be easier. You either clone the 
 `GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
 
 .. code-block:: bash
@@ -28,7 +39,8 @@ The installation of SSAM-lite-solo could not be easier. You either clone the
    git clone https://github.com/HiDiHlabs/ssam-lite.git
 
 
-or download it as zip-file from GitHub and then extract it.
+or click `here <https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.zip>`__ 
+to download it as zip-file from GitHub and then extract it.
 
 That is literally all, you are ready to go.
 

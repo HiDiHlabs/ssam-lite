@@ -14,7 +14,7 @@ Installation
 ============
 
 Click `here <https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.zip>`__
-to download SSAM-lite-solo as zip, and extract it.
+to download SSAM-lite as zip, and extract it.
 
 
 Test data

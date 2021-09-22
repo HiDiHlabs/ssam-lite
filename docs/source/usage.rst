@@ -21,12 +21,12 @@ Open SSAM-lite
 
 SSAM-lite will be opened (and executed) in your Web Browser. For a list of compatible Browsers
 read :ref:`supported-browsers`. Connecting to SSAM-lite depends on whether you want to use the
-*solo* or *server* version. However, the usage afterwards will be (almost) identical.
+*local* or *server* version. However, the usage afterwards will be (almost) identical.
 
-SSAM-lite-solo
---------------
+SSAM-lite
+---------
 
-SSAM-lite-solo runs locally on your computer. It is executed by your browser
+SSAM-lite runs locally on your computer. It is executed by your browser
 and to open it you only need to navigate to the unzipped SSAM-lite directory
 and double-click the *SSAM-lite.html* and it will start in your default web browser.
 
@@ -87,6 +87,10 @@ mRNA Coordinates
     | gene B,  |   0.4,    |   0.5     |
     +----------+-----------+-----------+
 
+    Below the plot for the mRNA coordinates you can see an input field for the *scaling factor*. 
+    This is required to calculate an accurate scale bar for the final plots. The unit is :math:`\mu m^{-1}`
+    which means that if in your input 10 units (e.g. pixels) are 1 :math:`\mu m` you would enter 10 there.
+
 .. note::
     Additional columns will not affect the analysis, as long as the first three columns
     are the ones shown above and are in the correct order.
@@ -124,6 +128,7 @@ For a more detailed explanation of the SSAM framework we would refer the user to
 however we will briefly describe the purpose and effect of the parameters
 that can be set by the user to obtain optimal results.
 
+
 Vector field width
     The vector field width defines the horizontal pixel count of the output images.
     This is necessary as the kernel density estimation (KDE) will be projected onto 
@@ -132,18 +137,29 @@ Vector field width
     A higher value will result in higher resolution but also in increased processing time and memory
     as well as size of the output images.
 
+
 KDE kernel bandwidth (sigma)
     SSAM-lite uses a Gaussian kernel and the kernel bandwidth defines the "range" of 
     integration of data points (mRNA spots) for the KDE.
 
     A higher value will result in an increased smoothing of the mRNA density estimation.
+    See example below.
+
+    .. image:: ../res/imgs/KDE_Optimization.png
+        :width: 600
+        :alt: Screenshot of two different kernel bandwidth
+
 
 Cell assignment threshold
     This threshold is used to decide whether a pixel in the KDE projection belongs to
     a cell or not. 
     
     As help to pick an optimal value you can check the KDE estimate (middle plot in the parameter preview)
-    to find the intensity that should serve as cutoff point.
+    to find the intensity that should serve as cutoff point. See example below.
+
+    .. image:: ../res/imgs/Threshold_Optimization.png
+        :width: 600
+        :alt: Screenshot of two cell assignment thresholds
 
 
 Each of the parameters can be set in their respective field and applied by hitting Enter.
@@ -168,7 +184,7 @@ Once it finished, the KDE estimates will be displayed in a plot (see example bel
 This step is the computationally most expensive and might tak a few minutes.
 
 .. note::
-    If you are using SSAM-lite-solo your browser might warn you that it is being slowed down by the current site.
+    If you are using SSAM-lite (local) your browser might warn you that it is being slowed down by the current site.
     This is normal due to the heavy computation running in the background and can be ignored.
 
 .. image:: ../res/imgs/KDE.png
@@ -193,3 +209,8 @@ Save results
 All plots are produced with `Plotly <https://plotly.com/>`__ and can be downloaded
 by hovering over the plot which triggers a control panel to appear in the upper right corner,
 now click the camera icon which lets you download the current plot as png file.
+
+.. image:: ../res/imgs/DownloadPlot.png
+  :width: 800
+  :alt: Downloading plots
+
