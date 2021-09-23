@@ -2,12 +2,15 @@
 quickstart / tldr
 #################
 
+SSAM-lite is an easy to use a lightweight web browser application to identify cell types 
+in single-molecule spatial transcriptomic data such as MERFISH, SEQfish, ISS/CARTANA, osmFISH, etc.
+This guide is for you if you have
 
-For those of us
+- very little time,
+- an understanding of `SSAM <https://www.nature.com/articles/s41467-021-23807-4>`__,
+- or just want to get a quick glance at what SSAM-lite can do.
 
-- with very little time,
-- who know what `SSAM <https://www.nature.com/articles/s41467-021-23807-4>`__ is,
-- and just want to get a quick glance at what SSAM-lite can do ...
+Otherwise we would recommend that you have a look at the :ref:`user guide <user-guide>`.
 
 
 Installation

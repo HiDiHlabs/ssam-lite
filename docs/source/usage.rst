@@ -1,3 +1,5 @@
+.. _user-guide:
+
 ####################
 Usage
 ####################
@@ -19,8 +21,8 @@ The datasets have been modified to fit the SSAM-lite input format.
 Open SSAM-lite
 ==============
 
-SSAM-lite will be opened (and executed) in your Web Browser. For a list of compatible Browsers
-read :ref:`supported-browsers`. Connecting to SSAM-lite depends on whether you want to use the
+SSAM-lite will be opened (and executed) in your web browser. For a list of browser requirements
+read ":ref:`supported-browsers`". Connecting to SSAM-lite depends on whether you want to use the
 *local* or *server* version. However, the usage afterwards will be (almost) identical.
 
 SSAM-lite

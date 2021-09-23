@@ -5,7 +5,7 @@ Installation
 SSAM-lite comes in two flavours -- SSAM-lite and SSAM-lite-server.
 While the usage is almost identical the installation differs quite a lot.
 If you need some help deciding which of the two fits your needs best and 
-what the differences are follow the guide :ref:`local-or-server`
+what the differences are follow the guide ":ref:`local-or-server`"
 
 .. image:: ../res/imgs/solo_vs_server.png
   :width: 800
@@ -17,15 +17,16 @@ Requirements
 
 .. _supported-browsers:
 
-Supported Browsers
+Supported browsers
 ------------------
 
-SSAM-lite should run on all modern browsers supporting JavaScript ES5 ... TODO
+SSAM-lite and SSAM-lite-server should run on all modern browsers supporting JavaScript ES5 
+and webGL. A internet connections is required to access the TensorFlow.js (v2.0.0) library.
 
 SSAM-lite-server
 ----------------
 
-TODO any requirements here? otherwise remove this section?
+SSAM-lite-server requires the python libraries ``flask``, ``pandas`` and ``numpy``. TODO
 
 
 SSAM-lite
