@@ -21,21 +21,27 @@ The datasets have been modified to fit the SSAM-lite input format.
 Open SSAM-lite
 ==============
 
-SSAM-lite will be opened (and executed) in your web browser. For a list of browser requirements
-read ":ref:`supported-browsers`". Connecting to SSAM-lite depends on whether you want to use the
+SSAM-lite will be opened (and executed) in your web browser. For a list of requirements
+read ":ref:`requirements`". Connecting to SSAM-lite depends on whether you want to use the
 *local* or *server* version. However, the usage afterwards will be (almost) identical.
 
 SSAM-lite
 ---------
 
-SSAM-lite runs locally on your computer. It is executed by your browser
-and to open it you only need to navigate to the unzipped SSAM-lite directory
-and double-click the *SSAM-lite.html* and it will start in your default web browser.
+SSAM-lite can be opened by entering https://ssamlite.netlify.app/ in the address bar 
+of your favourite web browser. Alternatively, if you decided to download the source code 
+from GitHub you can double-click *SSAM-lite.html* and it will open in your default 
+web browser.
+
+Importantly, even if you decide to access SSAM-lite via the provided website, 
+SSAM-lite is executed locally by your browser. That means that it 
+i) uses the computational ressources of your device and ii) none of the analysed data will 
+be transferred to any other device.
 
 SSAM-lite-server
 ----------------
 
-To connect to SSAM-lite-server, you will need to to open your favourite web browser (not IE)
+To connect to SSAM-lite-server, you will need to to open your favourite web browser
 and type the correct IP address and port in the form {ip}:{port} (e.g. 127.0.0.1:5000) into the address bar.
 However, the IP and port depends on your local setup. Talk to your responsible SSAM-lite coordinator.
 

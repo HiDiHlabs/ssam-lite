@@ -1,6 +1,6 @@
 # SSAM-lite
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![DOI:10.1101/2021.09.2x.xxxxxxxx](http://img.shields.io/badge/DOI-10.1101/2021.09.2x.xxxxxxxx-B31B1B.svg)](https://doi.org/10.1101/2021.09.2x.xxxxxxxx)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5517607.svg)](https://doi.org/10.5281/zenodo.5517607)
 

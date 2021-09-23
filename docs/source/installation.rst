@@ -12,25 +12,26 @@ what the differences are follow the guide ":ref:`local-or-server`"
   :alt: Setup for SSAM-lite vs server
 
 
+.. _requirements:
+
 Requirements
 ============
 
-.. _supported-browsers:
-
-Supported browsers
-------------------
-
 SSAM-lite and SSAM-lite-server should run on all modern browsers supporting JavaScript ES5 
-and webGL. A internet connections is required to access the TensorFlow.js (v2.0.0) library.
+and webGL.
 
-SSAM-lite-server
-----------------
+SSAM-lite requires an internet connection to access the TensorFlow.js (v2.0.0) 
+library.
 
-SSAM-lite-server requires the python libraries ``flask``, ``pandas`` and ``numpy``. TODO
+SSAM-lite-server requires Python (v3.9.7) as well as the Python packages 
+Flask (v0.8), pandas (v1.3.2) and NumPy (v1.20.3).
 
 
 SSAM-lite
 =========
+
+SSAM-lite only needs to be "installed" if you want to have a local copy of the code. 
+Otherwise you can also directly proceed to the :ref:`user guide <user-guide>`.
 
 The installation of SSAM-lite could not be easier. You either clone the 
 `GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
@@ -70,11 +71,12 @@ Next we create a ``conda`` environment and activate it.
     You can set the environment name to your preferences.
 
 
-Now we need to install some dependencies. TODO should we provide versions of the packages?
+Now we need to install the required Python version and some 
+additional Python packages.
 
 .. code-block:: bash
 
-    conda install flask numpy pandas
+    conda install python=3.9.7 flask=0.8 numpy=1.20.3 pandas=1.3.2
 
 
 Finally, start the Flask app (the default port will be 5000).
