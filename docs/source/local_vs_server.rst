@@ -1,4 +1,4 @@
- .. _local-or-server:
+.. _local-or-server:
 
 ################
 Local or Server?
@@ -13,8 +13,8 @@ Nevertheless, it might make sense to have a look at what might be better suited 
 
 .. note::
 
-    If you want to test SSAM-lite we recommend you first try the local SSAM-lite implementation 
-    as the setup is much faster. After that you can still come back and checkout the server version.
+    If you want to test SSAM-lite we recommend you first try the SSAM-lite implementation 
+    as their is no setup required. After that you can still come back and checkout the server version.
 
 
 .. image:: ../res/imgs/solo_vs_server.png
@@ -25,7 +25,7 @@ SSAM-lite (local)
 =================
 
 Advantages
-    - **No installation**: Because you only need to download it, it is quick to deploy and you can start your analysis after less than 2 minutes. 
+    - **No installation**: Because you only need to open the provided website, you can start your analysis in less than a minute. Even if you decide to download the source code it should not take much longer. 
     
 Use case
     For all researchers that want to get started right away or are the only ones in their group/department
@@ -37,12 +37,9 @@ SSAM-lite-server
 
 Advantages
     - Deploy for **multiple users**: The server version can be setup on a server once and then served to multiple users within the network.
-    - Higher **compute power**: In most cases you will have a higher compute power (especially memory) available if you run it on a server and not e.g. a laptop.
+    - Higher **compute power**: In most cases you will have a higher compute power (especially memory, which will usually be the main limitation) available if you run it on a server and not e.g. a laptop.
 
 Use case
     This can be deployed on e.g. an institute server to be used by a research group, 
     a core facility or a whole department/institute. It only needs to be installed 
     once and can be served to all users in the network as WebApp.
-
-Technically, you could also deploy the server version on your own laptop and then run it
-as localhost. However, currently there are no benfits to this approach.

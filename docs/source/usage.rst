@@ -79,47 +79,49 @@ or "Signatures" button and selecting the correct files.
 To be able to use SSAM-lite you need to prepare your data in csv format.
 Two input files are required and must be structured as follows:
 
-mRNA Coordinates
-    This file needs to be of the form gene, x-coordinate, y-coordinate.
-    The name of the headers are irrelevant, however their order needs to be kept. 
-    Negative coordinates are possible and the units are irrelevant, however, their magnitude 
-    might have an influence on proper parameter values later on.
+mRNA coordinates
+----------------
+This file needs to be of the form gene, x-coordinate, y-coordinate.
+The name of the headers are irrelevant, however their order needs to be kept. 
+Negative coordinates are possible and the units are irrelevant, however, their magnitude 
+might have an influence on proper parameter values later on.
 
-    +----------+-----------+-----------+
-    | gene,    |   x,      |   y       |
-    +----------+-----------+-----------+
-    | gene A,  |   0.5,    |   1.3     |
-    +----------+-----------+-----------+
-    | gene A,  |   1.1,    |   2.1     |
-    +----------+-----------+-----------+
-    | gene B,  |   0.4,    |   0.5     |
-    +----------+-----------+-----------+
++----------+-----------+-----------+
+| gene,    |   x,      |   y       |
++----------+-----------+-----------+
+| gene A,  |   0.5,    |   1.3     |
++----------+-----------+-----------+
+| gene A,  |   1.1,    |   2.1     |
++----------+-----------+-----------+
+| gene B,  |   0.4,    |   0.5     |
++----------+-----------+-----------+
 
-    Below the plot for the mRNA coordinates you can see an input field for the *scaling factor*. 
-    This is required to calculate an accurate scale bar for the final plots. The unit is :math:`\mu m^{-1}`
-    which means that if in your input 10 units (e.g. pixels) are 1 :math:`\mu m` you would enter 10 there.
+Below the plot for the mRNA coordinates you can see an input field for the *scaling factor*. 
+This is required to calculate an accurate scale bar for the final plots. The unit is :math:`\mu m^{-1}`
+which means that if in your input 10 units (e.g. pixels) are 1 :math:`\mu m` you would enter 10 there.
 
 .. note::
     Additional columns will not affect the analysis, as long as the first three columns
     are the ones shown above and are in the correct order.
 
-Gene Signatures
-    This file should be a matrix of cell types by genes. 
-    The first column and row contains the names of cell types and genes, respectively. The cell values
-    are the cell type-wise expression expectations.
-    These will later be used to assign each pixel to a cell type (or leave them unclassified)
-    based on the kernel density estimation.
+Gene signatures
+---------------
 
-    +--------------+----------+-----------+-----------+
-    |       ,      | gene A,  | gene B,   | gene C    |
-    +--------------+----------+-----------+-----------+
-    | cell type A, |    0.5,  |   -0.5,   |   1.3     |
-    +--------------+----------+-----------+-----------+
-    | cell type B, |    -0.2, |   1.1,    |   2.1     |
-    +--------------+----------+-----------+-----------+
-    | cell type C, |    0.3,  |   0.4,    |   0.5     |
-    +--------------+----------+-----------+-----------+
+This file should be a matrix of cell types by genes. 
+The first column and row contains the names of cell types and genes, respectively. The cell values
+are the cell type-wise expression expectations.
+These will later be used to assign each pixel to a cell type (or leave them unclassified)
+based on the kernel density estimation.
 
++--------------+----------+-----------+-----------+
+|       ,      | gene A,  | gene B,   | gene C    |
++--------------+----------+-----------+-----------+
+| cell type A, |    0.5,  |   -0.5,   |   1.3     |
++--------------+----------+-----------+-----------+
+| cell type B, |    -0.2, |   1.1,    |   2.1     |
++--------------+----------+-----------+-----------+
+| cell type C, |    0.3,  |   0.4,    |   0.5     |
++--------------+----------+-----------+-----------+
 
 .. note::
     The name of the genes need not be correct as there is no database used in the background.
@@ -127,6 +129,7 @@ Gene Signatures
     (or more specifically the two sets of names must be partially overlapping).
 
 Once both files are loaded you can proceed with setting the parameters for your analysis.
+
 
 Parameters
 ===========
@@ -154,7 +157,7 @@ KDE kernel bandwidth (sigma)
     See example below.
 
     .. image:: ../res/imgs/KDE_Optimization.png
-        :width: 600
+        :width: 650
         :alt: Screenshot of two different kernel bandwidth
 
 
@@ -166,11 +169,13 @@ Cell assignment threshold
     to find the intensity that should serve as cutoff point. See example below.
 
     .. image:: ../res/imgs/Threshold_Optimization.png
-        :width: 600
+        :width: 650
         :alt: Screenshot of two cell assignment thresholds
 
+Parameter preview and adjustment
+--------------------------------
 
-Each of the parameters can be set in their respective field and applied by hitting Enter.
+Each of the parameters can be set in their respective field and applied by hitting *Enter*.
 For a more intuitive parameter selection you can open a preview by clicking "Use preview generator for parameter search".
 This will display the results of a subset of your data with the currently set parameters and lets you 
 interactively explore and tune your parameter set. To adjust the preview area click into the left-most plot and wait for
@@ -219,6 +224,8 @@ by hovering over the plot which triggers a control panel to appear in the upper 
 now click the camera icon which lets you download the current plot as png file.
 
 .. image:: ../res/imgs/DownloadPlot.png
-  :width: 800
+  :width: 500
+  :align: center
   :alt: Downloading plots
 
+|

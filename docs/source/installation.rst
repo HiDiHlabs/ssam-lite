@@ -8,7 +8,8 @@ If you need some help deciding which of the two fits your needs best and
 what the differences are follow the guide ":ref:`local-or-server`"
 
 .. image:: ../res/imgs/solo_vs_server.png
-  :width: 800
+  :width: 400
+  :align: center
   :alt: Setup for SSAM-lite vs server
 
 
