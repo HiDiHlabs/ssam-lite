@@ -4,7 +4,7 @@ quickstart / tldr
 
 SSAM-lite is an easy to use a lightweight web browser application to identify cell types 
 in single-molecule spatial transcriptomic data such as MERFISH, SEQfish, ISS/CARTANA, osmFISH, etc.
-This guide is for you if you have
+This quickstart guide is for you if you have
 
 - very little time,
 - an understanding of `SSAM <https://www.nature.com/articles/s41467-021-23807-4>`__,
@@ -23,13 +23,7 @@ to download SSAM-lite as zip, and extract it.
 Test data
 =========
 
-Download the test data from Zenodo via 
-
-.. code-block:: bash
-
-   wget https://zenodo.org/record/5517607
-
-... TODO does it need unzipping?
+Download the test data from Zenodo (https://zenodo.org/record/5517607) and unzip it.
 
 
 My first analysis
@@ -39,12 +33,12 @@ Open the *SSAM-lite.html* from the unzipped SSAM-lite directory by double-clicki
 
 Click on **Get going!**
 
-Click on "Coordinates" and select the *coordinates.csv* from the sample data.
-Do the same for the "Signatures" (obviously use the *signature.csv* this time, *duh!*)
+Click on "Coordinates" and select the *coordinates.csv* from the *Codeluppi_osmFISH* directory in the test data.
+Do the same for the "Signatures" (obviously use the *signature.csv* from the same directory this time, *duh!*)
 
 Time is flying by so we skip the "Parameters" section, leaving them at their default values,
 heading straight for "Analysis" and click on "Run Kernel Density Estimation".
-Time for a short break now, this step might take 2 mins.
+Time for a short break now, this step might take 1 or 2 minutes.
 
 When the KDE has been estimated scroll further down and hit "Infer Cell Types". Done!
 
