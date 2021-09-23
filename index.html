@@ -163,9 +163,9 @@
                         <div class="d-flex d-row data-button-wrap">
                             <form class="md-form">
                                 <label for="btn-coordinates-hidden">
-                                    <div class=" btn btn-mdb-color ">
-                                        <input type="file" id="btn-coordinates-hidden" name="uploads-coordinates"
-                                            hidden />
+                                    <div class=" btn btn-mdb-color " id="coordinates-dragzone">
+                                        <input type="file" id="btn-coordinates-hidden" name="uploads-coordinates" class="file-upload"
+                                            hidden >
                                         <div style="position:relative; height: 150px;">
                                             <img src="./resources/imgs/buttons/icon_coords.png"
                                                 for="btn-coordinates-hidden" class="img-thumbnail"
@@ -182,7 +182,13 @@
                         </div>
                         <div class="d-flex d-row " id="coordinates-preview" ,
                             style="width: 100%; height: 40vw; min-height: 350px; ">
+
                         </div>
+                        <br>
+                        <div id="divScale" class="form-group" style="display:none; margin-top:20px; margin-right: 15em;">
+                            <input type="number" class="form-control" id="exampleScale" aria-describedby="scaleHelp" placeholder="- " step="0.1" min="0">
+                            <small id="scaleHelp" class="form-text text-muted">What's the scale of the coordinates in &#956;m?</small>
+                          </div>
                     </div>
 
                     <!-- field "signatures" -->
@@ -193,7 +199,7 @@
                             <form class="md-form">
                                 <label for="btn-signatures-hidden">
 
-                                    <div class=" btn btn-mdb-color ">
+                                    <div class=" btn btn-mdb-color " id="signatures-dragzone">
                                         <input type="file" id="btn-signatures-hidden" name="uploads-signatures"
                                             hidden />
                                         <div style="position:relative; height: 150px;">
