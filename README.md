@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![DOI:10.1101/2021.09.2x.xxxxxxxx](http://img.shields.io/badge/DOI-10.1101/2021.09.2x.xxxxxxxx-B31B1B.svg)](https://doi.org/10.1101/2021.09.2x.xxxxxxxx)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5517607.svg)](https://doi.org/10.5281/zenodo.5517607)
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/eba53f5b-8273-4ac3-9d7b-fcb577e2815c/deploy-status)](https://app.netlify.com/sites/ssam-lite/deploys)
 
 ... is a lightweight, browser-based implementation of the [SSAM framework](https://www.nature.com/articles/s41467-021-23807-4).
 It provides the functionality of SSAMs most popular and widely used features in a graphical user interface
