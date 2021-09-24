@@ -4,6 +4,11 @@
 Usage
 ####################
 
+This s a comprehensive user guide on how to navigate within and analyse your data with
+SSAM-lite. However, there is also a short in-app tutorial available covering all important
+steps. To start it just click on the "Tutorial" button that is on the start screen when you 
+open SSAM-lite.
+
 Test Data
 ==============
 
@@ -16,7 +21,10 @@ Three sample data sets are available:
 #. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., Gastroenterology, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
 #. **Qian_ISS_CA1**: ISS datasets of the mouse hippocampal area CA1 from `Qian et al., Nature methods, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__.
 
-The datasets have been modified to fit the SSAM-lite input format.
+The datasets have been modified to fit the SSAM-lite input format. You can also find further information on the datasets
+(such as number of mRNA spots etc.) on Zenodo or the *README* file within each directory once you downloaded it.
+
+We will be using the *Codeluppi_osmFISH* dataset in this user guide to demonstrate the analysis.
 
 Open SSAM-lite
 ==============
@@ -28,14 +36,14 @@ read ":ref:`requirements`". Connecting to SSAM-lite depends on whether you want 
 SSAM-lite
 ---------
 
-SSAM-lite can be opened by entering https://ssamlite.netlify.app/ in the address bar 
+SSAM-lite can be opened by entering https://ssam-lite.netlify.app/ in the address bar 
 of your favourite web browser. Alternatively, if you decided to download the source code 
 from GitHub you can double-click *SSAM-lite.html* and it will open in your default 
 web browser.
 
 Importantly, even if you decide to access SSAM-lite via the provided website, 
 SSAM-lite is executed locally by your browser. That means that it 
-i) uses the computational ressources of your device and ii) none of the analysed data will 
+*i*) uses the computational ressources of your device and *ii*) none of the analysed data will 
 be transferred to any other device.
 
 SSAM-lite-server
@@ -68,7 +76,9 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
 
-Additional information on data point can be displayed by hovering over it.
+Additional information on a data point can be displayed by hovering over it.
+
+TODO screenshot
 
 
 Data
@@ -97,7 +107,8 @@ might have an influence on proper parameter values later on.
 +----------+-----------+-----------+
 
 Below the plot for the mRNA coordinates you can see an input field for the *scaling factor*. 
-This is required to calculate an accurate scale bar for the final plots. The unit is :math:`\mu m^{-1}`
+This is required to calculate an accurate scale bar for the final plots. If your coordinate file is 
+already in :math:`\mu m` no adjustment is required. The unit for the scaling factor is :math:`\mu m^{-1}`
 which means that if in your input 10 units (e.g. pixels) are 1 :math:`\mu m` you would enter 10 there.
 
 .. note::
@@ -129,7 +140,7 @@ based on the kernel density estimation.
     (or more specifically the two sets of names must be partially overlapping).
 
 Once both files are loaded you can proceed with setting the parameters for your analysis.
-
+ 
 
 Parameters
 ===========
@@ -186,6 +197,9 @@ the browser to recalculate (this might take a few moments).
   :alt: Screenshot of the Parameter preview section
 
 Once you are happy with your choice you can proceed with the actual analysis.
+
+For our example analysis we are going to proceed with a *Vector field width* of 500, a *KDE kernel bandwidth*
+of 1, and a *Cell assignment threshold* of 50.
 
 
 Analysis
