@@ -75,20 +75,24 @@ Next we create a ``conda`` environment and activate it.
 
     You can set the environment name to your preferences.
     To install the package into already existing conda environment please install
-    the following packages using the command.
-
-    .. code-block:: bash
-        conda install python=3.9.7 flask=0.8 numpy=1.20.3 pandas=1.3.2
-
-
-Retireve the static files required by first .
+    the required packages using the following command.
 
 .. code-block:: bash
+
+    conda install python=3.9.7 flask=0.8 numpy=1.20.3 pandas=1.3.2
+
+
+Retrieve the static files required by SSAM-lite-server including the Bootstrap, Plotly 
+and TensorFlow.js JavaScript libraries.
+
+.. code-block:: bash
+
     python fetch_static_files.py
 
 
-Download the background signature matrix from Dropbox <https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0>
-Decompress it and save it in the folder :file: `app/data/genetics/`
+..
+    Download the background signature matrix from Dropbox <https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0>
+    Decompress it and save it in the folder :file: `app/data/genetics/`
 
 Finally, start the Flask app (the default port will be 5000).
 
