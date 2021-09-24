@@ -4,6 +4,11 @@
 Usage
 ####################
 
+This s a comprehensive user guide on how to navigate within and analyse your data with
+SSAM-lite. However, there is also a short in-app tutorial available covering all important
+steps. To start it just click on the "Tutorial" button that is on the start screen when you 
+open SSAM-lite.
+
 Test Data
 ==============
 
@@ -16,26 +21,35 @@ Three sample data sets are available:
 #. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., Gastroenterology, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
 #. **Qian_ISS_CA1**: ISS datasets of the mouse hippocampal area CA1 from `Qian et al., Nature methods, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__.
 
-The datasets have been modified to fit the SSAM-lite input format.
+The datasets have been modified to fit the SSAM-lite input format. You can also find further information on the datasets
+(such as number of mRNA spots etc.) on Zenodo or the *README* file within each directory once you downloaded it.
+
+We will be using the *Codeluppi_osmFISH* dataset in this user guide to demonstrate the analysis.
 
 Open SSAM-lite
 ==============
 
-SSAM-lite will be opened (and executed) in your web browser. For a list of browser requirements
-read ":ref:`supported-browsers`". Connecting to SSAM-lite depends on whether you want to use the
+SSAM-lite will be opened (and executed) in your web browser. For a list of requirements
+read ":ref:`requirements`". Connecting to SSAM-lite depends on whether you want to use the
 *local* or *server* version. However, the usage afterwards will be (almost) identical.
 
 SSAM-lite
 ---------
 
-SSAM-lite runs locally on your computer. It is executed by your browser
-and to open it you only need to navigate to the unzipped SSAM-lite directory
-and double-click the *SSAM-lite.html* and it will start in your default web browser.
+SSAM-lite can be opened by entering https://ssam-lite.netlify.app/ in the address bar 
+of your favourite web browser. Alternatively, if you decided to download the source code 
+from GitHub you can double-click *SSAM-lite.html* and it will open in your default 
+web browser.
+
+Importantly, even if you decide to access SSAM-lite via the provided website, 
+SSAM-lite is executed locally by your browser. That means that it 
+*i*) uses the computational ressources of your device and *ii*) none of the analysed data will 
+be transferred to any other device.
 
 SSAM-lite-server
 ----------------
 
-To connect to SSAM-lite-server, you will need to to open your favourite web browser (not IE)
+To connect to SSAM-lite-server, you will need to to open your favourite web browser
 and type the correct IP address and port in the form {ip}:{port} (e.g. 127.0.0.1:5000) into the address bar.
 However, the IP and port depends on your local setup. Talk to your responsible SSAM-lite coordinator.
 
@@ -62,7 +76,9 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
 
-Additional information on data point can be displayed by hovering over it.
+Additional information on a data point can be displayed by hovering over it.
+
+TODO screenshot
 
 
 Data
@@ -73,47 +89,50 @@ or "Signatures" button and selecting the correct files.
 To be able to use SSAM-lite you need to prepare your data in csv format.
 Two input files are required and must be structured as follows:
 
-mRNA Coordinates
-    This file needs to be of the form gene, x-coordinate, y-coordinate.
-    The name of the headers are irrelevant, however their order needs to be kept. 
-    Negative coordinates are possible and the units are irrelevant, however, their magnitude 
-    might have an influence on proper parameter values later on.
+mRNA coordinates
+----------------
+This file needs to be of the form gene, x-coordinate, y-coordinate.
+The name of the headers are irrelevant, however their order needs to be kept. 
+Negative coordinates are possible and the units are irrelevant, however, their magnitude 
+might have an influence on proper parameter values later on.
 
-    +----------+-----------+-----------+
-    | gene,    |   x,      |   y       |
-    +----------+-----------+-----------+
-    | gene A,  |   0.5,    |   1.3     |
-    +----------+-----------+-----------+
-    | gene A,  |   1.1,    |   2.1     |
-    +----------+-----------+-----------+
-    | gene B,  |   0.4,    |   0.5     |
-    +----------+-----------+-----------+
++----------+-----------+-----------+
+| gene,    |   x,      |   y       |
++----------+-----------+-----------+
+| gene A,  |   0.5,    |   1.3     |
++----------+-----------+-----------+
+| gene A,  |   1.1,    |   2.1     |
++----------+-----------+-----------+
+| gene B,  |   0.4,    |   0.5     |
++----------+-----------+-----------+
 
-    Below the plot for the mRNA coordinates you can see an input field for the *scaling factor*. 
-    This is required to calculate an accurate scale bar for the final plots. The unit is :math:`\mu m^{-1}`
-    which means that if in your input 10 units (e.g. pixels) are 1 :math:`\mu m` you would enter 10 there.
+Below the plot for the mRNA coordinates you can see an input field for the *scaling factor*. 
+This is required to calculate an accurate scale bar for the final plots. If your coordinate file is 
+already in :math:`\mu m` no adjustment is required. The unit for the scaling factor is :math:`\mu m^{-1}`
+which means that if in your input 10 units (e.g. pixels) are 1 :math:`\mu m` you would enter 10 there.
 
 .. note::
     Additional columns will not affect the analysis, as long as the first three columns
     are the ones shown above and are in the correct order.
 
-Gene Signatures
-    This file should be a matrix of cell types by genes. 
-    The first column and row contains the names of cell types and genes, respectively. The cell values
-    are the cell type-wise expression expectations.
-    These will later be used to assign each pixel to a cell type (or leave them unclassified)
-    based on the kernel density estimation.
+Gene signatures
+---------------
 
-    +--------------+----------+-----------+-----------+
-    |       ,      | gene A,  | gene B,   | gene C    |
-    +--------------+----------+-----------+-----------+
-    | cell type A, |    0.5,  |   -0.5,   |   1.3     |
-    +--------------+----------+-----------+-----------+
-    | cell type B, |    -0.2, |   1.1,    |   2.1     |
-    +--------------+----------+-----------+-----------+
-    | cell type C, |    0.3,  |   0.4,    |   0.5     |
-    +--------------+----------+-----------+-----------+
+This file should be a matrix of cell types by genes. 
+The first column and row contains the names of cell types and genes, respectively. The cell values
+are the cell type-wise expression expectations.
+These will later be used to assign each pixel to a cell type (or leave them unclassified)
+based on the kernel density estimation.
 
++--------------+----------+-----------+-----------+
+|       ,      | gene A,  | gene B,   | gene C    |
++--------------+----------+-----------+-----------+
+| cell type A, |    0.5,  |   -0.5,   |   1.3     |
++--------------+----------+-----------+-----------+
+| cell type B, |    -0.2, |   1.1,    |   2.1     |
++--------------+----------+-----------+-----------+
+| cell type C, |    0.3,  |   0.4,    |   0.5     |
++--------------+----------+-----------+-----------+
 
 .. note::
     The name of the genes need not be correct as there is no database used in the background.
@@ -121,6 +140,7 @@ Gene Signatures
     (or more specifically the two sets of names must be partially overlapping).
 
 Once both files are loaded you can proceed with setting the parameters for your analysis.
+ 
 
 Parameters
 ===========
@@ -148,7 +168,7 @@ KDE kernel bandwidth (sigma)
     See example below.
 
     .. image:: ../res/imgs/KDE_Optimization.png
-        :width: 600
+        :width: 650
         :alt: Screenshot of two different kernel bandwidth
 
 
@@ -160,11 +180,13 @@ Cell assignment threshold
     to find the intensity that should serve as cutoff point. See example below.
 
     .. image:: ../res/imgs/Threshold_Optimization.png
-        :width: 600
+        :width: 650
         :alt: Screenshot of two cell assignment thresholds
 
+Parameter preview and adjustment
+--------------------------------
 
-Each of the parameters can be set in their respective field and applied by hitting Enter.
+Each of the parameters can be set in their respective field and applied by hitting *Enter*.
 For a more intuitive parameter selection you can open a preview by clicking "Use preview generator for parameter search".
 This will display the results of a subset of your data with the currently set parameters and lets you 
 interactively explore and tune your parameter set. To adjust the preview area click into the left-most plot and wait for
@@ -175,6 +197,9 @@ the browser to recalculate (this might take a few moments).
   :alt: Screenshot of the Parameter preview section
 
 Once you are happy with your choice you can proceed with the actual analysis.
+
+For our example analysis we are going to proceed with a *Vector field width* of 500, a *KDE kernel bandwidth*
+of 1, and a *Cell assignment threshold* of 50.
 
 
 Analysis
@@ -213,6 +238,8 @@ by hovering over the plot which triggers a control panel to appear in the upper 
 now click the camera icon which lets you download the current plot as png file.
 
 .. image:: ../res/imgs/DownloadPlot.png
-  :width: 800
+  :width: 500
+  :align: center
   :alt: Downloading plots
 
+|

@@ -1,6 +1,6 @@
-#################
-quickstart / tldr
-#################
+##################
+quickstart / tl;dr
+##################
 
 SSAM-lite is an easy to use a lightweight web browser application to identify cell types 
 in single-molecule spatial transcriptomic data such as MERFISH, SEQfish, ISS/CARTANA, osmFISH, etc.
@@ -13,32 +13,31 @@ This quickstart guide is for you if you have
 Otherwise we would recommend that you have a look at the :ref:`user guide <user-guide>`.
 
 
-Installation
-============
-
-Click `here <https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.zip>`__
-to download SSAM-lite as zip, and extract it.
-
-
 Test data
 =========
 
 Download the test data from Zenodo (https://zenodo.org/record/5517607) and unzip it.
 
 
+Open SSAM-lite
+==============
+
+Enter https://ssam-lite.netlify.app/ in the address bar of your favourite web browser.
+
+
 My first analysis
 =================
 
-Open the *SSAM-lite.html* from the unzipped SSAM-lite directory by double-clicking.
+Click on "Get going!"
 
-Click on **Get going!**
-
-Click on "Coordinates" and select the *coordinates.csv* from the *Codeluppi_osmFISH* directory in the test data.
+You are in the **Data Center** now. Click on "Coordinates" and select the *coordinates.csv* from the *Codeluppi_osmFISH* directory in the test data.
 Do the same for the "Signatures" (obviously use the *signature.csv* from the same directory this time, *duh!*)
 
-Time is flying by so we skip the "Parameters" section, leaving them at their default values,
-heading straight for "Analysis" and click on "Run Kernel Density Estimation".
-Time for a short break now, this step might take 1 or 2 minutes.
+In the **Parameters** section leave the *Vector field wdith* and *KDE kernel bandwidth* at their default and set the 
+*Cell assignment threshold* to 50.
+
+The time is flying by so we head straight for **Analysis** without any further explanation and click on 
+"Run Kernel Density Estimation". Time for a short break now, this step might take 1 or 2 minutes.
 
 When the KDE has been estimated scroll further down and hit "Infer Cell Types". Done!
 
