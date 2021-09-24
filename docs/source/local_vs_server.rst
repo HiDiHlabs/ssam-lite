@@ -18,8 +18,11 @@ Nevertheless, it might make sense to have a look at what might be better suited 
 
 
 .. image:: ../res/imgs/solo_vs_server.png
-  :width: 800
+  :width: 600
+  :align: center
   :alt: Setup for SSAM-lite vs SSAM-lite-server
+
+|
 
 SSAM-lite (local)
 =================
@@ -38,8 +41,11 @@ SSAM-lite-server
 Advantages
     - Deploy for **multiple users**: The server version can be setup on a server once and then served to multiple users within the network.
     - Higher **compute power**: In most cases you will have a higher compute power (especially memory, which will usually be the main limitation) available if you run it on a server and not e.g. a laptop.
+    - **No internet** required: After installation and setup of SSAM-lite-server no internet connection will be required anymore.
 
 Use case
     This can be deployed on e.g. an institute server to be used by a research group, 
-    a core facility or a whole department/institute. It only needs to be installed 
-    once and can be served to all users in the network as WebApp.
+    a core facility, or a whole department/institute. It only needs to be installed 
+    once and can be served to all users in the network as WebApp. The users will only
+    require a local network connection to communicate with the server but no internet access
+    which makes it suitable for networks with restricted internet access such as hospitals.

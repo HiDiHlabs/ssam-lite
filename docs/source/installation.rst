@@ -18,6 +18,9 @@ what the differences are follow the guide ":ref:`local-or-server`"
 Requirements
 ============
 
+..
+    TODO Check requirements
+
 SSAM-lite and SSAM-lite-server should run on all modern browsers supporting JavaScript ES5 
 and webGL.
 
@@ -25,17 +28,18 @@ SSAM-lite requires an internet connection to access the TensorFlow.js (v2.0.0)
 library.
 
 SSAM-lite-server requires Python (v3.9.7) as well as the Python packages 
-Flask (v0.8), pandas (v1.3.2) and NumPy (v1.20.3).
+Flask (v0.8), pandas (v1.3.2) and NumPy (v1.20.3). It also requires the 
+TensorFlow.js (v2.0.0) library, however, this will be downloaded upon first setup 
+and after that, no internet connection is required anymore.
 
 
 SSAM-lite
 =========
 
-SSAM-lite only needs to be "installed" if you want to have a local copy of the code. 
-Otherwise you can also directly proceed to the :ref:`user guide <user-guide>`.
+SSAM-lite is accesible via https://ssam-lite.netlify.app, and does not need to be installed.
 
-The installation of SSAM-lite could not be easier. You either clone the 
-`GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
+However, if you want to have a local copy of the code, installation is possible and 
+could not be easier. You either clone the `GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
 
 .. code-block:: bash
 
@@ -46,7 +50,6 @@ or click `here <https://github.com/HiDiHlabs/ssam-lite/archive/refs/heads/main.z
 to download it as zip-file from GitHub and then extract it.
 
 That is literally all, you are ready to go.
-
 
 
 SSAM-lite-server
@@ -64,8 +67,8 @@ Next we create a ``conda`` environment and activate it.
 
 .. code-block:: bash
 
-    conda create -n flask
-    conda activate flask
+    conda create -n ssam-lite-server
+    conda activate ssam-lite-server
 
 .. note::
 
@@ -92,4 +95,10 @@ Finally, start the Flask app (the default port will be 5000).
 
    The port and further settings can be made in the *run.py* file or when starting the app with
    ``flask run``. For further information we would refer the reader to the 
-   `Flask documentation <https://flask.palletsprojects.com/>`__. 
+   `Flask documentation <https://flask.palletsprojects.com/>`__.
+
+..
+    TODO check with Shashwat
+
+Upon first setup the app will download some JavaScript dependencies such as
+the TensorFlow.js library
