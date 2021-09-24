@@ -233,7 +233,7 @@ and refine those before rerunning the analysis.
 Save results
 ================
 
-All plots are produced with `Plotly <https://plotly.com/>`__ and can be downloaded
+All plots are produced with Plotly and can be downloaded
 by hovering over the plot which triggers a control panel to appear in the upper right corner,
 now click the camera icon which lets you download the current plot as png file.
 
