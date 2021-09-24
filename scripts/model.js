@@ -1,7 +1,7 @@
 function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=2) {
 
     console.log([height, width, genes.length]);
-    var vfBuffer = tf.buffer([height, width, genes.length]);
+    var vfBuffer = tf.buffer([height, width, genes.length], dtype='float32');
 
     var x = 0;
     var y = 0;
@@ -66,12 +66,14 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
         intermediates = [];
         var inter;
 
+        console.log(signatureMatrix.shape);
+
         for (var i = 0; i < vf.shape[0]; i++) {
 
             inter = vf.gather(i);
             inter = inter.add(1).log();
             inter = inter.transpose().div(inter.sum(1)).transpose();
-            inter = inter.matMul(signatureMatrix.transpose());
+            inter = inter.matMul(signatureMatrix.transpose().div(signatureMatrix.sum(1)));
             intermediates.push(inter.argMax(1).expandDims(0));
         }
 
