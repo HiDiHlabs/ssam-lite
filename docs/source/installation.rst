@@ -84,6 +84,7 @@ Next we create a ``conda`` environment and activate it.
 Retireve the static files required by first .
 
 .. code-block:: bash
+
     python fetch_static_files.py
 
 
