@@ -66,14 +66,12 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
         intermediates = [];
         var inter;
 
-        console.log(signatureMatrix.shape);
-
         for (var i = 0; i < vf.shape[0]; i++) {
 
             inter = vf.gather(i);
             inter = inter.add(1).log();
             inter = inter.transpose().div(inter.sum(1)).transpose();
-            inter = inter.matMul(signatureMatrix.transpose().div(signatureMatrix.sum(1)));
+            inter = inter.matMul(signatureMatrix.transpose());
             intermediates.push(inter.argMax(1).expandDims(0));
         }
 
