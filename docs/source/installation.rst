@@ -68,7 +68,7 @@ Next we create a ``conda`` environment and activate it.
 
 .. code-block:: bash
 
-    conda env create -f ssam-lite-server
+    conda env create -f environment_ssam-lite-server.yml
     conda activate ssam-lite-server
 
 .. note::
