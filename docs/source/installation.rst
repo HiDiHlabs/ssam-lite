@@ -63,26 +63,27 @@ To install SSAM-lite-server you first need to clone the
     git clone https://github.com/HiDiHlabs/ssam-lite-server.git
 
 
-Change directory to the cloned folder 
-Next we create a ``conda`` environment and activate it.
+Next, we change into the cloned directory, create a ``conda`` environment including 
+all packages and dependencies, and activate it.
 
 .. code-block:: bash
 
+    cd ssam-lite-server
     conda env create -f environment_ssam-lite-server.yml
     conda activate ssam-lite-server
 
 .. note::
 
-    You can set the environment name to your preferences.
-    To install the package into already existing conda environment please install
-    the required packages using the following command.
+    You can adjust the YAML file to set the environment name to your preferences. Or 
+    alternatively, create your own environment and install the required Python version and
+    packages with the following command.
 
-.. code-block:: bash
+    .. code-block:: bash
 
-    conda install python=3.9.7 flask=0.8 numpy=1.20.3 pandas=1.3.2
+        conda install python=3.9.7 flask=0.8 numpy=1.20.3 pandas=1.3.2
 
 
-Retrieve the static files required by SSAM-lite-server including the Bootstrap, Plotly 
+We also retrieve the static files required by SSAM-lite-server including the Bootstrap, Plotly 
 and TensorFlow.js JavaScript libraries.
 
 .. code-block:: bash
@@ -94,11 +95,12 @@ and TensorFlow.js JavaScript libraries.
     Download the background signature matrix from Dropbox <https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0>
     Decompress it and save it in the folder :file: `app/data/genetics/`
 
+
 Finally, start the Flask app (the default port will be 5000).
 
 .. code-block:: bash
 
-    export FLASK_APP=./ssam-lite-server/flask/run.py
+    export FLASK_APP=run.py
     flask run
 
 
