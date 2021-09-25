@@ -350,9 +350,9 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 };
 
 function displayParameterGenerator() {
-    
+
     var buttonParameters = document.getElementById('bar-parameters');
-var previewGenerator = document.getElementById('preview-generator');
+    var previewGenerator = document.getElementById('preview-generator');
     previewGenerator.style.display = "block";
     buttonParameters.innerHTML = 'Close preview generator';
 }
@@ -367,14 +367,22 @@ function hideParameterGenerator() {
 
 function refreshParameterGenerator() {
     var previewGenerator = document.getElementById('preview-generator');
-    if (previewGenerator.style.display == "block"){
+    if (previewGenerator.style.display == "block") {
         var buttonParameters = document.getElementById('bar-parameters');
         previewGenerator.style.display = "block";
         buttonParameters.innerHTML = 'Refresh preview generator';
+        buttonParameters.style.color = 'red';
     }
 
 }
 
+function liveChecked() {
+    if (this.checked) {
+        document.getElementById('bar-parameters').innerHTML = 'Close preview generator';
+        document.getElementById('bar-parameters').style.color = 'black';
+    }
+    createParameterCoodinatesPlot();
+}
 
 
 function updateParameterRectangle(clickCoords, rectWidth) {

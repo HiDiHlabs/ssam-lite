@@ -101,7 +101,8 @@
                     </p>
                     <p>
                         The file contains three columns: The first one contains the molecule label, the other two
-                        contain X,Y-coordinates per molecule. The column names do not matter, but you need to keep their order if 
+                        contain X,Y-coordinates per molecule. The column names do not matter, but you need to keep their
+                        order if
                         you work with your own data.
                     </p>
 
@@ -164,8 +165,8 @@
                             <form class="md-form">
                                 <label for="btn-coordinates-hidden">
                                     <div class=" btn btn-mdb-color " id="coordinates-dragzone">
-                                        <input type="file" id="btn-coordinates-hidden" name="uploads-coordinates" class="file-upload"
-                                            hidden >
+                                        <input type="file" id="btn-coordinates-hidden" name="uploads-coordinates"
+                                            class="file-upload" hidden>
                                         <div style="position:relative; height: 150px;">
                                             <img src="./resources/imgs/buttons/icon_coords.png"
                                                 for="btn-coordinates-hidden" class="img-thumbnail"
@@ -185,10 +186,13 @@
 
                         </div>
                         <br>
-                        <div id="divScale" class="form-group" style="display:none; margin-top:20px; margin-right: 15em;">
-                            <input type="number" class="form-control" id="exampleScale" aria-describedby="scaleHelp" placeholder="- " step="0.1" min="0">
-                            <small id="scaleHelp" class="form-text text-muted">What's the scale of the coordinates in &#956;m?</small>
-                          </div>
+                        <div id="divScale" class="form-group"
+                            style="display:none; margin-top:20px; margin-right: 15em;">
+                            <input type="number" class="form-control" id="exampleScale" aria-describedby="scaleHelp"
+                                placeholder="- " step="0.1" min="0">
+                            <small id="scaleHelp" class="form-text text-muted">What's the scale of the coordinates in
+                                &#956;m?</small>
+                        </div>
                     </div>
 
                     <!-- field "signatures" -->
@@ -261,13 +265,14 @@
                 <div id="tutorial-modal-parameters-coordinates" class="modal-content">
                     <p>
                     <p> The coordinates preview on the left lets you chose the subset of the tissue to calculate the
-                        preview on - simply click on the map to change it (but be patient as it might take a moment 
+                        preview on - simply click on the map to change it (but be patient as it might take a moment
                         for the adjustment to be computed). </p>
                     <p> Below you can set the size of the vector field matrix the mRNAs are projected on.
                         A larger matrix makes for a high resolution result but increases the
                         resource consumption.
                     </p>
-                    <p>Select a tissue part that's suitable for parameter fitting and set a vector field width to fit your machine's memory.</p>
+                    <p>Select a tissue part that's suitable for parameter fitting and set a vector field width to fit
+                        your machine's memory.</p>
 
                     <p>
                         <a id="button-tutorial-close-6" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -316,7 +321,9 @@
                 </div>
                 <!-- <div id="preview-loader" class="mainloader" style="display: none; "></div> -->
                 <div id="preview-generator" style="display: none; ">
-                    
+                    <input type="checkbox" id="liveParameterUpdateCheckbox" name="liveUpdate" value="tutorial_generator" checked>
+                    <label for="liveUpdate"> Live update</label><br>
+
 
                     <div class="d-flex flex-row justify-content-center" style="height: 40vh;">
 
@@ -340,9 +347,12 @@
 
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
-                                <label for="vf-width" data-toggle="vf-width" title="The size of our discrete analysis area in pixels">Vector field width
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                <label for="vf-width" data-toggle="vf-width"
+                                    title="The size of our discrete analysis area in pixels">Vector field width
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                     </svg>
                                 </label>
                             </div>
@@ -355,9 +365,13 @@
                         </div>
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
-                                <label for="KDE-bandwidth" data-toggle="KDE-bandwidth" title="The 'smoothing factor' applied to the mRNA locations">KDE kernel bandwidth (sigma) 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                <label for="KDE-bandwidth" data-toggle="KDE-bandwidth"
+                                    title="The 'smoothing factor' applied to the mRNA locations">KDE kernel bandwidth
+                                    (sigma)
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                     </svg>
                                 </label>
                             </div>
@@ -370,9 +384,13 @@
 
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
-                                <label for="vf-width" data-toggle="threshold" title="Threshold for discarding areas with low expression signal">Cell assignment threshold 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                                <label for="vf-width" data-toggle="threshold"
+                                    title="Threshold for discarding areas with low expression signal">Cell assignment
+                                    threshold
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                     </svg>
                                 </label>
                             </div>
@@ -459,10 +477,11 @@
                 </p>
             </div>
 
-            
+
             <div id="tutorial-modal-download" class="modal-content">
-                <p>To <b>download your results</b> you can hover over the image you want to save. A legend will appear 
-                    in the top-right corner of the plot which allows you to save it as png by clicking on the camera icon.
+                <p>To <b>download your results</b> you can hover over the image you want to save. A legend will appear
+                    in the top-right corner of the plot which allows you to save it as png by clicking on the camera
+                    icon.
                 </p>
                 <p>The only thing left now is to analyze your own data!
                 </p>
@@ -532,26 +551,33 @@
                     <div style="text-align: center; padding-top: 40px; padding-bottom: 15px;">
                         The SSAM framework was conceived by Dr. Jeongbin Park
                         as part of his PhD project at the Berlin Institute of Health.
-                        Read the original <a href="https://www.nature.com/articles/s41467-021-23807-4" target="_blank" rel="noopener noreferrer"><u>SSAM publication</u></a> 
+                        Read the original <a href="https://www.nature.com/articles/s41467-021-23807-4" target="_blank"
+                            rel="noopener noreferrer"><u>SSAM publication</u></a>
                         to learn more about the methods.
                     </div>
                     <div style="text-align: center; padding: 15px;">
-                        SSAM-lite has been designed and implemented by Seastian Tiesmeyer at the Berlin Institute of Health.
-                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/" target="_blank" rel="noopener noreferrer"><u>here</u></a>. <!-- TODO update Link. -->
+                        SSAM-lite has been designed and implemented by Seastian Tiesmeyer at the Berlin Institute of
+                        Health.
+                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/" target="_blank"
+                            rel="noopener noreferrer"><u>here</u></a>.
+                        <!-- TODO update Link. -->
                     </div>
                     <div style="text-align: center; padding: 15px;">
-                        For a comprehensive documentation of the SSAM-lite tool check out our 
-                        <a href="https://ssam-lite.readthedocs.io" target="_blank" rel="noopener noreferrer"><u>Read the Docs page</u></a>.
+                        For a comprehensive documentation of the SSAM-lite tool check out our
+                        <a href="https://ssam-lite.readthedocs.io" target="_blank" rel="noopener noreferrer"><u>Read the
+                                Docs page</u></a>.
                     </div>
                     <div style="text-align: center; padding-top: 15px; padding-bottom: 5px;">
                         If you are using SSAM-lite for your research please cite:
                     </div>
                     <div style="text-align: center; padding-top: 5px; padding-bottom: 50px;">
-                        Tiesmeyer S, et al. 2021. SSAM-lite. <i>bioRxiv</i>. doi: 10.1101/2021.... <!-- TODO update citation -->
+                        Tiesmeyer S, et al. 2021. SSAM-lite. <i>bioRxiv</i>. doi: 10.1101/2021....
+                        <!-- TODO update citation -->
                     </div>
-                    
 
-                    <div class="d-flex flex-row  justify-content-around" style="background-color: white; padding: 20px;    border-radius: 20px;">
+
+                    <div class="d-flex flex-row  justify-content-around"
+                        style="background-color: white; padding: 20px;    border-radius: 20px;">
                         <div class="d-flex">
                             <a href="https://www.charite.de/" target="_blank" rel="noopener noreferrer">
                                 <img src="./resources/imgs/Logo_Charite.svg.png"
@@ -567,7 +593,7 @@
 
 
                         <div class="d-flex">
-                            <a href="https://www.biorxiv.org/content/10.1101/800748v2" target="_blank" 
+                            <a href="https://www.biorxiv.org/content/10.1101/800748v2" target="_blank"
                                 rel="noopener noreferrer">
                                 <img src="./resources/imgs/logo_biorxiv.png "
                                     style="height: 40px; width: auto; padding: 5px;">
@@ -582,8 +608,7 @@
                         </div>
 
                         <div class="d-flex">
-                            <a href="https://www.hidih.org/"
-                                target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.hidih.org/" target="_blank" rel="noopener noreferrer">
                                 <img src="./resources/imgs/BIH-003_Logo_HiDiH_01_600px_200124.webp"
                                     style="height: 40px; width: auto; padding: 5px;">
                             </a>
