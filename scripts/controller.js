@@ -581,9 +581,9 @@ function main() {
         //     .addEventListener("change", togglePreviewGenerator);
 
         // Reset values @ page reload
-        document.getElementById('vf-width').value = 500;
-        document.getElementById('KDE-bandwidth').value = 1;
-        document.getElementById('threshold').value = 2;
+        // document.getElementById('vf-width').value = 500;
+        // document.getElementById('KDE-bandwidth').value = 1;
+        // document.getElementById('threshold').value = 2;
 
     };
 
