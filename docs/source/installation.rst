@@ -25,9 +25,9 @@ SSAM-lite requires an internet connection to access the TensorFlow.js (v2.0.0)
 library.
 
 SSAM-lite-server requires Python (v3.9.7) as well as the Python packages 
-Flask (v0.8), pandas (v1.3.2) and NumPy (v1.20.3). It also requires the 
-TensorFlow.js (v2.0.0) library, Plotly (v2.5.1), Bootstrap (v4.0.0), and Numba (v0.53.1), however, 
-these will be downloaded upon first setup 
+Flask (v0.8), pandas (v1.3.2), NumPy (v1.20.3), and Numba (v0.53.1). It also requires the 
+TensorFlow.js (v2.0.0), Plotly (v2.5.1), and Bootstrap (v4.0.0) JavaScript libraries.
+However, these will be downloaded upon first setup 
 and after that, no internet connection is required anymore.
 
 
