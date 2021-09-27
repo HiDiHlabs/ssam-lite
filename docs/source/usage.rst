@@ -78,14 +78,17 @@ which offers some additional functionality.
 
 Additional information on a data point can be displayed by hovering over it.
 
-TODO screenshot
+..
+
+  TODO screenshot
 
 
 Data
 ===========
 
-The data will be uploaded in the **Data Center** section of the tool. By clicking the "Coordinates" 
-or "Signatures" button and selecting the correct files.
+The data will be uploaded in the **Data Center** section of the tool. Just click the "Coordinates" 
+or "Signatures" button and selecting the correct files. Alternatively, drag and drop the file from your 
+file browser onto the corresponding button to upload it.
 To be able to use SSAM-lite you need to prepare your data in csv format.
 Two input files are required and must be structured as follows:
 
