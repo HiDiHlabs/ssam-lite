@@ -614,7 +614,7 @@ function main() {
             success: function (response) {
                 response.shift();
                 const versions = response.sort((v1, v2) => semver.compare(v2.name, v1.name));
-                $('#result').html(versions[0].name);
+                $('#result').html('v'+versions[0].name);
             },
             error: function (err) {
                 console.log(err);
