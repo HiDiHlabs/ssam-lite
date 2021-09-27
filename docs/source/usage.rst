@@ -76,11 +76,14 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
 
+.. image:: ../res/imgs/Control Panel.png
+        :width: 300
+        :align: center
+        :alt: Control panel for plots    
+
+|
+
 Additional information on a data point can be displayed by hovering over it.
-
-..
-
-  TODO screenshot
 
 
 Data
@@ -201,8 +204,8 @@ the browser to recalculate (this might take a few moments).
 
 Once you are happy with your choice you can proceed with the actual analysis.
 
-For our example analysis we are going to proceed with a *Vector field width* of 500, a *KDE kernel bandwidth*
-of 1, and a *Cell assignment threshold* of 50.
+For our example analysis we are going to proceed with a *Vector field width* of 1500, a *KDE kernel bandwidth*
+of 3, and a *Cell assignment threshold* of 12.
 
 
 Analysis
