@@ -18,18 +18,16 @@ what the differences are follow the guide ":ref:`local-or-server`"
 Requirements
 ============
 
-..
-    TODO Check requirements
-
-SSAM-lite and SSAM-lite-server should run on all modern browsers supporting JavaScript ES5 
-and webGL.
+SSAM-lite and SSAM-lite-server should run on all modern browsers supporting JavaScript
+and webGL. It has been verified to run on Firefox, Chrome, Edge and Safari.
 
 SSAM-lite requires an internet connection to access the TensorFlow.js (v2.0.0) 
 library.
 
 SSAM-lite-server requires Python (v3.9.7) as well as the Python packages 
 Flask (v0.8), pandas (v1.3.2) and NumPy (v1.20.3). It also requires the 
-TensorFlow.js (v2.0.0) library, however, this will be downloaded upon first setup 
+TensorFlow.js (v2.0.0) library, Plotly (v2.5.1), and Bootstrap (v4.0.0), however, 
+these will be downloaded upon first setup 
 and after that, no internet connection is required anymore.
 
 
