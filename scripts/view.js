@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates);
+    Plotly.newPlot(div, data, layoutCoordinates, {modeBarButtonsToRemove: ['lasso2d', 'autoScale2d']});
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -88,7 +88,7 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
     }
 
 
-    Plotly.react(div, data, layout_signatures, { responsive: true });
+    Plotly.react(div, data, layout_signatures, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
 };
 
 function generateScalebar(start = 30, end = 120, umPerPx = 1) {
@@ -211,7 +211,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
         ...layoutVfNorm
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, { editable: true });
+    Plotly.newPlot(div, data, layoutVfNorm, { editable: true, modeBarButtonsToRemove: ['autoScale2d'] });
 
 };
 
@@ -311,7 +311,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
     ];
     // console.log(document.getElementById(div),checkForExistingPlot(div));
     // if (!checkForExistingPlot(div)) {
-    Plotly.react(div, data, layout, { responsive: true });
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
     // }else{
     //     console.log('updating...');
     //     Plotly.update(div, data, layout, { responsive: true });
