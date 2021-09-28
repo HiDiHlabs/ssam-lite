@@ -186,9 +186,12 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
     var data = [
         {
             z: vfNorm,
-            type: 'heatmapgl',
+            type: 'heatmap',
             colorscale: 'Viridis',
-            'showgrid': false,
+            showgrid: false,
+            hovertemplate: 'x: %{x}<br>' +
+                           'y: %{y}<br>' +
+                           'KDE: %{z:.3f}<extra></extra>',
         },
 
     ];
@@ -199,14 +202,12 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             plot_bgcolor: 'rgba(0,0,0,0)',
             showlegend: false,
             showscale: true,
-            'font': {
-                color: 'white',
-            },
+            font: { color: 'white', },
             title: { text: 'Kernel density estimate', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
             margin: { t: 35, b: 10,},
             xaxis: { automargin: true, title: 'px', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
-
+            autosize: true,
         },
         ...layoutVfNorm
     }
