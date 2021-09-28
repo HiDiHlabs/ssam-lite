@@ -42,9 +42,8 @@
                     <br>Have fun!
                 </p>
                 <p>
-                    <a id="button-tutorial-close" class="btn btn-lg btn-secondary btn-close"> Close</a>
-                    <a href="#section-data" id="button-tutorial-next-0" class="btn btn-lg btn-secondary btn-next">
-                        Next</a>
+                    <a id="button-tutorial-close" class="btn btn-lg btn-secondary btn-close">Close</a>
+                    <a href="#section-data" id="button-tutorial-next-0" class="btn btn-lg btn-secondary btn-next">Next</a>
                 </p>
             </div>
             <div class="section-main-space, row, container-fluid" , style="height:20vh;">
@@ -52,12 +51,10 @@
                 <h1 class="cover-heading">Spatial Sequencing Analysis Pipeline.</h1>
                 <p class="lead">SSAM-lite is a complete spatial sequencing analysis pipeline that runs entirely in your
                     browser.
+                </p>
                 <p class="lead">
                     <a href="#" id="button-tutorial" class="btn btn-lg btn-secondary btn-tutorial">Tutorial</a>
                     <a id="button-go" href="#section-data" class="btn btn-lg btn-secondary smooth-scroll">Get going!</a>
-                </p>
-
-
                 </p>
             </div>
         </div>
@@ -67,16 +64,16 @@
         <div id="wrapper-data">
             <div id="section-data" class="section-top-space, row" style="height:40vh"></div>
             <div id="section-data-title">
-                <div class="row, container-fluid" style="height: 10vh;">
+                <div class="row, container-fluid" style="min-height: 100px; height: 10vh;">
                     <h1 class="cover-heading">Data Center</h1>
-                    <p class="lead">Click or drag-and-drop to upload your data.
+
+                  <p class="lead">Click or drag-and-drop to upload your data.
                     </p>
                 </div>
                 <div id="tutorial-modal-data" class="modal-content">
                     <p>This is the <b>Data Center</b>, where you can upload and display your data. <br>
                         Please download our test dataset to get familiar with the data formats and continue the
                         tutorial:
-
                     </p>
                     <p>
                         <a id="button-tutorial-close-1" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -96,22 +93,20 @@
                     <p>Let's first have a look at <i>coordinates.csv</i>: The comma-seperated-value file contains the
                         x,y-coordinates
                         obtained from your spatial sequencing experiment.
-                        It is formatted as follows: </p>
-                    <img src="resources/imgs/tutorial/coordinate_prev.png" style="height: 100px">
+                        It is formatted as follows:
                     </p>
+                    <img src="resources/imgs/tutorial/coordinate_prev.png" style="height: 100px">
                     <p>
                         The file contains three columns: The first one contains the molecule label, the other two
                         contain X,Y-coordinates per molecule. The column names do not matter, but you need to keep their
                         order if
                         you work with your own data.
                     </p>
-
                     <p>
                         It's now time to upload the data! Click on the 'coordinates' button on the right and select
                         <i>coordinates.csv</i>
                         for the upload.
                     </p>
-
                     <p>
                         <a id="button-tutorial-close-2" class="btn btn-lg btn-secondary btn-close"> Close</a>
                         <a href="#section-data-title" id="button-tutorial-next-2"
@@ -120,19 +115,17 @@
                     </p>
                 </div>
 
-
                 <div id="tutorial-modal-data-disp" class="modal-content">
                     <p>The Data Center has a display function for you to investigate your data.
                         You can navigate through the plot as follows:
-                    <ul>
-                        <li>right drag: Zoom in</li>
-                        <li>shift+right drag: Drag</li>
-                        <li>double click: Original view</li>
-                        <li>click legend: Switch on/off</li>
-                        <li>double click legend: Switch all</li>
-                    </ul>
+                        <ul>
+                            <li>right drag: Zoom in</li>
+                            <li>shift+right drag: Drag</li>
+                            <li>double click: Original view</li>
+                            <li>click legend: Switch on/off</li>
+                            <li>double click legend: Switch all</li>
+                        </ul>
                     </p>
-
                     <p>
                         <a id="button-tutorial-close-3" class="btn btn-lg btn-secondary btn-close"> Close</a>
                         <a href="#section-data-title" id="button-tutorial-next-3"
@@ -157,7 +150,7 @@
                 </div>
 
                 <!-- row for buttons & displays" -->
-                <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center">
+                <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center align-items-start">
                     <!-- field "coordinates" -->
                     <div class="d-flex flex-wrap justify-content-center justify-content-lg-end align-items-lg-end"
                         style=" min-width: 500px; width: 40vw">
@@ -183,15 +176,21 @@
                         </div>
                         <div class="d-flex d-row " id="coordinates-preview" ,
                             style="width: 100%; height: 40vw; min-height: 350px; ">
-
                         </div>
                         <br>
+                      
                         <div id="divScale" class="form-group"
                             style="display:none; margin-top:20px; margin-right: 15em;">
                             <input type="number" class="form-control" id="exampleScale" aria-describedby="scaleHelp"
-                                placeholder="- " step="0.1" min="0">
-                            <small id="scaleHelp" class="form-text text-muted">What's the scale of the coordinates in
-                                &#956;m?</small>
+                                value="1" step="0.1" min="0">
+                            <small id="scaleHelp" class="form-text text-muted" ,
+                                title="What's the scale of the input coordinates in 1/&#956;m?">Scaling factor
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                    class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                </svg>
+                            </small>
+
                         </div>
                     </div>
 
@@ -225,9 +224,7 @@
                             style="width: 100%; height: 40vw; min-height: 350px; ">
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
 
@@ -236,7 +233,7 @@
             <div id="section-parameters" class="row section-top-space" style="height:30vh"></div>
             <div id="section-parameters-main">
                 <div id="tutorial-modal-parameters" class="modal-content">
-                    <p> In the <b>Parameters</b> section you can hand-tune the most important SSAM parameters.
+                    <p> In the <b>Parameters</b> section you can hand-tune the most important SSAM parameters.</p>
                     <p>
                         SSAM-lite provides a <i>preview function</i> that processes small tissue sub-sets on the fly
                         to enable parameter optimization in real time.<br>
@@ -252,18 +249,15 @@
                     </ul>
                     <p>
                         We'll now have a look at each parameter in detail.
-                    </p>
-                    </p>
+                    </p>                   
                     <p>
                         <a id="button-tutorial-close-5" class="btn btn-lg btn-secondary btn-close"> Close</a>
-
                         <a href="#section-parameters-main" id="button-tutorial-next-5"
                             class="btn btn-lg btn-secondary btn-next">
                             Next</a>
                     </p>
                 </div>
                 <div id="tutorial-modal-parameters-coordinates" class="modal-content">
-                    <p>
                     <p> The coordinates preview on the left lets you chose the subset of the tissue to calculate the
                         preview on - simply click on the map to change it (but be patient as it might take a moment
                         for the adjustment to be computed). </p>
@@ -276,7 +270,6 @@
 
                     <p>
                         <a id="button-tutorial-close-6" class="btn btn-lg btn-secondary btn-close"> Close</a>
-
                         <a href="#section-parameters-main" id="button-tutorial-next-6"
                             class="btn btn-lg btn-secondary btn-next">
                             Next</a>
@@ -284,21 +277,16 @@
                 </div>
                 <div id="tutorial-modal-parameters-sigma" class="modal-content">
                     <p>
-                    <p>
                         Increasing the kernel bandwidth <i>'sigma'</i> (in pixels) creates a smooting effect between the
                         different mRNA spots, which integrates the mRNA signal. The center plot should help you
                         optimize the value.
                     </p>
-
                     <p>
                         The rightmost plot shows the algorithm's final celltype assignment. <br>
                         Chose a <i>sigma</i> large enough to eliminate unwanted noise and at the same time
                         retain the desired structural detail in the result. <br>
                         Chose the <i>threshold</i> to remove unwanted, low-signal areas from the result.
                     </p>
-
-                    </p>
-
                     <p>
                         <a id="button-tutorial-close-7" class="btn btn-lg btn-secondary btn-close"> Close</a>
                         <a href="#section-analysis" id="button-tutorial-next-7"
@@ -321,7 +309,8 @@
                 </div>
                 <!-- <div id="preview-loader" class="mainloader" style="display: none; "></div> -->
                 <div id="preview-generator" style="display: none; ">
-                    <input type="checkbox" id="liveParameterUpdateCheckbox" name="liveUpdate" value="tutorial_generator" checked>
+
+                  <input type="checkbox" id="liveParameterUpdateCheckbox" name="liveUpdate" value="tutorial_generator" checked>
                     <label for="liveUpdate"> Live update</label><br>
 
 
@@ -331,10 +320,10 @@
                         <div id="parameter-coordinates" style="height: 100%; width: 30%; border: 2px solid white;">
                         </div>
 
-                        <!-- field coordinates: -->
+                        <!-- field vf: -->
                         <div id="parameter-vf" style="height: 100%; width: 30%; border: 2px solid white;"></div>
 
-                        <!-- field coordinates: -->
+                        <!-- field cell type: -->
                         <div id="parameter-celltypes" style="height: 100%; width: 30%; border: 2px solid white;"></div>
 
                     </div>
@@ -343,7 +332,6 @@
                 <div class="d-flex flex-column justify-content-center">
 
                     <div class="d-flex flex-row justify-content-around" style="padding: 40px;">
-
 
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
@@ -413,9 +401,7 @@
 
                     </div>
                 </div>
-
             </div>
-
         </div>
         <!-- analysis section -->
         <div id="wrapper-analysis">
@@ -425,7 +411,6 @@
             <div id="tutorial-modal-analysis-KDE" class="modal-content">
                 <p>Now we can start with the <b>Analysis</b>: Click on the button on the left to run a
                     kernel density estimation on your dataset.
-
                 </p>
                 <p>This is the computationally most expensive step and might take a few minutes.
                 </p>
@@ -446,7 +431,7 @@
 
             <div id="section-KDE" style="padding: 30px;">
                 <h3>Step 1: Kernel Density Estimation </h3>
-                <p>As a fist step, we run a KDE that creates a density of mRNA expression.
+                <p>As a first step, we run a KDE that creates a density of mRNA expression.
                 </p>
                 <p class="lead">
                 <div id="btn-KDE" class="btn btn-lg btn-secondary">
@@ -493,16 +478,15 @@
 
             <div id="section-assignments-title" class="d-flex, flex-row,  container-fluid" style="padding: 10px;">
                 <h3>Step 2: Cell Assignments</h3>
-                <p>We can now infer cell types.
-                </p>
+                <p>We can now infer cell types.</p>
                 <p class="lead">
-                <div id="btn-types" class="btn btn-lg btn-secondary">
-                    <div id="Progress-Types Progress">
-                        <div id="Bar-Types">
-                            Infer Cell Types
+                    <div id="btn-types" class="btn btn-lg btn-secondary">
+                        <div id="Progress-Types Progress">
+                            <div id="Bar-Types">
+                                Infer Cell Types
+                            </div>
                         </div>
                     </div>
-                </div>
             </div>
 
             </p>
@@ -608,25 +592,35 @@
                         </div>
 
                         <div class="d-flex">
+
                             <a href="https://www.hidih.org/" target="_blank" rel="noopener noreferrer">
                                 <img src="./resources/imgs/BIH-003_Logo_HiDiH_01_600px_200124.webp"
+                                     
                                     style="height: 40px; width: auto; padding: 5px;">
                             </a>
                         </div>
                     </div>
                     <div style="color: gray; padding: 30px;">
-                        Designed and implemented by Sebastian Tiesmeyer, BIH.
+                        <a href="https://github.com/HiDiHlabs/ssam-lite/blob/main/LICENSE" target="_blank"
+                            rel="noopener noreferrer" style="color: gray;">
+                            &copy 2021 Sebastian Tiesmeyer, Naveed Ishaque, Roland Eils, Berlin Institute of Health @
+                            Charité
+                        </a>
+                        -
+                        <a href="https://github.com/HiDiHlabs/ssam-lite/releases" target="_blank"
+                            rel="noopener noreferrer" style="color: gray;" id="version-string">
+                            <span id="result"></span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-
     </main>
 
     <!-- importing external scripts here: -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -636,7 +630,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script src="./scripts/pkgs/plotly/plotly-2.5.1.min.js"></script>
-    <!-- <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script> -->
 
 
     <script src="./scripts/model.js"></script>
@@ -645,8 +638,6 @@
     <script src="./scripts/color_generator.js"></script>
     <script src="./scripts/controller.js"></script>
 
-
 </body>
-
 
 </html>

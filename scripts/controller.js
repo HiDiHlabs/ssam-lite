@@ -46,7 +46,7 @@ function processSignatures(allText) {
 };
 
 function processCoordinates(allText) {
-    var allTextLines = allText.split(/\r\n|\n/);
+    var allTextLines = allText.trim().split(/\r\n|\n/);
 
     genes = [];
     ZGenes = [];
@@ -626,8 +626,28 @@ function main() {
         $('[data-toggle="vf-width"]').tooltip();
         $('[data-toggle="threshold"]').tooltip();
     };
+
+    function getcurrrentVersion(){
+        $.ajax({
+            type: "GET",
+            url: "https://api.github.com/repos/HiDiHlabs/ssam-lite/tags",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                response.shift();
+                const versions = response.sort((v1, v2) => semver.compare(v2.name, v1.name));
+                $('#result').html('v'+versions[0].name);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+    };
+    getcurrrentVersion();
     initiateDataToggle();
     initiateButtons();
+
 
 }
 main();

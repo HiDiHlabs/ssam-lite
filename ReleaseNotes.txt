@@ -1,0 +1,6 @@
+0.2.0
+- Version and copyright added to interface
+- Drag and drop fixed
+
+0.1.0
+- Alpha release

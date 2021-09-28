@@ -76,16 +76,22 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
 
-Additional information on a data point can be displayed by hovering over it.
+.. image:: ../res/imgs/Control Panel.png
+        :width: 300
+        :align: center
+        :alt: Control panel for plots    
 
-TODO screenshot
+|
+
+Additional information on a data point can be displayed by hovering over it.
 
 
 Data
 ===========
 
-The data will be uploaded in the **Data Center** section of the tool. By clicking the "Coordinates" 
-or "Signatures" button and selecting the correct files.
+The data will be uploaded in the **Data Center** section of the tool. Just click the "Coordinates" 
+or "Signatures" button and selecting the correct files. Alternatively, drag and drop the file from your 
+file browser onto the corresponding button to upload it.
 To be able to use SSAM-lite you need to prepare your data in csv format.
 Two input files are required and must be structured as follows:
 
@@ -198,8 +204,8 @@ the browser to recalculate (this might take a few moments).
 
 Once you are happy with your choice you can proceed with the actual analysis.
 
-For our example analysis we are going to proceed with a *Vector field width* of 500, a *KDE kernel bandwidth*
-of 1, and a *Cell assignment threshold* of 50.
+For our example analysis we are going to proceed with a *Vector field width* of 1500, a *KDE kernel bandwidth*
+of 3, and a *Cell assignment threshold* of 12.
 
 
 Analysis
@@ -233,7 +239,7 @@ and refine those before rerunning the analysis.
 Save results
 ================
 
-All plots are produced with `Plotly <https://plotly.com/>`__ and can be downloaded
+All plots are produced with Plotly and can be downloaded
 by hovering over the plot which triggers a control panel to appear in the upper right corner,
 now click the camera icon which lets you download the current plot as png file.
 
