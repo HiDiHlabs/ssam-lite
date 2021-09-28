@@ -82,6 +82,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             'showgrid': false,
         },
         'showlegend': false,
+        xaxis: {automargin: true},
+        yaxis: {automargin: true},
         // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
     }
 
