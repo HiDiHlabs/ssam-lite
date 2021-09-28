@@ -203,7 +203,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             showlegend: false,
             showscale: true,
             font: { color: 'white', },
-            title: { text: 'Kernel density estimate', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            title: { text: 'Gene expression estimate', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
             margin: { t: 35, b: 10,},
             xaxis: { automargin: true, title: 'px', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
