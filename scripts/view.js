@@ -60,6 +60,9 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             y: clusterLabels,
             z: signatureMatrix,
             type: 'heatmap',
+            hovertemplate: 'Gene: %{x}<br>' +
+                           'Cell type: %{y}<br>' +
+                           'Gene expression: %{z:.3f}<extra></extra>',
         }
     ];
 
@@ -69,7 +72,7 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         'font': {
             color: 'white',
         },
-        'title': 'expression signatures',
+        'title': 'Gene expression signatures',
         'xaxis': {
             autotick: false,
             'showgrid': false,
@@ -197,7 +200,7 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             'font': {
                 color: 'white',
             },
-            'title': 'generated vector field norm:',
+            'title': 'Kernel density estimate',
 
             'xaxis': { title: 'px' },
             'yaxis': { scaleanchor: "x", title: 'px' },
@@ -271,7 +274,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             'font': {
                 color: 'white',
             },
-            'title': 'generated tissue map:',
+            'title': 'Cell type map',
             'xaxis': {},
             'yaxis': { scaleanchor: "x", },
         }, ...layout
