@@ -19,11 +19,11 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         ...{                     // all "layout" attributes: #layout
             paper_bgcolor: 'rgba(0,0,0,0.4)',
             plot_bgcolor: 'rgba(0,0,0,1)',
-            'title': 'mRNA map',
-            'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
+            title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            margin: { t: 35, b: 10,},
             font: { color: '#dddddd' },
-            xaxis: { title: 'μm' },
-            yaxis: { scaleanchor: "x", },
+            xaxis: { automargin: true, title: 'μm', },
+            yaxis: { automargin: true, scaleanchor: "x", title: 'μm', },
         }, ...layoutCoordinates
     };
 
@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates);
+    Plotly.newPlot(div, data, layoutCoordinates, {modeBarButtonsToRemove: ['lasso2d', 'autoScale2d']});
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -72,7 +72,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         'font': {
             color: 'white',
         },
-        'title': 'Gene expression signatures',
+        title: { text: 'Gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+        margin: { t: 35, b: 10,},
         'xaxis': {
             autotick: false,
             'showgrid': false,
@@ -82,13 +83,12 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             'showgrid': false,
         },
         'showlegend': false,
-        xaxis: {automargin: true},
-        yaxis: {automargin: true},
-        // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
+        xaxis: {automargin: true, title: 'Genes',},
+        yaxis: {automargin: true, title: 'Cell types',},
     }
 
 
-    Plotly.react(div, data, layout_signatures, { responsive: true });
+    Plotly.react(div, data, layout_signatures, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
 };
 
 function generateScalebar(start = 30, end = 120, umPerPx = 1) {
@@ -181,14 +181,17 @@ function generateScalebar(start = 30, end = 120, umPerPx = 1) {
     return layout;
 }
 
-function plotVfNorm(div, vfNorm, layout = {}) {
+function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
 
     var data = [
         {
             z: vfNorm,
-            type: 'heatmapgl',
+            type: 'heatmap',
             colorscale: 'Viridis',
-            'showgrid': false,
+            showgrid: false,
+            hovertemplate: 'x: %{x}<br>' +
+                           'y: %{y}<br>' +
+                           'KDE: %{z:.3f}<extra></extra>',
         },
 
     ];
@@ -199,21 +202,17 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             plot_bgcolor: 'rgba(0,0,0,0)',
             showlegend: false,
             showscale: true,
-            'font': {
-                color: 'white',
-            },
-            'title': 'Kernel density estimate',
-
-            'xaxis': { title: 'px' },
-            'yaxis': { scaleanchor: "x", title: 'px' },
-
-            'showlegend': false,
-
+            font: { color: 'white', },
+            title: { text: 'Kernel density estimate', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            margin: { t: 35, b: 10,},
+            xaxis: { automargin: true, title: 'px', },
+            yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
+            autosize: true,
         },
-        ...layout
+        ...layoutVfNorm
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, { editable: true });
+    Plotly.newPlot(div, data, layoutVfNorm, { editable: true, modeBarButtonsToRemove: ['autoScale2d'] });
 
 };
 
@@ -276,9 +275,10 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             'font': {
                 color: 'white',
             },
-            'title': 'Cell type map',
-            'xaxis': {},
-            'yaxis': { scaleanchor: "x", },
+            title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            margin: { t: 35, b: 10,},
+            'xaxis': { automargin: true, title: 'px' },
+            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
         }, ...layout
     }
 
@@ -312,7 +312,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
     ];
     // console.log(document.getElementById(div),checkForExistingPlot(div));
     // if (!checkForExistingPlot(div)) {
-    Plotly.react(div, data, layout, { responsive: true });
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
     // }else{
     //     console.log('updating...');
     //     Plotly.update(div, data, layout, { responsive: true });

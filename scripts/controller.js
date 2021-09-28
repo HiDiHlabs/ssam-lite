@@ -46,7 +46,7 @@ function processSignatures(allText) {
 };
 
 function processCoordinates(allText) {
-    var allTextLines = allText.split(/\r\n|\n/);
+    var allTextLines = allText.trim().split(/\r\n|\n/);
 
     genes = [];
     ZGenes = [];
