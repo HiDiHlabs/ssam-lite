@@ -1,7 +1,7 @@
 function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=2) {
 
     console.log([height, width, genes.length]);
-    var vfBuffer = tf.buffer([height, width, genes.length]);
+    var vfBuffer = tf.buffer([height, width, genes.length], dtype='float32');
 
     var x = 0;
     var y = 0;

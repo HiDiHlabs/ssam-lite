@@ -410,58 +410,71 @@ function main() {
     };
 
     function updateVfShape() {
-        //togglePreviewGenerator();
+        // togglePreviewGenerator();
         $('#errMemory').remove();
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
         if (document.getElementById('preview-generator').style.display == 'block') {
-            //updateParameterVf();
-            updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
+            if (document.getElementById('liveParameterUpdateCheckbox').checked) {
+                updateParameterVf();
+            }
+            else {
+                refreshParameterGenerator()
+            }
         }
+
+        updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
+
     };
 
     function updateSigma() {
-        //togglePreviewGenerator();
+        // togglePreviewGenerator();
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
         console.log(document.getElementById('preview-generator').style.display);
 
-        // if (document.getElementById('preview-generator').style.display == 'block') {
-        //     updateParameterVf();
-        // }
+        if (document.getElementById('preview-generator').style.display == 'block') {
+            if (document.getElementById('liveParameterUpdateCheckbox').checked)
+                updateParameterVf();
+            else {
+                refreshParameterGenerator()
+            }
+        }
+
     };
 
     function updateThreshold() {
-        //togglePreviewGenerator();
+        // togglePreviewGenerator();
         threshold = parseFloat(document.getElementById('threshold').value);
-        // if (document.getElementById('preview-generator').style.display == 'block') {
-        //     updateParameterCelltypes();
-        // }
-    };
+        if (document.getElementById('preview-generator').style.display == 'block') {
+            {
+                if (document.getElementById('liveParameterUpdateCheckbox').checked) {
+
+                    updateParameterCelltypes();
+                }
+                else {
+                    refreshParameterGenerator()
+                }
+            }
+        }
+    }
 
     function toggleParameterGenerator() {
-        // var previewLoader = document.getElementById('preview-loader');
-        // previewLoader.style.display = "block";
-        // var previewGenerator = document.getElementById('preview-generator');
-        // previewGenerator.style.display = "none";
-        // //previewLoader.style.display = 'block';
-        // setTimeout(function () {
-            var previewGenerator = document.getElementById('preview-generator');
-            if (previewGenerator.style.display == "none") {
-                displayParameterGenerator();
-                createParameterCoodinatesPlot();
-            } else if (document.getElementById("bar-parameters").innerHTML.includes("Refresh")) {
-                displayParameterGenerator();
-                createParameterCoodinatesPlot();
-            } else {
-                hideParameterGenerator();
-            }
-        //     var previewLoader = document.getElementById('preview-loader');
-        //     previewLoader.style.display = "none";
-        //     var previewGenerator = document.getElementById('preview-generator');
-        //     previewGenerator.style.display = "block";
-        // }, 0);
+        var previewGenerator = document.getElementById('preview-generator');
 
+        if (previewGenerator.style.display === "none") {
+            displayParameterGenerator();
+            createParameterCoodinatesPlot();
+        } else if (document.getElementById("bar-parameters").style.color == 'red') {
+            // displayParameterGenerator();
+            createParameterCoodinatesPlot();
+            document.getElementById("bar-parameters").style.color = 'black';
+            document.getElementById("bar-parameters").innerHTML = 'Close preview generator';
+
+        } else {
+            console.log(document.getElementById("bar-parameters").innerHTML);
+            hideParameterGenerator();
+        }
 
     };
 
@@ -531,17 +544,22 @@ function main() {
     };
 
     function updatePointerCoordinates(eventData) {
-        togglePreviewGenerator()
         pointerCoordinates = [eventData.xvals[0], eventData.yvals[0]];
     };
 
     function updateRectangle(eventData) {
-        togglePreviewGenerator();
         updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
         parameterWindow = [Math.ceil(pointerCoordinates[1] / xmax * width),
         Math.ceil(pointerCoordinates[0] / xmax * width)];
-        updateParameterCoordinates();
-        //updateParameterVf();
+
+        if (document.getElementById('liveParameterUpdateCheckbox').checked) {
+            updateParameterCoordinates();
+            updateParameterVf();
+        }
+        else {
+
+            refreshParameterGenerator()
+        }
         // console.log(pointerCoordinates);
     };
     function togglePreviewGenerator() {
@@ -555,6 +573,10 @@ function main() {
             .addEventListener('change', importSignatures);
         document.getElementById('btn-coordinates-hidden')
             .addEventListener('change', importCoordinates);
+        document.getElementById('liveParameterUpdateCheckbox')
+            .addEventListener('change', liveChecked);
+        // document.getElementById('liveParameterUpdateCheckbox')
+        //     .addEventListener('uncheck', liveUnChecked);
 
         document.getElementById('coordinates-dragzone')
             .addEventListener("dragover", allowDrop);
@@ -585,17 +607,17 @@ function main() {
             .addEventListener("change", updateScale);
         document.getElementById('button-tutorial')
             .addEventListener('click', runTutorial);
-        document.getElementById('vf-width')
-            .addEventListener("keypress", togglePreviewGenerator);
-        document.getElementById('KDE-bandwidth')
-            .addEventListener("keypress", togglePreviewGenerator);
-        document.getElementById('threshold')
-            .addEventListener("keypress", togglePreviewGenerator);
+        // document.getElementById('vf-width')
+        //     .addEventListener("change", togglePreviewGenerator);
+        // document.getElementById('KDE-bandwidth')
+        //     .addEventListener("change", togglePreviewGenerator);
+        // document.getElementById('threshold')
+        //     .addEventListener("change", togglePreviewGenerator);
 
         // Reset values @ page reload
-        document.getElementById('vf-width').value = 500;
-        document.getElementById('KDE-bandwidth').value = 1;
-        document.getElementById('threshold').value = 2;
+        // document.getElementById('vf-width').value = 500;
+        // document.getElementById('KDE-bandwidth').value = 1;
+        // document.getElementById('threshold').value = 2;
 
     };
 
