@@ -19,11 +19,11 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         ...{                     // all "layout" attributes: #layout
             paper_bgcolor: 'rgba(0,0,0,0.4)',
             plot_bgcolor: 'rgba(0,0,0,1)',
-            'title': 'mRNA map',
-            // 'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
+            title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            margin: { t: 35, b: 10,},
             font: { color: '#dddddd' },
-            xaxis: { automargin: true, title: 'μm' },
-            yaxis: { automargin: true, scaleanchor: "x", title: 'μm' },
+            xaxis: { automargin: true, title: 'μm', },
+            yaxis: { automargin: true, scaleanchor: "x", title: 'μm', },
         }, ...layoutCoordinates
     };
 
@@ -72,7 +72,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         'font': {
             color: 'white',
         },
-        'title': 'Gene expression signatures',
+        title: { text: 'Gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+        margin: { t: 35, b: 10,},
         'xaxis': {
             autotick: false,
             'showgrid': false,
@@ -84,7 +85,6 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         'showlegend': false,
         xaxis: {automargin: true, title: 'Genes',},
         yaxis: {automargin: true, title: 'Cell types',},
-        // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
     }
 
 
@@ -181,7 +181,7 @@ function generateScalebar(start = 30, end = 120, umPerPx = 1) {
     return layout;
 }
 
-function plotVfNorm(div, vfNorm, layout = {}) {
+function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
 
     var data = [
         {
@@ -202,15 +202,14 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             'font': {
                 color: 'white',
             },
-            'title': 'Kernel density estimate',
+            title: { text: 'Kernel density estimate', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            margin: { t: 35, b: 10,},
 
-            'xaxis': { automargin: true, title: 'px' },
-            'yaxis': { automargin: true, scaleanchor: "x", title: 'px' },
-
-            'showlegend': false,
+            xaxis: { automargin: true, title: 'px', },
+            yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
 
         },
-        ...layout
+        ...layoutVfNorm
     }
 
     Plotly.newPlot(div, data, layoutVfNorm, { editable: true });
@@ -276,7 +275,8 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             'font': {
                 color: 'white',
             },
-            'title': 'Cell type map',
+            title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            margin: { t: 35, b: 10,},
             'xaxis': { automargin: true, title: 'px' },
             'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
         }, ...layout
