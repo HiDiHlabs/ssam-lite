@@ -20,10 +20,10 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
             paper_bgcolor: 'rgba(0,0,0,0.4)',
             plot_bgcolor: 'rgba(0,0,0,1)',
             'title': 'mRNA map',
-            'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
+            // 'margin': { 'l': 20, 'r': 0, 't': 0, 'b': 15 },
             font: { color: '#dddddd' },
-            xaxis: { title: 'μm' },
-            yaxis: { scaleanchor: "x", },
+            xaxis: { automargin: true, title: 'μm' },
+            yaxis: { automargin: true, scaleanchor: "x", title: 'μm' },
         }, ...layoutCoordinates
     };
 
@@ -82,8 +82,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             'showgrid': false,
         },
         'showlegend': false,
-        xaxis: {automargin: true},
-        yaxis: {automargin: true},
+        xaxis: {automargin: true, title: 'Genes',},
+        yaxis: {automargin: true, title: 'Cell types',},
         // 'margin': { 'l': 10, 'r': 0, 't': 0, 'b': 15 },
     }
 
@@ -204,8 +204,8 @@ function plotVfNorm(div, vfNorm, layout = {}) {
             },
             'title': 'Kernel density estimate',
 
-            'xaxis': { title: 'px' },
-            'yaxis': { scaleanchor: "x", title: 'px' },
+            'xaxis': { automargin: true, title: 'px' },
+            'yaxis': { automargin: true, scaleanchor: "x", title: 'px' },
 
             'showlegend': false,
 
@@ -277,8 +277,8 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
                 color: 'white',
             },
             'title': 'Cell type map',
-            'xaxis': {},
-            'yaxis': { scaleanchor: "x", },
+            'xaxis': { automargin: true, title: 'px' },
+            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
         }, ...layout
     }
 
