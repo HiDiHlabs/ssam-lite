@@ -212,7 +212,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
         ...layoutVfNorm
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, { editable: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
+    Plotly.newPlot(div, data, layoutVfNorm, { modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 
 };
 

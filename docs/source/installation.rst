@@ -19,7 +19,7 @@ Requirements
 ============
 
 SSAM-lite and SSAM-lite-server should run on all modern browsers supporting JavaScript
-and webGL. It has been verified to run on Firefox, Chrome, Edge and Safari.
+and WebGL. It has been verified to run on Firefox, Chrome, Edge and Safari.
 
 SSAM-lite requires an internet connection to access the TensorFlow.js (v2.0.0) 
 library.
@@ -36,7 +36,7 @@ SSAM-lite
 
 SSAM-lite is accesible via https://ssam-lite.netlify.app, and does not need to be installed.
 
-However, if you want to have a local copy of the code, installation is possible and 
+However, if you want to have a local copy of the code or run an older version, installation is possible and 
 could not be easier. You either clone the `GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
 
 .. code-block:: bash
