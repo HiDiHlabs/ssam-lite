@@ -76,8 +76,8 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
 
-.. image:: ../res/imgs/Control Panel.png
-        :width: 300
+.. image:: ../res/imgs/ControlPanel.png
+        :width: 250
         :align: center
         :alt: Control panel for plots    
 
@@ -205,7 +205,7 @@ the browser to recalculate (this might take a few moments).
 Once you are happy with your choice you can proceed with the actual analysis.
 
 For our example analysis we are going to proceed with a *Vector field width* of 1500, a *KDE kernel bandwidth*
-of 3, and a *Cell assignment threshold* of 12.
+of 2.5, and a *Cell assignment threshold* of 13.
 
 
 Analysis
