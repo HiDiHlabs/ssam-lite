@@ -207,7 +207,6 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             margin: { t: 35, b: 10,},
             xaxis: { automargin: true, title: 'px', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
-            autosize: true,
         },
         ...layoutVfNorm
     }
