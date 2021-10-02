@@ -15,11 +15,10 @@ Test Data
 If you want to follow our usage guide along with some sample data you can download a sample data set from
 Zenodo (https://zenodo.org/record/5517607).
 
-Three sample data sets are available:
+Two sample data sets are available:
 
 #. **Codeluppi_osmFISH**: an osmFISH dataset of the mouse somatosensory cortex from `Codeluppi et al., Nature methods, 2018 <https://www.nature.com/articles/s41592-018-0175-z>`__.
 #. **Tosti_ISS_Pancreas**: an ISS dataset of the human pancreas from `Tosti et al., Gastroenterology, 2021 <https://doi.org/10.1053/j.gastro.2020.11.010>`__.
-#. **Qian_ISS_CA1**: ISS datasets of the mouse hippocampal area CA1 from `Qian et al., Nature methods, 2020 <https://www.nature.com/articles/s41592-019-0631-4>`__.
 
 The datasets have been modified to fit the SSAM-lite input format. You can also find further information on the datasets
 (such as number of mRNA spots etc.) on Zenodo or the *README* file within each directory once you downloaded it.
@@ -76,8 +75,8 @@ SSAM-lite lets you interactively explore and adjust the plots to your needs.
 Alternatively, when hovering over a plot a small control panel will be displayed in the top right corner
 which offers some additional functionality.
 
-.. image:: ../res/imgs/Control Panel.png
-        :width: 300
+.. image:: ../res/imgs/ControlPanel.png
+        :width: 250
         :align: center
         :alt: Control panel for plots    
 
@@ -157,16 +156,16 @@ however we will briefly describe the purpose and effect of the parameters
 that can be set by the user to obtain optimal results.
 
 
-Vector field width
-    The vector field width defines the horizontal pixel count of the output images.
+Pixel width
+    The pixel width defines the horizontal pixel count of the cell type map.
     This is necessary as the kernel density estimation (KDE) will be projected onto 
     discrete locations (the pixels).
 
-    A higher value will result in higher resolution but also in increased processing time and memory
-    as well as size of the output images.
+    A higher value will result in higher resolution but also in increased processing 
+    time and memory.
 
 
-KDE kernel bandwidth (sigma)
+KDE kernel bandwidth
     SSAM-lite uses a Gaussian kernel and the kernel bandwidth defines the "range" of 
     integration of data points (mRNA spots) for the KDE.
 
@@ -178,7 +177,7 @@ KDE kernel bandwidth (sigma)
         :alt: Screenshot of two different kernel bandwidth
 
 
-Cell assignment threshold
+Expression threshold
     This threshold is used to decide whether a pixel in the KDE projection belongs to
     a cell or not. 
     
@@ -187,16 +186,17 @@ Cell assignment threshold
 
     .. image:: ../res/imgs/Threshold_Optimization.png
         :width: 650
-        :alt: Screenshot of two cell assignment thresholds
+        :alt: Screenshot of two expression thresholds
 
 Parameter preview and adjustment
 --------------------------------
 
-Each of the parameters can be set in their respective field and applied by hitting *Enter*.
-For a more intuitive parameter selection you can open a preview by clicking "Use preview generator for parameter search".
+Each of the parameters can be set in their respective field. For a more intuitive parameter selection you can open a preview 
+by clicking "Use preview generator for parameter search".
 This will display the results of a subset of your data with the currently set parameters and lets you 
 interactively explore and tune your parameter set. To adjust the preview area click into the left-most plot and wait for
-the browser to recalculate (this might take a few moments).
+the browser to recalculate (this might take a few moments). When the "Live update" functionality is enabled the plots will 
+be updated automatically if you change any of the parameters.
 
 .. image:: ../res/imgs/ParameterPreview.png
   :width: 800
@@ -204,8 +204,8 @@ the browser to recalculate (this might take a few moments).
 
 Once you are happy with your choice you can proceed with the actual analysis.
 
-For our example analysis we are going to proceed with a *Vector field width* of 1500, a *KDE kernel bandwidth*
-of 3, and a *Cell assignment threshold* of 12.
+For our example analysis we are going to proceed with a *pixel width* of 1500, a *KDE kernel bandwidth*
+of 2.5, and an *expression threshold* of 13.
 
 
 Analysis

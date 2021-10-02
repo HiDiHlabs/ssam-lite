@@ -1,7 +1,7 @@
 # SSAM-lite
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![DOI:10.1101/2021.09.2x.xxxxxxxx](http://img.shields.io/badge/DOI-10.1101/2021.09.2x.xxxxxxxx-B31B1B.svg)](https://doi.org/10.1101/2021.09.2x.xxxxxxxx)
+[![DOI:10.1101/2021.09.29.462194](http://img.shields.io/badge/DOI-10.1101/2021.09.29.462194-B31B1B.svg)](https://doi.org/10.1101/2021.09.29.462194)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5517607.svg)](https://doi.org/10.5281/zenodo.5517607)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/eba53f5b-8273-4ac3-9d7b-fcb577e2815c/deploy-status)](https://app.netlify.com/sites/ssam-lite/deploys)
 
@@ -37,17 +37,16 @@ https://ssam-lite.readthedocs.io
 
 This project follows the [SemVer](https://semver.org) guidelines for versioning.
 
-For a list of versions see the [releases](https://github.com/HiDiHlabs/ssam-lite/releases).
+For a list of versions see the [releases](https://github.com/HiDiHlabs/ssam-lite/releases)
+and the [release notes](./ReleaseNotes.txt).
 
 
 ## Citations
 
-TODO update Citation when ready
-
-Sebastian Tiesmeyer, Shashwat Sahay, Niklas Mueller-Boetticher, Roland Eils, Sebastian Mackowiak, Naveed Ishaque.
+Sebastian Tiesmeyer, Shashwat Sahay, Niklas Müller-Bötticher, Roland Eils, Sebastian D. Mackowiak, Naveed Ishaque.
 2021.
-"[SSAM-lite: a light-weight web-based framework for analysis of spatially resolved transcriptomics data](https://biorxiv.org)"
-*bioRxiv*. doi: 10.1101/2021....
+"[SSAM-lite: a light-weight web app for rapid analysis of spatially resolved transcriptomics data](https://www.biorxiv.org/content/10.1101/2021.09.29.462194)"
+*bioRxiv*. doi: 10.1101/2021.09.29.462194
 
 
 ## Sample data

@@ -17,12 +17,11 @@ cell type-specific gene signatures with data from a variety of spatial in situ t
 Citations
 =================
 
-TODO please correct me!
-
-Sebastian Tiesmeyer, Shashwat Sahay, Niklas Mueller-Boetticher, Roland Eils, Sebastian Mackowiak, Naveed Ishaque.
+Sebastian Tiesmeyer, Shashwat Sahay, Niklas Müller-Bötticher, Roland Eils, Sebastian D. Mackowiak, Naveed Ishaque.
 2021.
-"`SSAM-lite: a light-weight web-based framework for analysis of spatially resolved transcriptomics data <https://biorxiv.org>`__"
-*bioRxiv*. doi: 10.1101/2021....
+"`SSAM-lite: a light-weight web app for rapid analysis of spatially resolved transcriptomics data <https://www.biorxiv.org/content/10.1101/2021.09.29.462194>`__"
+*bioRxiv*. doi: 10.1101/2021.09.29.462194
+
 
 
 .. toctree::

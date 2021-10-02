@@ -233,13 +233,11 @@ function main() {
 
         div = $('#vf-norm-preview')[0];
 
-        console.log(event["xaxis.autorange"]);
+        console.log(event)
 
         if (!event["xaxis.autorange"]) {
-
-            var xrange = event["xaxis.range"];
-            var yrange = event["yaxis.range"];
-
+            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
+            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
         }
         else {
             var xrange = [0, width];

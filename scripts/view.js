@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates, {modeBarButtonsToRemove: ['lasso2d', 'autoScale2d']});
+    Plotly.newPlot(div, data, layoutCoordinates, {modeBarButtonsToRemove: ['lasso2d', 'autoScale2d'], displaylogo: false});
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -88,7 +88,7 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
     }
 
 
-    Plotly.react(div, data, layout_signatures, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
+    Plotly.react(div, data, layout_signatures, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 };
 
 function generateScalebar(start = 30, end = 120, umPerPx = 1) {
@@ -207,12 +207,11 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             margin: { t: 35, b: 10,},
             xaxis: { automargin: true, title: 'px', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
-            autosize: true,
         },
         ...layoutVfNorm
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, { editable: true, modeBarButtonsToRemove: ['autoScale2d'] });
+    Plotly.newPlot(div, data, layoutVfNorm, { modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 
 };
 
@@ -275,7 +274,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             'font': {
                 color: 'white',
             },
-            title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
+            title: { text: 'Cell-type map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
             margin: { t: 35, b: 10,},
             'xaxis': { automargin: true, title: 'px' },
             'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
@@ -312,7 +311,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
     ];
     // console.log(document.getElementById(div),checkForExistingPlot(div));
     // if (!checkForExistingPlot(div)) {
-    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
     // }else{
     //     console.log('updating...');
     //     Plotly.update(div, data, layout, { responsive: true });

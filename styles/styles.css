@@ -65,7 +65,7 @@ body {
   border-bottom: .25rem solid transparent;
 }
 
-.nav-masthead .nav-link:hover, .nav-masthead .nav-link:focus {
+.nav-masthead .nav-link:hover {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
 
