@@ -101,7 +101,7 @@ function main() {
         var ZGenes;     // gene information
         var xmax;       // highest coordinate
         var ymax;       // lowest coordinate
-        var sigma = 1;   // KDE kernel width
+        var sigma = 3;   // KDE kernel width
 
         var height = 500;         // vf height (pixels)
         var width = 0;      // vf width (pixels)
@@ -375,8 +375,9 @@ function main() {
 
             try {
                 $('#errMemory').remove();
+                let time = Date.now();
                 [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma / xmax * height, width, height);
-
+                console.log(Date.now()-time);
                 umPerPx = xmax / width;
 
                 plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
