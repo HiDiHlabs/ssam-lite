@@ -296,8 +296,6 @@ function main() {
         Plotly.update('vf-norm-preview', {}, layout);
     }
 
-
-
     function updateCtMapScalebar(event) {
 
         div = $('#celltypes-preview')[0];
@@ -366,7 +364,26 @@ function main() {
         Plotly.update('celltypes-preview', {}, layout);
     }
 
+    function updateStats(event){
+        
+        if (isNaN(event['xaxis.range[0]'])){
+            x_=0;
+            y_=0;
+            _x=width-1;
+            _y=height-1;
+        }
+        else{
+        var y_ = Math.max(0,Math.round(event['xaxis.range[0]']));
+        var _y = Math.min(height-1, Math.round(event['xaxis.range[1]']));   
+        var x_ = Math.max(0,Math.round(event['yaxis.range[0]']));
+        var _x = Math.min(width-1,Math.round(event['yaxis.range[1]']));
+        }
+        console.log('kewl', x_,_x,y_,_y);
+        var celltypeCounts = calculateStats(celltypeMap.slice([x_,y_],[_x-x_+1,_y-y_+1]),clusterLabels.length-1);
+        console.log(celltypeCounts);
+        plotCelltypeStats('celltypes-stats', celltypeCounts,clusterLabels);
 
+    }
 
     function runFullKDE() {
         $('#errCoords').remove();
@@ -403,10 +420,13 @@ function main() {
             printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
         }
         else {
-            celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+            const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+            var celltypeCounts = calculateStats(celltypeMap,clusterLabels.length-1);
             plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx));
+            plotCelltypeStats('celltypes-stats', celltypeCounts,clusterLabels);
             umPerPx = xmax / width;
             document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
+            document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
         }
     };
 
@@ -460,6 +480,7 @@ function main() {
         }
     }
 
+    // Open/close parameter optimization section
     function toggleParameterGenerator() {
         var previewGenerator = document.getElementById('preview-generator');
 
@@ -479,8 +500,9 @@ function main() {
 
     };
 
+    // create small parameter celltype map
     function updateParameterCelltypes() {
-        parameterCelltypeMap = assignCelltypes(vfParameter, vfNormParameter, signatureMatrix, threshold);
+        const parameterCelltypeMap = assignCelltypes(vfParameter, vfNormParameter, signatureMatrix, threshold);
         labelsShort = clusterLabels.map(function (e) {
             return e.substring(0, 5) + '.';
         });
@@ -488,6 +510,7 @@ function main() {
         plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort);
     }
 
+    // update small vector field
     function updateParameterVf() {
         [vfParameter, vfNormParameter] = runKDE(parameterX, parameterY, parameterZ,
             genes, parameterWidth * xmax / width * 2, parameterWidth * ymax / height * 2,
@@ -496,6 +519,7 @@ function main() {
         updateParameterCelltypes();
     };
 
+    // remove coordinates outside box for preview 
     function updateParameterCoordinates() {
         parameterX = []
         parameterY = []
@@ -515,6 +539,7 @@ function main() {
         }
     };
 
+    // create the small parameter optimization mrna coordinates panel
     function createParameterCoodinatesPlot() {
         updateParameterCoordinates();
         var rectCenter = [parameterWindow[0] / width * xmax, parameterWindow[1] / height * ymax];
@@ -544,10 +569,12 @@ function main() {
         updateParameterVf();
     };
 
+    // store pointer coordinates to draw rectangle on preview map
     function updatePointerCoordinates(eventData) {
         pointerCoordinates = [eventData.xvals[0], eventData.yvals[0]];
     };
 
+    // draw rectangle on preview map
     function updateRectangle(eventData) {
         updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
         parameterWindow = [Math.ceil(pointerCoordinates[1] / xmax * width),
@@ -561,10 +588,10 @@ function main() {
 
             refreshParameterGenerator()
         }
-        // console.log(pointerCoordinates);
+        
     };
+
     function togglePreviewGenerator() {
-        // console.log('Hellow')
         refreshParameterGenerator()
     }
 
@@ -636,7 +663,7 @@ function main() {
             dataType: "json",
             success: function (response) {
                 response.shift();
-                const versions = response.sort((v1, v2) => semver.compare(v2.name, v1.name));
+                const versions = response.sort((v1, v2) => server.compare(v2.name, v1.name));
                 $('#result').html('v'+versions[0].name);
             },
             error: function (err) {

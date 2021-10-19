@@ -19,8 +19,8 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         ...{                     // all "layout" attributes: #layout
             paper_bgcolor: 'rgba(0,0,0,0.4)',
             plot_bgcolor: 'rgba(0,0,0,1)',
-            title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
-            margin: { t: 35, b: 10,},
+            title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            margin: { t: 35, b: 10, },
             font: { color: '#dddddd' },
             xaxis: { automargin: true, title: 'μm', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'μm', },
@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates, {modeBarButtonsToRemove: ['lasso2d', 'autoScale2d']});
+    Plotly.newPlot(div, data, layoutCoordinates, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d'] });
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -61,8 +61,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             z: signatureMatrix,
             type: 'heatmap',
             hovertemplate: 'Gene: %{x}<br>' +
-                           'Cell type: %{y}<br>' +
-                           'Gene expression: %{z:.3f}<extra></extra>',
+                'Cell type: %{y}<br>' +
+                'Gene expression: %{z:.3f}<extra></extra>',
         }
     ];
 
@@ -72,8 +72,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         'font': {
             color: 'white',
         },
-        title: { text: 'Gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
-        margin: { t: 35, b: 10,},
+        title: { text: 'Gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+        margin: { t: 35, b: 10, },
         'xaxis': {
             autotick: false,
             'showgrid': false,
@@ -83,8 +83,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             'showgrid': false,
         },
         'showlegend': false,
-        xaxis: {automargin: true, title: 'Genes',},
-        yaxis: {automargin: true, title: 'Cell types',},
+        xaxis: { automargin: true, title: 'Genes', },
+        yaxis: { automargin: true, title: 'Cell types', },
     }
 
 
@@ -105,7 +105,7 @@ function generateScalebar(start = 30, end = 120, umPerPx = 1) {
 
     var lengthRound = Math.ceil(inter) * Math.pow(10, decimals);
 
-    console.log(length, decimals, inter, lengthRound);
+    // console.log(length, decimals, inte   r, lengthRound);
 
     end = start + lengthRound / umPerPx
 
@@ -190,8 +190,8 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             colorscale: 'Viridis',
             showgrid: false,
             hovertemplate: 'x: %{x}<br>' +
-                           'y: %{y}<br>' +
-                           'KDE: %{z:.3f}<extra></extra>',
+                'y: %{y}<br>' +
+                'KDE: %{z:.3f}<extra></extra>',
         },
 
     ];
@@ -203,8 +203,8 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             showlegend: false,
             showscale: true,
             font: { color: 'white', },
-            title: { text: 'Gene expression estimate', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
-            margin: { t: 35, b: 10,},
+            title: { text: 'Gene expression estimate', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            margin: { t: 35, b: 10, },
             xaxis: { automargin: true, title: 'px', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
             autosize: true,
@@ -216,18 +216,17 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
 
 };
 
-function createColorMap(nColors) {
+function createColorArray(nColors, highlight = null) {
+    var colors = [];
 
-    function shuffle(a) {
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
-    };
+    for (var i = 0; i < nColors + 1; i++) {
+        transparency = ((highlight == null) ? 'ff' : (i == highlight ? 'ff' : '55'));
+        colors.push(getColorValue(i / nColors) + transparency);
+    }
+    return colors;
+}
+
+function createColorMap(nColors, highlight = null) {
 
     var colors = [];
 
@@ -241,10 +240,14 @@ function createColorMap(nColors) {
     var colorMap = [[0, '#000000'], [(1) / (nColors + 1), '#000000']];
 
     for (var i = 1; i < nColors + 1; i++) {
-        colorMap.push([(i) / (nColors + 1), colors[i]]);
-        colorMap.push([(1 + i) / (nColors + 1), colors[i]]);
+
+        transparency = ((highlight == null) ? 'ff' : (i == highlight ? 'ff' : '22'));
+
+        colorMap.push([(i) / (nColors + 1), colors[i] + transparency]);
+        colorMap.push([(1 + i) / (nColors + 1), colors[i] + transparency]);
         tickvals.push(i - 0.5);
     }
+
     return [colorMap, tickvals]
 };
 
@@ -260,99 +263,145 @@ function printErr(div, id, msg) {
     $(div).append(err)
 }
 
-function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}) {
+function repaintTicks(yticks, highlight = null) {
+    yticks.forEach(function (ytick, index, array) {
+        if ((highlight == ytick.__data__['x']) | (highlight == null)) {
+            ytick.getElementsByTagName('text')[0].style.fill = 'white';
+        }
+        else {
+            ytick.getElementsByTagName('text')[0].style.fill = 'grey';
+        }
+    })
+}
 
-    [colorMap, tickVals] = createColorMap(clusterLabels.length);
+function repaintCelltypeCanvas(highlight = null) {
 
-    var tickText = ['ECM'].concat(clusterLabels)
+    highlight = ((highlight==null)? null : ($('#celltypes-preview')[0].data[0].zmax-highlight));
+    [colorMap, tickVals] = createColorMap($('#celltypes-preview')[0].data[0].zmax, highlight );
+
+        var update = { colorscale: [colorMap], };
+        Plotly.restyle('celltypes-preview', update);
+}
+
+function ytickUnhoverCallback(event) {
+    var statsDiv = document.querySelector('#celltypes-stats');
+    var yticks = statsDiv.querySelectorAll('.ytick');
+    repaintTicks(yticks);
+    repaintCelltypeCanvas();
+
+}
+
+
+function ytickHoverCallback(event) {
+    var x = event.target.__data__['x'];
+    var statsDiv = document.querySelector('#celltypes-stats');
+    var yticks = statsDiv.querySelectorAll('.ytick');
+
+    repaintTicks(yticks, x);
+    repaintCelltypeCanvas(x);
+}
+
+function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = null) {
+
+    colorArray = createColorArray(clusterLabels.length, highlight).slice(1).reverse();
+
+    // console.log(colorArray);
+
+    console.log(counts, clusterLabels, colorArray);
+    counts.reverse();
+    clusterLabels = clusterLabels.slice().reverse();
+
+    var data = [
+        {
+            type: 'bar',
+            x: counts,
+            y: clusterLabels,
+            colorscale: colorMap,
+            orientation: 'h',
+            marker: {
+                color: colorArray
+            },
+        },
+
+    ];
 
     var layout = {
         ...{
             paper_bgcolor: 'rgba(0,0,0,0.7)',
             plot_bgcolor: 'rgba(0,0,0,0)',
-            showlegend: false,
+            // showlegend: false,
+            // showscale: false,
+            'font': {
+                color: 'white',
+            },
+            title: { text: 'Covered areas:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            margin: { t: 35, b: 10, },
+            'xaxis': { automargin: true, title: 'px' },
+            'yaxis': { automargin: true, scaleanchor: "x" },
+        }, ...layout
+    }
+
+
+    Plotly.react(div, data, layout);
+
+    var statsDiv = document.querySelector('#celltypes-stats');
+    var yticks = statsDiv.querySelectorAll('.ytick');
+
+    // console.log(yticks);
+
+    [...yticks].map(function (obj) { obj.onpointerover = ytickHoverCallback; obj.onpointerleave = ytickUnhoverCallback });
+
+    // document.getElementById(div).on('plotly_hover', function (event) {
+    //     console.log(event['yvals']);
+    // })
+
+}
+
+
+
+function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}, highlight = null) {
+
+    [colorMap, tickVals] = createColorMap(clusterLabels.length, highlight);
+
+    // console.log(highlight, colorMap, 'kewl');
+
+    var layout = {
+        ...{
+            paper_bgcolor: 'rgba(0,0,0,0.7)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            showlegend: true,
             showscale: false,
             'font': {
                 color: 'white',
             },
-            title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: {b: 10}, },
-            margin: { t: 35, b: 10,},
+            title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            margin: { t: 35, b: 10, },
             'xaxis': { automargin: true, title: 'px' },
             'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
+            'uirevision': false,
         }, ...layout
     }
 
     var data = [
         {
             z: celltypeMap,
-            // text: celltypePlotText,
             zmin: -1,
             zmax: clusterLabels.length,
             type: 'heatmap',
             colorscale: colorMap,
             'showgrid': false,
             hoverinfo: 'none',
-            colorbar: {
-                tickmode: 'array',
-                tickvals: tickVals,
-                ticktext: tickText,
-
-            }
+            showscale: false,
+            
         },
-        // {
 
-        //     x: [0, 1, 2],
-        //     y: [3, 3, 3],
-        //     mode: 'lines+text',
-        //     name: 'Lines and Text',
-        //     text: ['Text G', 'Text H', 'Text I'],
-        //     textposition: 'bottom',
-        //     type: 'scatter'
-        // }
     ];
-    // console.log(document.getElementById(div),checkForExistingPlot(div));
-    // if (!checkForExistingPlot(div)) {
+
     Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
-    // }else{
-    //     console.log('updating...');
-    //     Plotly.update(div, data, layout, { responsive: true });
-    // }
 
-    if (getClusterLabel != null) {
-        var hoverInfo = document.getElementById('hoverinfo');
-
-        var x; var y; var z; var clusterLabel;
-
-        document.getElementById(div).on('plotly_hover', function (eventData) {
-
-            hoverinfo.style.display = 'block'
-
-            x = eventData.points[0].x;
-            y = eventData.points[0].y;
-            z = eventData.points[0].z;
-
-            if (z < 0) {
-                clusterLabel = '-'
-            } else {
-                clusterLabel = getClusterLabel(z)
-            }
-
-            hoverInfo.innerHTML = "x: " + x + "<br> y: " + y + "<br> " + clusterLabel;
-
-            var points = eventData.points[0];
-
-            var x = points.xaxis.l2p(points.pointNumber[1]) + points.xaxis._offset;
-            var y = points.yaxis.l2p(points.pointNumber[0]) + points.yaxis._offset;
-
-
-
-        }).on(
-            'plotly_unhover', function (evendData) {
-                hoverinfo.style.display = 'none'
-            }
-        )
-    }
 };
+
+
 
 function displayParameterGenerator() {
 
