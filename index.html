@@ -33,7 +33,7 @@
 
         <!-- home section -->
         <div id="wrapper-home">
-            <div id="section-home" class="section-top-space, row" style="height:40vh"></div>
+            <div id="section-home" class="section-top-space, row" style="height:40vh;"></div>
             <!-- creates the space above section & serves as target for the nav-links -->
             <div id="tutorial-modal" class="modal-content">
                 <p>Welcome to <b><i>SSAM-lite</i></b>. <br>
@@ -63,7 +63,7 @@
 
         <!-- data section -->
         <div id="wrapper-data">
-            <div id="section-data" class="section-top-space, row" style="height:40vh"></div>
+            <div id="section-data" class="section-top-space, row" style="height:40vh; width:100%"></div>
             <div id="section-data-title">
                 <div class="row, container-fluid" style="min-height: 100px; height: 10vh;">
                     <h1 class="cover-heading">Data Center</h1>
@@ -99,17 +99,15 @@
                     <img src="resources/imgs/tutorial/coordinate_prev.png" style="height: 100px">
                     <p>
                         The file contains three columns: The first one contains the molecule label, the other two
-                        contain X,Y-coordinates per molecule. The column names do not matter, but you need to keep their
-                        order if
-                        you work with your own data.
+                        contain x,y-coordinates per molecule. The column names do not matter, but you need to keep their
+                        order if you work with your own data.
                     </p>
                     <p>
-                        It's now time to upload the data! Click on the 'coordinates' button on the right and select
-                        <i>coordinates.csv</i>
-                        for the upload.
+                        It's now time to upload the data! Click on the 'Coordinates' button on the right and select
+                        the <i>coordinates.csv</i> for the upload.
                     </p>
                     <p>
-                        <a id="button-tutorial-close-2" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                        <a id="button-tutorial-close-2" class="btn btn-lg btn-secondary btn-close">Close</a>
                         <a href="#section-data-title" id="button-tutorial-next-2"
                             class="btn btn-lg btn-secondary btn-next">
                             Next</a>
@@ -138,11 +136,11 @@
                 <div id="tutorial-modal-data-sigs" class="modal-content">
                     <p> The <i>signatures.csv</i> is formated as follows:
                         <img src="./resources/imgs/tutorial/signatures_prev.png" style="height: 120px;"><br>
-                        The table contains cell-wise expression expectations, with columns showing mRNA class and rows
+                        The table contains cell type-wise expression expectations, with columns showing mRNA class and rows
                         showing cell types.
                     </p>
 
-                    <p>Upload <i>signatures.csv</i> to inspect the data.</p>
+                    <p>Click on 'Signatures' to upload the <i>signatures.csv</i> and inspect the data.</p>
                     <p>
                         <a id="button-tutorial-close-4" class="btn btn-lg btn-secondary btn-close"> Close</a>
                         <a id="button-tutorial-next-4" class="btn btn-lg btn-secondary btn-next"
@@ -170,7 +168,7 @@
                                                 style="position: absolute; top: 55px; left: 35px; display: none;">
                                             </div>
                                         </div>
-                                        <h5>coordinates</h5>
+                                        <h5>Coordinates</h5>
                                     </div>
                                 </label>
                             </form>
@@ -216,7 +214,7 @@
                                                 style="position: absolute; top: 55px; left: 35px; display: none;">
                                             </div>
                                         </div>
-                                        <h5>signatures</h5>
+                                        <h5>Signatures</h5>
                                     </div>
                                 </label>
                             </form>
@@ -232,22 +230,22 @@
 
         <!-- parameters section -->
         <div id="wrapper-parameters">
-            <div id="section-parameters" class="row section-top-space" style="height:30vh"></div>
+            <div id="section-parameters" class="row section-top-space" style="height:30vh; width:100%"></div>
             <div id="section-parameters-main">
                 <div id="tutorial-modal-parameters" class="modal-content">
                     <p> In the <b>Parameters</b> section you can hand-tune the most important SSAM parameters.</p>
                     <p>
                         SSAM-lite provides a <i>preview function</i> that processes small tissue sub-sets on the fly
                         to enable parameter optimization in real time.<br>
-                        Click <i>'Use preview generator for parameter search'</i> to enable it! <br>
+                        Click 'Use preview generator for parameter search' to enable it! <br>
                     </p>
                     <p>
                         The parameters to optimize are:
                     </p>
                     <ul>
-                        <li>Vector field width: The size of our discrete analysis area in pixels.</li>
+                        <li>Pixel width: The size of our discrete analysis and output area in pixels.</li>
                         <li>KDE kernel bandwidth: The 'smoothing factor' applied to the mRNA locations.</li>
-                        <li>Cell assignment threshold: Threshold for discarding areas with low expression signal.</li>
+                        <li>Expression threshold: Threshold for discarding areas with low expression signal.</li>
                     </ul>
                     <p>
                         We'll now have a look at each parameter in detail.
@@ -262,14 +260,11 @@
                 <div id="tutorial-modal-parameters-coordinates" class="modal-content">
                     <p> The coordinates preview on the left lets you chose the subset of the tissue to calculate the
                         preview on - simply click on the map to change it (but be patient as it might take a moment
-                        for the adjustment to be computed). </p>
-                    <p> Below you can set the size of the vector field matrix the mRNAs are projected on.
-                        A larger matrix makes for a high resolution result but increases the
-                        resource consumption.
+                        for the adjustment to be computed).
                     </p>
-                    <p>Select a tissue part that's suitable for parameter fitting and set a vector field width to fit
-                        your machine's memory.</p>
-
+                    <p> Below you can set the pixel width. This sets the size of the matrix the mRNAs are projected on.
+                        A larger value increases the resolution but more ressources will be required for the computations.
+                    </p>
                     <p>
                         <a id="button-tutorial-close-6" class="btn btn-lg btn-secondary btn-close"> Close</a>
                         <a href="#section-parameters-main" id="button-tutorial-next-6"
@@ -279,20 +274,20 @@
                 </div>
                 <div id="tutorial-modal-parameters-sigma" class="modal-content">
                     <p>
-                        Increasing the kernel bandwidth <i>'sigma'</i> (in pixels) creates a smooting effect between the
+                        Increasing the KDE kernel bandwidth (in &#956;m) creates a smooting effect between the
                         different mRNA spots, which integrates the mRNA signal. The center plot should help you
                         optimize the value.
                     </p>
                     <p>
-                        The rightmost plot shows the algorithm's final celltype assignment. <br>
-                        Chose a <i>sigma</i> large enough to eliminate unwanted noise and at the same time
+                        The rightmost plot shows the algorithm's final cell-type assignment. <br>
+                        Choose a <i>bandwidth</i> large enough to eliminate unwanted noise and at the same time
                         retain the desired structural detail in the result. <br>
-                        Chose the <i>threshold</i> to remove unwanted, low-signal areas from the result.
+                        Choose the <i>threshold</i> to remove unwanted, low-signal areas from the result.
                     </p>
                     <p>
-                        <a id="button-tutorial-close-7" class="btn btn-lg btn-secondary btn-close"> Close</a>
+                        <a id="button-tutorial-close-7" class="btn btn-lg btn-secondary btn-close">Close</a>
                         <a href="#section-analysis" id="button-tutorial-next-7"
-                            class="btn btn-lg btn-secondary btn-next"> Next</a>
+                            class="btn btn-lg btn-secondary btn-next">Next</a>
                     </p>
                 </div>
 
@@ -339,7 +334,7 @@
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
                                 <label for="vf-width" data-toggle="vf-width"
-                                    title="The size of our discrete analysis area in pixels">Vector field width
+                                    title="The size of our discrete analysis/output area in pixels">Pixel width
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                         class="bi bi-question-circle-fill" viewBox="0 0 16 16">
                                         <path
@@ -350,7 +345,7 @@
                             <div class="d-flex p-2">
                                 <input type="number" id="vf-width" name="vf-width" min="1" value="500">
                             </div>
-                            <div class="d-flex  justify-content-center">
+                            <div class="d-flex justify-content-center">
                                 <div id="vf-size-information">total size: -</div>
                             </div>
                         </div>
@@ -358,7 +353,6 @@
                             <div class="d-flex  justify-content-center">
                                 <label for="KDE-bandwidth" data-toggle="KDE-bandwidth"
                                     title="The 'smoothing factor' applied to the mRNA locations">KDE kernel bandwidth
-                                    (sigma)
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                         class="bi bi-question-circle-fill" viewBox="0 0 16 16">
                                         <path
@@ -370,14 +364,11 @@
                                 <input type="number" id="KDE-bandwidth" name="KDE-bandwidth" step="0.1" min="0.1"
                                     value="3">
                             </div>
-
                         </div>
-
                         <div class="d-flex flex-column  slidecontainer">
                             <div class="d-flex  justify-content-center">
                                 <label for="vf-width" data-toggle="threshold"
-                                    title="Threshold for discarding areas with low expression signal">Cell assignment
-                                    threshold
+                                    title="Threshold for discarding areas with low expression signal">Expression threshold
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                         class="bi bi-question-circle-fill" viewBox="0 0 16 16">
                                         <path
@@ -391,31 +382,21 @@
 
                         </div>
 
-                        <!-- <div class="d-flex flex-column  slidecontainer" style="padding: 10px; border: 2px solid white;">
-                            <div class="d-flex flex-row  justify-content-between">
-                                <div class="p-1">0</div>
-                                <div id="indicatorSigma" class="p-1" style="color: rgb(34, 90, 153);">0</div>
-                                <div class="p-1">0</div>
-                            </div>
-                            <div class="d-flex p-2">
-                                <input type="range" min="1" max="100" value="50" class="slider" id="inputSigma">
-                            </div>
-                        </div> -->
-
                     </div>
                 </div>
             </div>
         </div>
         <!-- analysis section -->
         <div id="wrapper-analysis">
-            <div id="section-analysis" class="row" style="height:30vh"></div>
+            <div id="section-analysis" class="row" style="height:30vh; width:100%"></div>
 
             <!-- section analysis-KDE -->
             <div id="tutorial-modal-analysis-KDE" class="modal-content">
-                <p>Now we can start with the <b>Analysis</b>: Click on the button on the left to run a
+                <p>Now we can start with the <b>Analysis</b>: Click on the button 'Run Kernel Density Estimation' to run a
                     kernel density estimation on your dataset.
                 </p>
-                <p>This is the computationally most expensive step and might take a few minutes.
+                <p>This is the computationally most expensive step and might take a minute depending on your dataset 
+                    and the chosen parameters.
                 </p>
                 <p>
                     <a id="button-tutorial-close-8" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -437,21 +418,22 @@
                 <p>As a first step, we run a KDE that creates a density of mRNA expression.
                 </p>
                 <p class="lead">
-                <div id="btn-KDE" class="btn btn-lg btn-secondary">
-                    <div id="Progress-KDE Progress">
-                        <div id="Bar-KDE">
-                            Run Kernel Density Estimation
+                    <div id="btn-KDE" class="btn btn-lg btn-secondary">
+                        <div id="Progress-KDE Progress">
+                            <div id="Bar-KDE">
+                                Run Kernel Density Estimation
+                            </div>
                         </div>
                     </div>
-                </div>
+                </p>
             </div>
 
-            </p>
+            
             <div class="row, container-fluid">
                 <div id="vf-norm-preview" class="row, container-fluid" style="width: 80vw; height: 50vw;"></div>
             </div>
 
-            <div id="section-assignments" class="row" style="height:10vh"></div>
+            <div id="section-assignments" class="row" style="height:10vh; width:100%"></div>
 
             <div id="tutorial-modal-analysis-assignments" class="modal-content">
                 <p>On to the last step of the SSAM-lite pipeline: Click 'Infer Cell Types' to obtain an interactive cell
@@ -523,13 +505,10 @@
 
         <!-- reload option -->
         <div id="wrapper-reload">
-            <div id="section-reload" class="row" style="height:30vh"></div>
+            <div id="section-reload" class="row" style="height:30vh; width:100%"></div>
             <div class="section-main-space, row, container-fluid" , style="height:20vh;">
-
                 <div id="btn-reload" class="btn btn-lg btn-secondary">
-
                     Clear analysis
-
                 </div>
             </div>
         </div>
@@ -537,7 +516,7 @@
 
         <!-- about section -->
         <div id="wrapper-about">
-            <div id="section-about" class="row" style="height:5vh"></div>
+            <div id="section-about" class="row" style="height:5vh; width:100%"></div>
             <div class="section-main-space, row, container-fluid" , style="height:20vh;">
 
                 <h1 class="cover-heading">About</h1>
@@ -553,9 +532,9 @@
                     <div style="text-align: center; padding: 15px;">
                         SSAM-lite has been designed and implemented by Seastian Tiesmeyer at the Berlin Institute of
                         Health.
-                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/" target="_blank"
+                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/content/10.1101/2021.09.29.462194" target="_blank"
                             rel="noopener noreferrer"><u>here</u></a>.
-                        <!-- TODO update Link. -->
+
                     </div>
                     <div style="text-align: center; padding: 15px;">
                         For a comprehensive documentation of the SSAM-lite tool check out our
@@ -566,12 +545,12 @@
                         If you are using SSAM-lite for your research please cite:
                     </div>
                     <div style="text-align: center; padding-top: 5px; padding-bottom: 50px;">
-                        Tiesmeyer S, et al. 2021. SSAM-lite. <i>bioRxiv</i>. doi: 10.1101/2021....
-                        <!-- TODO update citation -->
+                        Tiesmeyer S, et al. 2021. SSAM-lite: a light-weight web app for rapid analysis of spatially resolved transcriptomics data.
+                        <i>bioRxiv</i>. doi: 10.1101/2021.09.29.462194
                     </div>
 
 
-                    <div class="d-flex flex-row  justify-content-around"
+                    <div class="d-flex flex-row flex-wrap justify-content-around"
                         style="background-color: white; padding: 20px;    border-radius: 20px;">
                         <div class="d-flex">
                             <a href="https://www.charite.de/" target="_blank" rel="noopener noreferrer">
@@ -588,11 +567,11 @@
 
 
                         <div class="d-flex">
-                            <a href="https://www.biorxiv.org/content/10.1101/800748v2" target="_blank"
+                            <a href="https://www.biorxiv.org/content/10.1101/2021.09.29.462194" target="_blank"
                                 rel="noopener noreferrer">
                                 <img src="./resources/imgs/logo_biorxiv.png "
                                     style="height: 40px; width: auto; padding: 5px;">
-                            </a> <!-- TODO update Link. -->
+                            </a>
                         </div>
 
                         <div class="d-flex">
@@ -635,6 +614,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/hippich/bower-semver/master/semver.min.js"></script>
     <script src="./scripts/pkgs/bootstrap-4.0.0//dist/js/bootstrap.min.js"></script>
 
 

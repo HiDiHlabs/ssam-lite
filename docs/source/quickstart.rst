@@ -33,8 +33,8 @@ Click on "Get going!"
 You are in the **Data Center** now. Click on "Coordinates" and select the *coordinates.csv* from the *Codeluppi_osmFISH* directory in the test data.
 Do the same for the "Signatures" (obviously use the *signature.csv* from the same directory this time, *duh!*)
 
-In the **Parameters** section leave the *Vector field wdith* at its default, set the *KDE kernel bandwidth* to 5 and the 
-*Cell assignment threshold* to 50.
+In the **Parameters** section leave the *pixel wdith* at its default, set the *KDE kernel bandwidth* to 5 and the 
+*expression threshold* to 50.
 
 The time is flying by so we head straight for **Analysis** without any further explanation and click on 
 "Run Kernel Density Estimation". Time for a short break now, this step might take a few seconds.

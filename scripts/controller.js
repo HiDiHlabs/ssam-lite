@@ -128,13 +128,13 @@ function main() {
     }
 
 
-    async function importSignatures(path) {
+    async function importSignatures(fileToLoad) {
 
-        console.log('loading signatures');
         document.getElementById("signature-loader").style.display = "block";   //display waiting symbol
 
-
-        var fileToLoad = document.getElementById("btn-signatures-hidden").files[0];
+        if (fileToLoad.constructor.name != "File") {
+            fileToLoad = document.getElementById("btn-signatures-hidden").files[0];
+        }
 
         [signatureMatrix, clusterLabels, genes] = (processSignatures(await readFileAsync(fileToLoad)));
 
@@ -149,11 +149,12 @@ function main() {
 
     };
 
-    async function importCoordinates(path) {
+    async function importCoordinates(fileToLoad) {
+        
         $('#errCoords').remove();
 
         vf = null;
-        X = [];        // mRNA x coordinates
+        X = [];          // mRNA x coordinates
         Y = [];          // mRNA y coordinates
         ZGenes = [];     // gene information
         xmax = [];       // highest coordinate
@@ -163,8 +164,9 @@ function main() {
         console.log('loading coordinates');
         document.getElementById("coordinate-loader").style.display = "block";   //display waiting symbol
 
-        var fileToLoad = document.getElementById("btn-coordinates-hidden").files[0];
-
+        if (fileToLoad.constructor.name != "File") {
+            fileToLoad = document.getElementById("btn-coordinates-hidden").files[0];
+        }
 
         [X, Y, ZGenes, coordGenes, xmax, ymax, edgeRatio, width, height] = processCoordinates(await readFileAsync(fileToLoad));
         if (!genes.length) genes = coordGenes; //use genes from the coordinate file for now, e.g. kde
@@ -183,7 +185,6 @@ function main() {
 
     function allowDrop(ev) {
         ev.preventDefault();
-        console.log('kewl!')
     }
 
     function dropCoords(ev) {
@@ -204,7 +205,7 @@ function main() {
         let val = event.srcElement.valueAsNumber;
         if (val <= 0) {
             val = 1;
-            event.srcElement.value = '-'
+            event.srcElement.value = '1'
         }
         else {
             scale = val;
@@ -232,13 +233,11 @@ function main() {
 
         div = $('#vf-norm-preview')[0];
 
-        console.log(event["xaxis.autorange"]);
+        console.log(event)
 
         if (!event["xaxis.autorange"]) {
-
-            var xrange = event["xaxis.range"];
-            var yrange = event["yaxis.range"];
-
+            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
+            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
         }
         else {
             var xrange = [0, width];

@@ -1,6 +1,14 @@
+1.0.0
+- First release
+
+0.2.1
+- Bugfix for version display and drag-and-drop
+
 0.2.0
 - Version and copyright added to interface
 - Drag and drop fixed
+- Plots and layout improved
+- Bugfixes
 
 0.1.0
 - Alpha release
