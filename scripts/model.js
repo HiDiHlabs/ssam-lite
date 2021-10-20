@@ -99,7 +99,12 @@ function calculateStats(celltypeMap,nClasses) {
             intermediates.push(inter.arraySync());
             // intMat = intMat.add(tf.scalar(1, dtype='int32'));
         }
-        return intermediates;
+
+        var sum = intermediates.reduce((a, b) => a + b, 0);
+
+        return intermediates.map(x => x/sum);
+        
+
     });
 
 

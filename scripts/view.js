@@ -336,7 +336,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             },
             title: { text: 'Covered areas:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
-            'xaxis': { automargin: true, title: 'px' },
+            'xaxis': { automargin: true, title: 'relative area' },
             'yaxis': { automargin: true, scaleanchor: "x" },
         }, ...layout
     }
