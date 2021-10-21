@@ -459,6 +459,8 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
     Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
 
+    $('#section-cmap')[0].style.display = "block";
+
 };
 
 

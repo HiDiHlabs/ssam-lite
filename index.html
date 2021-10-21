@@ -481,29 +481,35 @@
             </p>
             <!-- <div class="d-flex, flex-row, container-fluid"> -->
             <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center align-items-start">
-                <div id="celltypes-preview" class="d-flex  container-fluid" style="width: 60%; padding-bottom: 40%;">
+                <div id="celltypes-preview" class="d-flex  container-fluid" style="width: 60%; height: 80vh;">
 
                 </div>
-                <div id="celltypes-stats" class="d-flex  container-fluid"
-                    style="width: 30%; padding-bottom: 35%; background-color: transparent;">
-                    <div id="current-highlight" , style="display: none;">-1</div>
-                </div>
-
-
-            </div>
-        </div>
-        <div id="section-cmap" class="row" style="height:30vh">
-            <div class="section-main-space, row, container-fluid" , style="height:20vh;">
-                <input type="file" id="btn-cmap-hidden" name="uploads-cmaps" class="file-upload" hidden>
-                <label for="btn-cmap-hidden">
-                    <div id="btn-cmap" class="btn btn-lg btn-secondary">
-
-                        Custom color map
-
+                <div id='celltype-preview-right-panel' class="d-flex flex-wrap container-fluid" style="width: 30%; height: 80vh;">
+                    <div id="celltypes-stats" class="d-flex row container-fluid"
+                        style="background-color: transparent; height: 80%;">
                     </div>
-                </label>
+                    <!-- <div id="current-highlight" , style="display: none;">-1</div> -->
+                    <div id="section-cmap" class="row" style="height:5vh; display: none">
+
+                        <div class="d-flex row container-fluid" , style="height:5vh;">
+                            <input type="file" id="btn-cmap-hidden" name="uploads-cmaps" class="file-upload" hidden>
+                            <label for="btn-cmap-hidden">
+                                <div id="btn-cmap" class="btn btn-lg btn-secondary">
+
+                                    Custom color map
+
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
+
         </div>
+        <!-- </div> -->
+
 
 
         </div>
