@@ -80,9 +80,33 @@ function processCoordinates(allText) {
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
 
-function processColorMap(allText) {
+function processColorMap(allText, clusterLabels) {
 
-    var colors = allText.trim().split(/\r\n|\n/);
+    let allTextLines = allText.trim().split(/\r\n|\n/);
+
+    let labelList = [];
+    let colorList = [];
+    let colors = ["#000000"];
+
+    for (var i = 0; i < allTextLines.length; i++) {
+        [ct, color] = allTextLines[i].split(':');
+
+        labelList.push(ct)
+        colorList.push(color);
+    }
+
+
+    for (var i = 0; i < clusterLabels.length; i++) {
+        let idx = labelList.indexOf(clusterLabels[i]);
+        if (idx < 0) {
+            colors.push('#222222');
+        }
+        else {
+
+            console.log(clusterLabels[i], idx, colorList[idx])
+            colors.push(colorList[idx]);
+        }
+    }
 
     return colors;
 };
@@ -213,7 +237,7 @@ function main() {
             fileToLoad = document.getElementById("btn-cmap-hidden").files[0];
         }
 
-        colors = processColorMap(await readFileAsync(fileToLoad));
+        colors = processColorMap(await readFileAsync(fileToLoad), clusterLabels);
 
         function colorGenerator(val) {
             // console.log("generated: ", val)
@@ -231,9 +255,6 @@ function main() {
 
         plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
         plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
-        // umPerPx = xmax / width;
-        // document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
-        // document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
 
     };
 
@@ -562,7 +583,7 @@ function main() {
             return e.substring(0, 5) + '.';
         });
         // console.log(labelsShort);
-        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort,  getClusterLabel, layout = {}, highlight = null, cValGenGetter = getColorMap);
+        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort, getClusterLabel, layout = {}, highlight = null, cValGenGetter = getColorMap);
         // plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
 
     }
