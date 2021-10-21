@@ -192,7 +192,7 @@ function main() {
     };
 
 
-    function getColorMap(){
+    function getColorMap() {
         return cGen;
     }
 
@@ -221,7 +221,7 @@ function main() {
                 return "#000000ff"
             }
             else {
-                return colors[Math.min(Math.ceil(val*clusterLabels.length),colors.length-1)];
+                return colors[Math.min(Math.ceil(val * clusterLabels.length), colors.length - 1)];
             }
         }
 
@@ -229,8 +229,8 @@ function main() {
 
         //redraw map/stats with new colors
 
-        plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null,cValGenGetter = getColorMap);
-        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null,cValGenGetter = getColorMap);
+        plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
+        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
         // umPerPx = xmax / width;
         // document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
         // document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
@@ -435,7 +435,7 @@ function main() {
         // console.log('kewl', x_, _x, y_, _y);
         var celltypeCounts = calculateStats(celltypeMap.slice([x_, y_], [_x - x_ + 1, _y - y_ + 1]), clusterLabels.length - 1);
         // console.log(celltypeCounts);
-        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels,  layout = {}, highlight = null,cValGenGetter = getColorMap);
+        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
 
     }
 
@@ -477,8 +477,8 @@ function main() {
             const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
             var celltypeCounts = calculateStats(celltypeMap, clusterLabels.length - 1);
 
-            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight=null, cValGenGetter=getColorMap);
-            plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels,  layout = {}, highlight = null,cValGenGetter = getColorMap);
+            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
+            plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
             umPerPx = xmax / width;
             document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
             document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
@@ -562,7 +562,9 @@ function main() {
             return e.substring(0, 5) + '.';
         });
         // console.log(labelsShort);
-        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort, colorValueGenerator=getColorValue);
+        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort,  getClusterLabel, layout = {}, highlight = null, cValGenGetter = getColorMap);
+        // plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
+
     }
 
     // update small vector field
