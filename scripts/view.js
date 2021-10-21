@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates, {modeBarButtonsToRemove: ['lasso2d', 'autoScale2d'], displaylogo: false});
+    Plotly.newPlot(div, data, layoutCoordinates, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d'], displaylogo: false });
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -215,22 +215,22 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
 
 };
 
-function createColorArray(nColors, highlight = null) {
+function createColorArray(nColors, highlight = null, colorGenerator = getColorValue) {
     var colors = [];
 
     for (var i = 0; i < nColors + 1; i++) {
         transparency = ((highlight == null) ? 'ff' : (i == highlight ? 'ff' : '55'));
-        colors.push(getColorValue(i / nColors) + transparency);
+        colors.push(colorGenerator(i / nColors) + transparency);
     }
     return colors;
 }
 
-function createColorMap(nColors, highlight = null) {
+function createColorMap(nColors, highlights = null, colorGenerator = null) {
 
     var colors = [];
 
     for (var i = 0; i < nColors + 1; i++) {
-        colors.push(getColorValue(i / nColors));
+        colors.push(colorGenerator(i / nColors));
     }
 
 
@@ -240,7 +240,7 @@ function createColorMap(nColors, highlight = null) {
 
     for (var i = 1; i < nColors + 1; i++) {
 
-        transparency = ((highlight == null) ? 'ff' : (i == highlight ? 'ff' : '22'));
+        transparency = ((highlights == null) ? 'ff' : (highlights[i - 1] ? 'ff' : '22'));
 
         colorMap.push([(i) / (nColors + 1), colors[i] + transparency]);
         colorMap.push([(1 + i) / (nColors + 1), colors[i] + transparency]);
@@ -273,41 +273,27 @@ function repaintTicks(yticks, highlight = null) {
     })
 }
 
-function repaintCelltypeCanvas(highlight = null) {
+function repaintCelltypeCanvas(highlights = null, colorGenerator) {
 
-    highlight = ((highlight==null)? null : ($('#celltypes-preview')[0].data[0].zmax-highlight));
-    [colorMap, tickVals] = createColorMap($('#celltypes-preview')[0].data[0].zmax, highlight );
+    // highlights = ((highlight==null)? null : ($('#celltypes-preview')[0].data[0].zmax-highlight));
+    [colorMap, tickVals] = createColorMap($('#celltypes-preview')[0].data[0].zmax, highlights, colorGenerator);
 
-        var update = { colorscale: [colorMap], };
-        Plotly.restyle('celltypes-preview', update);
-}
-
-function ytickUnhoverCallback(event) {
-    var statsDiv = document.querySelector('#celltypes-stats');
-    var yticks = statsDiv.querySelectorAll('.ytick');
-    repaintTicks(yticks);
-    repaintCelltypeCanvas();
-
+    var update = { colorscale: [colorMap], };
+    Plotly.restyle('celltypes-preview', update);
 }
 
 
-function ytickHoverCallback(event) {
-    var x = event.target.__data__['x'];
-    var statsDiv = document.querySelector('#celltypes-stats');
-    var yticks = statsDiv.querySelectorAll('.ytick');
+function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = null, cValGenGetter = null) {
 
-    repaintTicks(yticks, x);
-    repaintCelltypeCanvas(x);
-}
+    colorGenerator = cValGenGetter();
+    // console.log(colorGenerator(0));
 
-function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = null) {
-
-    colorArray = createColorArray(clusterLabels.length, highlight).slice(1).reverse();
+    colorArray = createColorArray(clusterLabels.length, highlight, colorGenerator).slice(1).reverse();
 
     // console.log(colorArray);
 
-    console.log(counts, clusterLabels, colorArray);
-    counts.reverse();
+    // console.log(counts, clusterLabels, colorArray);
+    counts = [...counts].reverse();
     clusterLabels = clusterLabels.slice().reverse();
 
     var data = [
@@ -340,15 +326,87 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
         }, ...layout
     }
 
+    // counts.reverse();
 
     Plotly.react(div, data, layout);
 
     var statsDiv = document.querySelector('#celltypes-stats');
     var yticks = statsDiv.querySelectorAll('.ytick');
 
-    // console.log(yticks);
+    // function ytickUnhoverCallback(event) {
+    //     var statsDiv = document.querySelector('#celltypes-stats');
+    //     var yticks = statsDiv.querySelectorAll('.ytick');
+    //     repaintTicks(yticks);
+    //     repaintCelltypeCanvas(null, colorGenerator);
 
-    [...yticks].map(function (obj) { obj.onpointerover = ytickHoverCallback; obj.onpointerleave = ytickUnhoverCallback });
+    // }
+
+    // function ytickHoverCallback(event) {
+    //     var x = event.target.__data__['x'];
+    //     var statsDiv = document.querySelector('#celltypes-stats');
+    //     var yticks = statsDiv.querySelectorAll('.ytick');
+
+    //     repaintTicks(yticks, x);
+    //     repaintCelltypeCanvas(x,colorGenerator);
+    // }
+
+    function ytickClickCallback(event) {
+        console.log('clicked!')
+        var x = event.target.__data__['x'];
+        var statsDiv = document.querySelector('#celltypes-stats');
+        var yticks = statsDiv.querySelectorAll('.ytick');
+
+        highlights = []
+
+        yticks.forEach(function (ytick, index, array) {
+
+            if ((x == ytick.__data__['x'])) {
+                ytick.getElementsByTagName('text')[0].style.fill = (ytick.getElementsByTagName('text')[0].style.fill == 'white') ? 'grey' : 'white';
+            }
+            highlights.unshift(ytick.getElementsByTagName('text')[0].style.fill == 'white');
+            
+
+        })
+        // repaintTicks(yticks, x);
+        // highlights.reverse
+        repaintCelltypeCanvas(highlights, colorGenerator);
+    }
+
+
+
+    function ytickDblClickCallback(event) {
+        console.log('doubleclicked!')
+        var x = event.target.__data__['x'];
+        var statsDiv = document.querySelector('#celltypes-stats');
+        var yticks = statsDiv.querySelectorAll('.ytick');
+
+        let highlights = [];
+        var isHighlighted;
+
+        yticks.forEach(function (ytick, index, array) {
+
+            if ((x == ytick.__data__['x'])) {
+                isHighlighted = (ytick.getElementsByTagName('text')[0].style.fill == 'white');
+            }
+        });
+
+        yticks.forEach(function (ytick, index, array) {
+
+            if ((x == ytick.__data__['x'])) {
+                ytick.getElementsByTagName('text')[0].style.fill = 'white';
+            }
+            else {
+                ytick.getElementsByTagName('text')[0].style.fill = isHighlighted ? 'grey' : 'white'
+            }
+            highlights.unshift(ytick.getElementsByTagName('text')[0].style.fill == 'white');
+
+        });
+        // highlights.reverse
+
+        repaintCelltypeCanvas(highlights, colorGenerator);
+    }
+
+    [...yticks].map(function (obj) { obj.onclick = ytickClickCallback; obj.ondblclick = ytickDblClickCallback; obj.getElementsByTagName('text')[0].style.fill = 'white'; });//onpointerover = ytickHoverCallback; obj.onpointerleave = ytickUnhoverCallback });
 
     // document.getElementById(div).on('plotly_hover', function (event) {
     //     console.log(event['yvals']);
@@ -358,11 +416,14 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
 
 
-function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}, highlight = null) {
+function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}, highlight = null, cValGenGetter = null) {
 
-    [colorMap, tickVals] = createColorMap(clusterLabels.length, highlight);
+    colorValueGenerator = cValGenGetter();
+    // console.log(colorValueGenerator(0),'kewler');
 
-    // console.log(highlight, colorMap, 'kewl');
+    [colorMap, tickVals] = createColorMap(clusterLabels.length, highlight, colorValueGenerator);
+
+    // console.log(colorMap, 'kewl');
 
     var layout = {
         ...{
@@ -391,7 +452,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             'showgrid': false,
             hoverinfo: 'none',
             showscale: false,
-            
+
         },
 
     ];
