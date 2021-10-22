@@ -159,6 +159,10 @@ body {
   background-color: black;
 }
 
+.ytick {
+pointer-events:all;
+}
+
 /* 
  * Tutorial - Modal Content/Box 
  */

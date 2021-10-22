@@ -1,18 +1,18 @@
-function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=2) {
+function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds = 2) {
 
     console.log([height, width, genes.length]);
-    var vfBuffer = tf.buffer([height, width, genes.length], dtype='float32');
+    var vfBuffer = tf.buffer([height, width, genes.length], dtype = 'float32');
 
     var x = 0;
     var y = 0;
     var z = 0;
     var val = 0;
     var counter = 0;
-    var n_steps = Math.ceil(sigma*nStds);
+    var n_steps = Math.ceil(sigma * nStds);
 
-    console.log(sigma,n_steps);
+    console.log(sigma, n_steps);
 
-    var normalization = 1/(1*Math.PI*sigma**2)**0.5
+    var normalization = 1 / (1 * Math.PI * sigma ** 2) ** 0.5
 
     for (var i = 0; i < Zgenes.length; i++) {
 
@@ -28,7 +28,7 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=2) 
                 for (var n = -n_steps; n <= n_steps; n++) {
 
                     if (((x + m) > 0) && ((y + n) > 0) && ((x + m) < height - 1) && ((y + n) < width - 1)) {
-                        val = Math.exp(-(Math.pow(n, 2) + Math.pow(m, 2)) / Math.pow(sigma, 2))*normalization;
+                        val = Math.exp(-(Math.pow(n, 2) + Math.pow(m, 2)) / Math.pow(sigma, 2)) * normalization;
                         vfBuffer.set(vfBuffer.get(x + m, y + n, z) + val, x + m, y + n, z);
 
                     }
@@ -47,13 +47,13 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds=2) 
 
     }
 
-    try{
+    try {
         vf = vfBuffer.toTensor();
     }
-    catch{
+    catch {
         throw ("Exceeded");
     }
-   
+
     vfNorm = vf.sum(2);
 
     return [vf, vfNorm];
@@ -81,5 +81,32 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
         return inters.sub(vfNorm.less(threshold));
 
     });
+
+
     return celltypeMap;
+};
+
+function calculateStats(celltypeMap,nClasses) {
+
+
+    celltypeCounts = tf.tidy(() => {
+
+        // var intMat = tf.zerosLike(celltypeMap);
+        intermediates = [];
+        var inter;
+        for (var i = 0; i < nClasses+1; i++) {
+            inter = celltypeMap.equal(tf.scalar(i,dtype='int32')).sum();
+            intermediates.push(inter.arraySync());
+            // intMat = intMat.add(tf.scalar(1, dtype='int32'));
+        }
+
+        var sum = intermediates.reduce((a, b) => a + b, 0);
+
+        return intermediates.map(x => x/sum);
+        
+
+    });
+
+
+    return celltypeCounts;
 };

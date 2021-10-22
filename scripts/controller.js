@@ -80,6 +80,37 @@ function processCoordinates(allText) {
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
 
+function processColorMap(allText, clusterLabels) {
+
+    let allTextLines = allText.trim().split(/\r\n|\n/);
+
+    let labelList = [];
+    let colorList = [];
+    let colors = ["#000000"];
+
+    for (var i = 0; i < allTextLines.length; i++) {
+        [ct, color] = allTextLines[i].split(':');
+
+        labelList.push(ct)
+        colorList.push(color);
+    }
+
+
+    for (var i = 0; i < clusterLabels.length; i++) {
+        let idx = labelList.indexOf(clusterLabels[i]);
+        if (idx < 0) {
+            colors.push('#222222');
+        }
+        else {
+
+            console.log(clusterLabels[i], idx, colorList[idx])
+            colors.push(colorList[idx]);
+        }
+    }
+
+    return colors;
+};
+
 function reloadPage() {
     window.scrollTo(0, 0);
     // document.getElementById('btn-coordinates-hidden').scrollIntoView();
@@ -101,7 +132,7 @@ function main() {
         var ZGenes;     // gene information
         var xmax;       // highest coordinate
         var ymax;       // lowest coordinate
-        var sigma = 1;   // KDE kernel width
+        var sigma = 3;   // KDE kernel width
 
         var height = 500;         // vf height (pixels)
         var width = 0;      // vf width (pixels)
@@ -118,6 +149,8 @@ function main() {
         var parameterZ = [];
         var vfParameter;
         var vfNormParameter;
+        var cGen = getColorValue;
+
 
         var pointerCoordinates = parameterWindow;
 
@@ -150,7 +183,7 @@ function main() {
     };
 
     async function importCoordinates(fileToLoad) {
-        
+
         $('#errCoords').remove();
 
         vf = null;
@@ -180,6 +213,49 @@ function main() {
         });
 
         coordinatesLoaded = true;
+    };
+
+
+    function getColorMap() {
+        return cGen;
+    }
+
+
+
+    async function importColorMap(fileToLoad) {
+
+        $('#errCoords').remove();
+
+
+        // var colors = [];
+
+        // console.log(ZGenes);
+        console.log('loading cMap');
+        // document.getElementById("coordinate-loader").style.display = "block";   //display waiting symbol
+
+        if (fileToLoad.constructor.name != "File") {
+            fileToLoad = document.getElementById("btn-cmap-hidden").files[0];
+        }
+
+        colors = processColorMap(await readFileAsync(fileToLoad), clusterLabels);
+
+        function colorGenerator(val) {
+            // console.log("generated: ", val)
+            if (val == 0) {
+                return "#000000ff"
+            }
+            else {
+                return colors[Math.min(Math.ceil(val * clusterLabels.length), colors.length - 1)];
+            }
+        }
+
+        cGen = colorGenerator;
+
+        //redraw map/stats with new colors
+
+        plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
+        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
+
     };
 
 
@@ -223,7 +299,7 @@ function main() {
 
         plotCoordinates('coordinates-preview', X, Y, ZGenes, { 'showlegend': true, });
 
-        console.log(rescale);
+        // console.log(rescale);
 
     }
 
@@ -233,7 +309,7 @@ function main() {
 
         div = $('#vf-norm-preview')[0];
 
-        console.log(event)
+        // console.log(event)
 
         if (!event["xaxis.autorange"]) {
             var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
@@ -264,7 +340,7 @@ function main() {
 
         text = lengthRound + " μm";
 
-        console.log(center, div.layout.shapes[0])
+        // console.log(center, div.layout.shapes[0])
 
         length = Math.ceil(Math.random() * 40);
 
@@ -295,13 +371,11 @@ function main() {
         Plotly.update('vf-norm-preview', {}, layout);
     }
 
-
-
     function updateCtMapScalebar(event) {
 
         div = $('#celltypes-preview')[0];
 
-        console.log(event);
+        // console.log(event);
         if (!event["xaxis.autorange"]) {
 
             var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
@@ -334,7 +408,7 @@ function main() {
 
         text = lengthRound + " μm";
 
-        console.log(div.layout)
+        // console.log(div.layout)
 
         length = Math.ceil(Math.random() * 40);
 
@@ -365,7 +439,26 @@ function main() {
         Plotly.update('celltypes-preview', {}, layout);
     }
 
+    function updateStats(event) {
 
+        if (isNaN(event['xaxis.range[0]'])) {
+            x_ = 0;
+            y_ = 0;
+            _x = width - 1;
+            _y = height - 1;
+        }
+        else {
+            var y_ = Math.max(0, Math.round(event['xaxis.range[0]']));
+            var _y = Math.min(height - 1, Math.round(event['xaxis.range[1]']));
+            var x_ = Math.max(0, Math.round(event['yaxis.range[0]']));
+            var _x = Math.min(width - 1, Math.round(event['yaxis.range[1]']));
+        }
+        // console.log('kewl', x_, _x, y_, _y);
+        var celltypeCounts = calculateStats(celltypeMap.slice([x_, y_], [_x - x_ + 1, _y - y_ + 1]), clusterLabels.length - 1);
+        // console.log(celltypeCounts);
+        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
+
+    }
 
     function runFullKDE() {
         $('#errCoords').remove();
@@ -374,8 +467,9 @@ function main() {
 
             try {
                 $('#errMemory').remove();
+                // let time = Date.now();
                 [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma / xmax * height, width, height);
-
+                // console.log(Date.now() - time);
                 umPerPx = xmax / width;
 
                 plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
@@ -401,10 +495,14 @@ function main() {
             printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
         }
         else {
-            celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
-            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx));
+            const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+            var celltypeCounts = calculateStats(celltypeMap, clusterLabels.length - 1);
+
+            plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
+            plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
             umPerPx = xmax / width;
             document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
+            document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
         }
     };
 
@@ -430,7 +528,7 @@ function main() {
     function updateSigma() {
         // togglePreviewGenerator();
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
-        console.log(document.getElementById('preview-generator').style.display);
+        // console.log(document.getElementById('preview-generator').style.display);
 
         if (document.getElementById('preview-generator').style.display == 'block') {
             if (document.getElementById('liveParameterUpdateCheckbox').checked)
@@ -458,6 +556,7 @@ function main() {
         }
     }
 
+    // Open/close parameter optimization section
     function toggleParameterGenerator() {
         var previewGenerator = document.getElementById('preview-generator');
 
@@ -471,21 +570,25 @@ function main() {
             document.getElementById("bar-parameters").innerHTML = 'Close preview generator';
 
         } else {
-            console.log(document.getElementById("bar-parameters").innerHTML);
+            // console.log(document.getElementById("bar-parameters").innerHTML);
             hideParameterGenerator();
         }
 
     };
 
+    // create small parameter celltype map
     function updateParameterCelltypes() {
-        parameterCelltypeMap = assignCelltypes(vfParameter, vfNormParameter, signatureMatrix, threshold);
+        const parameterCelltypeMap = assignCelltypes(vfParameter, vfNormParameter, signatureMatrix, threshold);
         labelsShort = clusterLabels.map(function (e) {
             return e.substring(0, 5) + '.';
         });
-        console.log(labelsShort);
-        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort);
+        // console.log(labelsShort);
+        plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort, getClusterLabel, layout = {}, highlight = null, cValGenGetter = getColorMap);
+        // plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
+
     }
 
+    // update small vector field
     function updateParameterVf() {
         [vfParameter, vfNormParameter] = runKDE(parameterX, parameterY, parameterZ,
             genes, parameterWidth * xmax / width * 2, parameterWidth * ymax / height * 2,
@@ -494,6 +597,7 @@ function main() {
         updateParameterCelltypes();
     };
 
+    // remove coordinates outside box for preview 
     function updateParameterCoordinates() {
         parameterX = []
         parameterY = []
@@ -513,6 +617,7 @@ function main() {
         }
     };
 
+    // create the small parameter optimization mrna coordinates panel
     function createParameterCoodinatesPlot() {
         updateParameterCoordinates();
         var rectCenter = [parameterWindow[0] / width * xmax, parameterWindow[1] / height * ymax];
@@ -542,10 +647,12 @@ function main() {
         updateParameterVf();
     };
 
+    // store pointer coordinates to draw rectangle on preview map
     function updatePointerCoordinates(eventData) {
         pointerCoordinates = [eventData.xvals[0], eventData.yvals[0]];
     };
 
+    // draw rectangle on preview map
     function updateRectangle(eventData) {
         updateParameterRectangle(pointerCoordinates, parameterWidth * xmax / width);
         parameterWindow = [Math.ceil(pointerCoordinates[1] / xmax * width),
@@ -559,10 +666,10 @@ function main() {
 
             refreshParameterGenerator()
         }
-        // console.log(pointerCoordinates);
+
     };
+
     function togglePreviewGenerator() {
-        // console.log('Hellow')
         refreshParameterGenerator()
     }
 
@@ -572,6 +679,8 @@ function main() {
             .addEventListener('change', importSignatures);
         document.getElementById('btn-coordinates-hidden')
             .addEventListener('change', importCoordinates);
+        document.getElementById('btn-cmap-hidden')
+            .addEventListener('change', importColorMap);
         document.getElementById('liveParameterUpdateCheckbox')
             .addEventListener('change', liveChecked);
         // document.getElementById('liveParameterUpdateCheckbox')
@@ -626,7 +735,7 @@ function main() {
         $('[data-toggle="threshold"]').tooltip();
     };
 
-    function getcurrrentVersion(){
+    function getcurrrentVersion() {
         $.ajax({
             type: "GET",
             url: "https://api.github.com/repos/HiDiHlabs/ssam-lite/tags",
@@ -635,7 +744,7 @@ function main() {
             success: function (response) {
                 response.shift();
                 const versions = response.sort((v1, v2) => semver.compare(v2.name, v1.name));
-                $('#result').html('v'+versions[0].name);
+                $('#result').html('v' + versions[0].name);
             },
             error: function (err) {
                 console.log(err);
