@@ -244,7 +244,6 @@ You can zoom in to a subsection or display only a subset of cell types as descri
 in the section :ref:`plot-navigation`. The cell type abundances will be updated 
 automatically when navigating in the cell type map.
 
-.. TODO adjust image
 
 .. image:: ../res/imgs/inferredCelltypes.png
   :width: 800
@@ -283,7 +282,8 @@ Save results
 
 All plots are produced with Plotly and can be downloaded
 by hovering over the plot which triggers a control panel to appear in the upper right corner,
-now click the camera icon which lets you download the current plot as png file.
+now click the camera icon which lets you download the current plot as png file. For the cell type
+abundance plot this will additionally download te values of the relative abundances in a tsv format.
 
 .. image:: ../res/imgs/DownloadPlot.png
   :width: 500
@@ -291,8 +291,3 @@ now click the camera icon which lets you download the current plot as png file.
   :alt: Downloading plots
 
 |
-
-.. TODO adjust text 
-
-The cell type abundances can be downloaded by clicking on the Download button below 
-which will export it as csv.
