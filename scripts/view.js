@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
+    Plotly.react(div, data, layoutCoordinates, { responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -211,7 +211,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
         ...layoutVfNorm
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, { modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
+    Plotly.react(div, data, layoutVfNorm, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 
 };
 
@@ -328,7 +328,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
     // counts.reverse();
 
-    Plotly.react(div, data, layout, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
 
     var statsDiv = document.querySelector('#celltypes-stats');
     var yticks = statsDiv.querySelectorAll('.ytick');
