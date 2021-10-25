@@ -163,6 +163,11 @@ body {
 pointer-events:all;
 }
 
+/* .modebar-container {
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+} */
 /* 
  * Tutorial - Modal Content/Box 
  */

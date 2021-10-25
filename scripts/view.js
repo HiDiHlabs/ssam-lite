@@ -275,7 +275,6 @@ function repaintTicks(yticks, highlight = null) {
 
 function repaintCelltypeCanvas(highlights = null, colorGenerator) {
 
-    // highlights = ((highlight==null)? null : ($('#celltypes-preview')[0].data[0].zmax-highlight));
     [colorMap, tickVals] = createColorMap($('#celltypes-preview')[0].data[0].zmax, highlights, colorGenerator);
 
     var update = { colorscale: [colorMap], };
@@ -321,8 +320,8 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             },
             title: { text: 'Covered areas:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
-            'xaxis': { automargin: true, title: 'relative area' },
-            'yaxis': { automargin: true, scaleanchor: "x" },
+            'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
+            'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
         }, ...layout
     }
 
@@ -436,9 +435,11 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             },
             title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
-            'xaxis': { automargin: true, title: 'px' },
-            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
+            'xaxis': { automargin: true, title: 'px', 'showgrid':false },
+            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', 'showgrid':false },
             'uirevision': false,
+            'showgrid': false,
+
         }, ...layout
     }
 

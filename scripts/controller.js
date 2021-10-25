@@ -89,7 +89,7 @@ function processColorMap(allText, clusterLabels) {
     let colors = ["#000000"];
 
     for (var i = 0; i < allTextLines.length; i++) {
-        [ct, color] = allTextLines[i].split(':');
+        [ct, color] = allTextLines[i].split(/,|:/);
 
         labelList.push(ct)
         colorList.push(color);
