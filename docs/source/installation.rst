@@ -34,7 +34,7 @@ and after that, no internet connection is required anymore.
 SSAM-lite
 =========
 
-SSAM-lite is accesible via https://ssam-lite.netlify.app, and does not need to be installed.
+SSAM-lite is accesible via https://ssam-lite.bihealth.org, and does not need to be installed.
 
 However, if you want to have a local copy of the code or run an older version, installation is possible and 
 could not be easier. You either clone the `GitHub repository <https://github.com/HiDiHlabs/ssam-lite>`__
@@ -87,11 +87,6 @@ and TensorFlow.js JavaScript libraries.
 .. code-block:: bash
 
     python fetch_static_files.py
-
-
-..
-    Download the background signature matrix from Dropbox <https://www.dropbox.com/s/8qxkgg16zelg6ya/new_sheet.tar.xz?dl=0>
-    Decompress it and save it in the folder :file: `app/data/genetics/`
 
 
 Finally, start the Flask app (the default port will be 5000).

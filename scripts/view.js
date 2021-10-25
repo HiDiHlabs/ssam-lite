@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d'], displaylogo: false });
+    Plotly.newPlot(div, data, layoutCoordinates, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -327,7 +327,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
     // counts.reverse();
 
-    Plotly.react(div, data, layout);
+    Plotly.react(div, data, layout, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
 
     var statsDiv = document.querySelector('#celltypes-stats');
     var yticks = statsDiv.querySelectorAll('.ytick');
@@ -458,7 +458,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
     ];
 
-    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 
     $('#section-cmap')[0].style.display = "block";
 

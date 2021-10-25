@@ -96,7 +96,7 @@
                         obtained from your spatial sequencing experiment.
                         It is formatted as follows:
                     </p>
-                    <img src="resources/imgs/tutorial/coordinate_prev.png" style="height: 100px">
+                    <img src="resources/imgs/tutorial/coordinate_prev.png" style="max-width: 100%;">
                     <p>
                         The file contains three columns: The first one contains the molecule label, the other two
                         contain x,y-coordinates per molecule. The column names do not matter, but you need to keep their
@@ -115,15 +115,15 @@
                 </div>
 
                 <div id="tutorial-modal-data-disp" class="modal-content">
-                    <p>The Data Center has a display function for you to investigate your data.
-                        You can navigate through the plot as follows:
-                    <ul>
-                        <li>right drag: Zoom in</li>
-                        <li>shift+right drag: Drag</li>
-                        <li>double click: Original view</li>
-                        <li>click legend: Switch on/off</li>
-                        <li>double click legend: Switch all</li>
-                    </ul>
+                    <p>SSAM-lite lets you interactively investigate your data.
+                        You can navigate through the plots as follows:
+                        <ul>
+                            <li>right drag: Zoom in</li>
+                            <li>shift+right drag: Drag</li>
+                            <li>double click: Original view</li>
+                            <li>click legend: Switch on/off</li>
+                            <li>double click legend: Switch all</li>
+                        </ul>
                     </p>
                     <p>
                         <a id="button-tutorial-close-3" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -135,9 +135,8 @@
 
                 <div id="tutorial-modal-data-sigs" class="modal-content">
                     <p> The <i>signatures.csv</i> is formated as follows:
-                        <img src="./resources/imgs/tutorial/signatures_prev.png" style="height: 120px;"><br>
-                        The table contains cell type-wise expression expectations, with columns showing mRNA class and
-                        rows
+                        <img src="./resources/imgs/tutorial/signatures_prev.png" style="max-width: 100%;"><br>
+                        The table contains cell type-wise expression expectations, with columns showing mRNA class and rows
                         showing cell types.
                     </p>
 
@@ -221,7 +220,7 @@
                             </form>
                         </div>
 
-                        <div class="d-flex d-row " id="signatures-preview" ,
+                        <div class="d-row" id="signatures-preview" ,
                             style="width: 100%; height: 40vw; min-height: 350px; ">
                         </div>
                     </div>
@@ -285,6 +284,13 @@
                         Choose a <i>bandwidth</i> large enough to eliminate unwanted noise and at the same time
                         retain the desired structural detail in the result. <br>
                         Choose the <i>threshold</i> to remove unwanted, low-signal areas from the result.
+                    </p>
+                    <p>
+                        As can be seen in the figure below, a small bandwidth (left column) will not integrate the signal enough
+                        (i.e. the resultant cell-type map is still grainy) while high values (right column) lead too oversmoothing. <br>
+                        If the expression threshold is too lenient, there will be no distinction between cells and background (top row)
+                        and if it is too rigid no/few cells will be detected. <br>
+                        <img src="./resources/imgs/tutorial/parameter_effects.jpg" style="max-width: 100%;">
                     </p>
                     <p>
                         <a id="button-tutorial-close-7" class="btn btn-lg btn-secondary btn-close">Close</a>
@@ -441,7 +447,10 @@
 
             <div id="tutorial-modal-analysis-assignments" class="modal-content">
                 <p>On to the last step of the SSAM-lite pipeline: Click 'Infer Cell Types' to obtain an interactive cell
-                    type map.
+                    type map and a bar plot of the relative cell type abundance in the current field of view. 
+                    The cell type abundances will be recalculated if you zoom in to an area. 
+                    As described previously you can also hide specifc (or all) cell types by clicking 
+                    (double-clicking) on their names.
                 </p>
                 <p>
                     <a id="button-tutorial-close-9" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -453,9 +462,10 @@
 
 
             <div id="tutorial-modal-download" class="modal-content">
-                <p>To <b>download your results</b> you can hover over the image you want to save. A legend will appear
+                <p>To <b>download your results</b> you can hover over the image you want to save. A control panel will appear
                     in the top-right corner of the plot which allows you to save it as png by clicking on the camera
-                    icon.
+                    icon. For the cell type abundance plot this will additionally download the values of the relative abundances
+                    in a tsv format.
                 </p>
                 <p>The only thing left now is to analyze your own data!
                 </p>
@@ -480,8 +490,8 @@
 
             </p>
             <!-- <div class="d-flex, flex-row, container-fluid"> -->
-            <div class="d-flex justify-content-center align-items-start">
-                <div id="celltypes-preview" class="d-flex  container-fluid justify-content-start" style="width: 60%; height: 80vh;">
+            <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center align-items-start">
+                <div id="celltypes-preview" class="container-fluid" style="width: 60%; height: 80vh;">
 
                 </div>
                 <div id='celltype-preview-right-panel' class="d-flex flex-wrap container-fluid" style="width: 30%; height: 80vh;">
@@ -542,10 +552,9 @@
                         to learn more about the methods.
                     </div>
                     <div style="text-align: center; padding: 15px;">
-                        SSAM-lite has been designed and implemented by Seastian Tiesmeyer at the Berlin Institute of
-                        Health.
-                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/content/10.1101/2021.09.29.462194"
-                            target="_blank" rel="noopener noreferrer"><u>here</u></a>.
+                        SSAM-lite has been designed and implemented by Sebastian Tiesmeyer at the Berlin Institute of Health.
+                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/content/10.1101/2021.09.29.462194" target="_blank"
+                            rel="noopener noreferrer"><u>here</u></a>.
 
                     </div>
                     <div style="text-align: center; padding: 15px;">

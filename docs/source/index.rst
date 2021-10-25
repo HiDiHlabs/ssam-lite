@@ -1,8 +1,3 @@
-.. SSAM-lite documentation master file, created by
-   sphinx-quickstart on Thu Sep 16 13:38:45 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 What is SSAM-lite?
 ##################
 
@@ -21,7 +16,6 @@ Sebastian Tiesmeyer, Shashwat Sahay, Niklas Müller-Bötticher, Roland Eils, Seb
 2021.
 "`SSAM-lite: a light-weight web app for rapid analysis of spatially resolved transcriptomics data <https://www.biorxiv.org/content/10.1101/2021.09.29.462194>`__"
 *bioRxiv*. doi: 10.1101/2021.09.29.462194
-
 
 
 .. toctree::
