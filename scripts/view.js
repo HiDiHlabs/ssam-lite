@@ -285,7 +285,6 @@ function repaintCelltypeCanvas(highlights = null, colorGenerator) {
 
 
 function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = null, cValGenGetter = null) {
-
     colorGenerator = cValGenGetter();
     // console.log(colorGenerator(0));
 
@@ -296,7 +295,8 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
     // console.log(counts, clusterLabels, colorArray);
     counts = [...counts].reverse();
     clusterLabels = clusterLabels.slice().reverse();
-
+    //console.log(counts);
+    //console.log(clusterLabels);
     var data = [
         {
             type: 'bar',
@@ -326,10 +326,55 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
         }, ...layout
     }
+    let downloadIcon = {
+        'width': 1000,
+        'height': 1000,
+        'path': "M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 0 1 1.757 4.243V426a6 6 0 0 1-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z",
+        //'transform': 'matrix(0.75 0 0 -0.75 0 1000)'
+        'transform': 'scale(2)'
+      }
+      
+
+    let modeBarButtons = [[
+        "toImage",
+        {
+          name: 'Download Data',
+          icon: downloadIcon,
+          click: () => { //alert('clicked custom button!');
+          var result =  counts.reduce(function(result, field, index) {
+            result[clusterLabels[index]] = field;
+            return result;
+          }, {})
+          result = JSON.stringify(result)
+          var tsv = convertToTSV(result);
+          console.log(tsv);
+          var exportedFilenmae = 'cellabundancies.tsv';
+
+          var blob = new Blob([tsv], { type: 'text/csv;charset=utf-8;' });
+          if (navigator.msSaveBlob) { // IE 10+
+              navigator.msSaveBlob(blob, exportedFilenmae);
+          } else {
+              var link = document.createElement("a");
+              if (link.download !== undefined) { // feature detection
+                  // Browsers that support HTML5 download attribute
+                  var url = URL.createObjectURL(blob);
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", exportedFilenmae);
+                  link.style.visibility = 'hidden';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+              }
+          }
+
+         }
+
+        },  "zoom2d", "pan2d",  "zoomIn2d", "zoomOut2d", "resetViewMapbox"
+    ]]
 
     // counts.reverse();
 
-    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
+    Plotly.react(div, data, layout, {  modeBarButtons: modeBarButtons, responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
 
     var statsDiv = document.querySelector('#celltypes-stats');
     var yticks = statsDiv.querySelectorAll('.ytick');
@@ -373,6 +418,18 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
         repaintCelltypeCanvas(highlights, colorGenerator);
     }
 
+
+
+    function convertToTSV(objArray) {
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        var str = 'Cell_Type\tAbundancy\r\n';
+        console.log(array);
+        console.log(array.length);
+        for (const i in array){
+            str+=i+'\t'+array[i]+'\r\n';
+        }
+        return str;
+    }
 
 
     function ytickDblClickCallback(event) {
