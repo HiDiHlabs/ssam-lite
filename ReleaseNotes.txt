@@ -1,6 +1,7 @@
 1.1.0
 - Cell type abundance plot
 - Custom cell type colors
+- Layout responsiveness and optimizations for small devices
 
 1.0.0
 - First release
