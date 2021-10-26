@@ -11,7 +11,7 @@
         'echo $PWD',
         'whoami',
         'git fetch --all',
-        'git checkout --force "origin/shs"',
+        'git checkout --force "origin/dev"',
         'git submodule sync',
         'git submodule update',
         'git submodule status',
