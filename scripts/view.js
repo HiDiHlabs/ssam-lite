@@ -420,7 +420,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
     function convertToTSV(objArray) {
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-        var str = 'Cell Type\tAbundancy\r\n';
+        var str = 'Cell_Type\tAbundancy\r\n';
         console.log(array);
         console.log(array.length);
         for (const i in array){
