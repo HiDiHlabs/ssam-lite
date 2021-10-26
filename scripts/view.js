@@ -20,7 +20,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
             paper_bgcolor: 'rgba(0,0,0,0.4)',
             plot_bgcolor: 'rgba(0,0,0,1)',
             title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
-            margin: { t: 35, b: 10, },
+            margin: { t: 35, b: 10, l: 15, r: 15 },
             font: { color: '#dddddd' },
             xaxis: { automargin: true, title: 'μm', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'μm', },
@@ -47,7 +47,7 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.newPlot(div, data, layoutCoordinates, { modeBarButtonsToRemove: ['lasso2d', 'autoScale2d'], displaylogo: false });
+    Plotly.react(div, data, layoutCoordinates, { responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -204,14 +204,14 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             showscale: true,
             font: { color: 'white', },
             title: { text: 'Gene expression estimate', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
-            margin: { t: 35, b: 10, },
+            margin: { t: 35, b: 15, l: 15, r: 15 },
             xaxis: { automargin: true, title: 'px', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'px', },
         },
         ...layoutVfNorm
     }
 
-    Plotly.newPlot(div, data, layoutVfNorm, { modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
+    Plotly.react(div, data, layoutVfNorm, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 
 };
 
@@ -275,7 +275,6 @@ function repaintTicks(yticks, highlight = null) {
 
 function repaintCelltypeCanvas(highlights = null, colorGenerator) {
 
-    // highlights = ((highlight==null)? null : ($('#celltypes-preview')[0].data[0].zmax-highlight));
     [colorMap, tickVals] = createColorMap($('#celltypes-preview')[0].data[0].zmax, highlights, colorGenerator);
 
     var update = { colorscale: [colorMap], };
@@ -321,14 +320,14 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             },
             title: { text: 'Covered areas:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
-            'xaxis': { automargin: true, title: 'relative area' },
-            'yaxis': { automargin: true, scaleanchor: "x" },
+            'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
+            'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
         }, ...layout
     }
 
     // counts.reverse();
 
-    Plotly.react(div, data, layout);
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
 
     var statsDiv = document.querySelector('#celltypes-stats');
     var yticks = statsDiv.querySelectorAll('.ytick');
@@ -435,10 +434,12 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
                 color: 'white',
             },
             title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
-            margin: { t: 35, b: 10, },
-            'xaxis': { automargin: true, title: 'px' },
-            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', },
+            margin: { t: 35, b: 10, l: 15, r: 15 },
+            'xaxis': { automargin: true, title: 'px', 'showgrid':false },
+            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', 'showgrid':false },
             'uirevision': false,
+            'showgrid': false,
+
         }, ...layout
     }
 
@@ -457,7 +458,7 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
     ];
 
-    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'] });
+    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
 
     $('#section-cmap')[0].style.display = "block";
 
