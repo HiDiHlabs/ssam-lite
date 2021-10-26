@@ -282,8 +282,9 @@ Save results
 
 All plots are produced with Plotly and can be downloaded
 by hovering over the plot which triggers a control panel to appear in the upper right corner,
-now click the camera icon which lets you download the current plot as png file. For the cell type
-abundance plot this will additionally download te values of the relative abundances in a tsv format.
+now click the camera icon which lets you download the current plot as png file. For the 
+cell type abundance plot there is an additional save icon that downloads the values of the 
+relative abundances in a tsv format.
 
 .. image:: ../res/imgs/DownloadPlot.png
   :width: 500
