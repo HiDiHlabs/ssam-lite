@@ -473,7 +473,8 @@ function main() {
                 umPerPx = xmax / width;
 
                 plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
-                document.getElementById('vf-norm-preview').on('plotly_relayout resize', updateVfNormScalebar);
+                // document.getElementById('vf-norm-preview').on('plotly_relayout resize', updateVfNormScalebar);
+                document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
@@ -501,7 +502,8 @@ function main() {
             plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
             plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
             umPerPx = xmax / width;
-            document.getElementById('celltypes-preview').on('plotly_relayout resize', updateCtMapScalebar);
+            // document.getElementById('celltypes-preview').on('plotly_relayout resize', updateCtMapScalebar);
+            document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
             document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
         }
     };
