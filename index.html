@@ -87,7 +87,8 @@
                     </p>
                 </div>
                 <div id="tutorial-modal-data-coords" class="modal-content">
-                    <p>Great! Now that you've downloaded the data, extract it to your hard drive. Pick one of the two test data folders.
+                    <p>Great! Now that you've downloaded the data, extract it to your hard drive. Pick one of the two
+                        test data folders.
                         It contains two files:
                         <i>coordinates.csv</i> and <i>signatures.csv</i>.
                     </p>
@@ -117,13 +118,13 @@
                 <div id="tutorial-modal-data-disp" class="modal-content">
                     <p>SSAM-lite lets you interactively investigate your data.
                         You can navigate through the plots as follows:
-                        <ul>
-                            <li>right drag: Zoom in</li>
-                            <li>shift+right drag: Drag</li>
-                            <li>double click: Original view</li>
-                            <li>click legend: Switch on/off</li>
-                            <li>double click legend: Switch all</li>
-                        </ul>
+                    <ul>
+                        <li>right drag: Zoom in</li>
+                        <li>shift+right drag: Drag</li>
+                        <li>double click: Original view</li>
+                        <li>click legend: Switch on/off</li>
+                        <li>double click legend: Switch all</li>
+                    </ul>
                     </p>
                     <p>
                         <a id="button-tutorial-close-3" class="btn btn-lg btn-secondary btn-close"> Close</a>
@@ -136,7 +137,8 @@
                 <div id="tutorial-modal-data-sigs" class="modal-content">
                     <p> The <i>signatures.csv</i> is formated as follows:
                         <img src="./resources/imgs/tutorial/signatures_prev.png" style="max-width: 100%;"><br>
-                        The table contains cell type-wise expression expectations, with columns showing mRNA class and rows
+                        The table contains cell type-wise expression expectations, with columns showing mRNA class and
+                        rows
                         showing cell types.
                     </p>
 
@@ -173,15 +175,15 @@
                                 </label>
                             </form>
                         </div>
-                        <div class="d-row" id="coordinates-preview" style="width: 100%; height: 60vh; max-height: 100vw;">
+                        <div class="d-row" id="coordinates-preview"
+                            style="width: 100%; height: 60vh; max-height: 100vw;">
                         </div>
 
                         <br>
 
                         <div id="divScale" class="slidecontainer" style="display:none;">
                             <div class="d-flex p-2 justify-content-center">
-                                <input type="number" id="exampleScale" name="exampleScale" step="0.1" min="0"
-                                    value="1">
+                                <input type="number" id="exampleScale" name="exampleScale" step="0.1" min="0" value="1">
                             </div>
                             <div class="d-flex justify-content-center">
                                 <label for="exampleScale" data-toggle="exampleScale"
@@ -302,9 +304,12 @@
                         Choose the <i>threshold</i> to remove unwanted, low-signal areas from the result.
                     </p>
                     <p>
-                        As can be seen in the figure below, a small bandwidth (left column) will not integrate the signal enough
-                        (i.e. the resultant cell-type map is still grainy) while high values (right column) lead too oversmoothing. <br>
-                        If the expression threshold is too lenient, there will be no distinction between cells and background (top row)
+                        As can be seen in the figure below, a small bandwidth (left column) will not integrate the
+                        signal enough
+                        (i.e. the resultant cell-type map is still grainy) while high values (right column) lead too
+                        oversmoothing. <br>
+                        If the expression threshold is too lenient, there will be no distinction between cells and
+                        background (top row)
                         and if it is too rigid no/few cells will be detected. <br>
                         <img src="./resources/imgs/tutorial/parameter_effects.jpg" style="max-width: 100%;">
                     </p>
@@ -340,13 +345,90 @@
 
                         <!-- field coordinates: -->
                         <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
-                            <div id="parameter-coordinates" style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
-                            <div class="d-flex flex-column slidecontainer" style="min-height: 125px; padding: 10px">
+                            <div id="parameter-coordinates"
+                                style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
+                            <div id="parameter-coordinates-input" class="d-flex flex-column slidecontainer"
+                                style="min-height: 125px; padding: 10px">
+                                <!-- <div class="d-flex justify-content-center">
+                                    <label for="vf-width" data-toggle="vf-width"
+                                        title="The size of our discrete analysis/output area in pixels">Pixel width
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                        </svg>
+                                    </label>
+                                </div> -->
+                                <!-- <div class="d-flex p-2 justify-content-center">
+                                    <input type="number" id="vf-width" name="vf-width" min="1" value="500">
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <div id="vf-size-information">total size: -</div>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <!-- field vf: -->
+                        <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
+                            <div id="parameter-vf"
+                                style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
+                            <div id="parameter-vf-input" class="d-flex flex-column slidecontainer"
+                                style="min-height: 125px; padding: 10px">
+                                <!-- <div class="d-flex  justify-content-center">
+                                    <label for="KDE-bandwidth" data-toggle="KDE-bandwidth"
+                                        title="The 'smoothing factor' applied to the mRNA locations">KDE kernel
+                                        bandwidth
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                        </svg>
+                                    </label>
+                                </div> -->
+                                <!-- <div class="d-flex p-2 justify-content-center">
+                                    <input type="number" id="KDE-bandwidth" name="KDE-bandwidth" step="0.1" min="0.1"
+                                        value="3">
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- field cell type: -->
+                        <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
+                            <div id="parameter-celltypes"
+                                style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
+                            <div id="parameter-celltypes-input" class="d-flex flex-column  slidecontainer"
+                                style="min-height: 125px; padding: 10px">
+                                <!-- <div class="d-flex  justify-content-center">
+                                    <label for="vf-width" data-toggle="threshold"
+                                        title="Threshold for discarding areas with low expression signal">Expression
+                                        threshold
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                        </svg>
+                                    </label>
+                                </div> -->
+                                <!-- <div class="d-flex p-2 justify-content-center">
+                                    <input type="number" id="threshold" name="threshold" step=0.1 min="0" value="2">
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="preview-default" style="display: block;">
+
+                    <div class="d-flex flex-row flex-wrap justify-content-center" style="min-height: 20vh;">
+
+                        <!-- field coordinates: -->
+                        <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
+                            <div id="parameter-coordinates-input-default" class="d-flex flex-column slidecontainer"
+                                style="min-height: 125px; padding: 10px">
                                 <div class="d-flex justify-content-center">
                                     <label for="vf-width" data-toggle="vf-width"
                                         title="The size of our discrete analysis/output area in pixels">Pixel width
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                                            class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
                                             <path
                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                         </svg>
@@ -363,13 +445,14 @@
 
                         <!-- field vf: -->
                         <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
-                            <div id="parameter-vf" style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
-                            <div class="d-flex flex-column slidecontainer" style="min-height: 125px; padding: 10px">
+                            <div id="parameter-vf-input-default" class="d-flex flex-column slidecontainer"
+                                style="min-height: 125px; padding: 10px">
                                 <div class="d-flex  justify-content-center">
                                     <label for="KDE-bandwidth" data-toggle="KDE-bandwidth"
-                                        title="The 'smoothing factor' applied to the mRNA locations">KDE kernel bandwidth
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                                            class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        title="The 'smoothing factor' applied to the mRNA locations">KDE kernel
+                                        bandwidth
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
                                             <path
                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                         </svg>
@@ -383,14 +466,14 @@
                         </div>
                         <!-- field cell type: -->
                         <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
-                            <div id="parameter-celltypes" style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
-                            <div class="d-flex flex-column  slidecontainer" style="min-height: 125px; padding: 10px">
+                            <div id="parameter-celltypes-input-default" class="d-flex flex-column  slidecontainer"
+                                style="min-height: 125px; padding: 10px">
                                 <div class="d-flex  justify-content-center">
                                     <label for="vf-width" data-toggle="threshold"
                                         title="Threshold for discarding areas with low expression signal">Expression
                                         threshold
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                                            class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
                                             <path
                                                 d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                         </svg>
@@ -399,11 +482,11 @@
                                 <div class="d-flex p-2 justify-content-center">
                                     <input type="number" id="threshold" name="threshold" step=0.1 min="0" value="2">
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <!-- analysis section -->
@@ -448,19 +531,21 @@
                 </p>
             </div>
 
-            <div id="vf-norm-preview" class="d-row container-fluid" style="width: 80vw; max-width: 120vh; height: 80vh; max-height: 120vw; padding: 0px"></div>
+            <div id="vf-norm-preview" class="d-row container-fluid"
+                style="width: 80vw; max-width: 120vh; height: 80vh; max-height: 120vw; padding: 0px"></div>
 
             <div id="section-assignments" class="d-row" style="height:10vh; width:100%"></div>
 
             <div id="tutorial-modal-analysis-assignments" class="modal-content">
                 <p>On to the last step of the SSAM-lite pipeline: Click 'Infer Cell Types' to obtain an interactive cell
-                    type map and a bar plot of the relative cell type abundance in the current field of view. 
-                    The cell type abundances will be recalculated if you zoom in to an area. 
-                    As described previously you can also hide specifc (or all) cell types by clicking 
+                    type map and a bar plot of the relative cell type abundance in the current field of view.
+                    The cell type abundances will be recalculated if you zoom in to an area.
+                    As described previously you can also hide specifc (or all) cell types by clicking
                     (double-clicking) on their names.
                 </p>
-                <p>To adjust the color palette you can upload a csv file with the cell type name in one column and a 
-                    hexadecimal encoded color in the other by clicking the 'Custom color map' button. Try it out by uploading
+                <p>To adjust the color palette you can upload a csv file with the cell type name in one column and a
+                    hexadecimal encoded color in the other by clicking the 'Custom color map' button. Try it out by
+                    uploading
                     the <i>custom_colors.csv</i> provided with the test data.
                 </p>
                 <p>
@@ -472,9 +557,11 @@
             </div>
 
             <div id="tutorial-modal-download" class="modal-content">
-                <p>To <b>download your results</b> you can hover over the image you want to save. A control panel will appear
+                <p>To <b>download your results</b> you can hover over the image you want to save. A control panel will
+                    appear
                     in the top-right corner of the plot which allows you to save it as png by clicking on the camera
-                    icon. For the cell type abundance plot this will additionally download the values of the relative abundances
+                    icon. For the cell type abundance plot this will additionally download the values of the relative
+                    abundances
                     in a tsv format.
                 </p>
                 <p>The only thing left now is to analyze your own data!
@@ -500,10 +587,12 @@
             </p>
             <!-- <div class="d-flex, flex-row, container-fluid"> -->
             <div class="d-flex flex-wrap flex-lg-nowrap justify-content-center align-items-start">
-                <div id="celltypes-preview" class="container-fluid" style="width: 60%; min-width: 350px; height: 80vh; max-height: 120vw; padding: 0px">
+                <div id="celltypes-preview" class="container-fluid"
+                    style="width: 60%; min-width: 350px; height: 80vh; max-height: 120vw; padding: 0px">
 
                 </div>
-                <div id='celltype-preview-right-panel' class="flex-wrap container-fluid" style="width: 30%; min-width: 350px; height: 80vh; max-height: 120vw; padding: 0px">
+                <div id='celltype-preview-right-panel' class="flex-wrap container-fluid"
+                    style="width: 30%; min-width: 350px; height: 80vh; max-height: 120vw; padding: 0px">
                     <div id="celltypes-stats" class="d-column container-fluid"
                         style="background-color: transparent; height: 80%;">
                     </div>
@@ -554,9 +643,10 @@
                         to learn more about the methods.
                     </div>
                     <div style="text-align: center; padding: 15px;">
-                        SSAM-lite has been designed and implemented by Sebastian Tiesmeyer at the Berlin Institute of Health.
-                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/content/10.1101/2021.09.29.462194" target="_blank"
-                            rel="noopener noreferrer"><u>here</u></a>.
+                        SSAM-lite has been designed and implemented by Sebastian Tiesmeyer at the Berlin Institute of
+                        Health.
+                        Learn more about SSAM-lite <a href="https://www.biorxiv.org/content/10.1101/2021.09.29.462194"
+                            target="_blank" rel="noopener noreferrer"><u>here</u></a>.
                     </div>
                     <div style="text-align: center; padding: 15px;">
                         For a comprehensive documentation of the SSAM-lite tool check out our

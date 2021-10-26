@@ -63,7 +63,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             hovertemplate: 'Gene: %{x}<br>' +
                 'Cell type: %{y}<br>' +
                 'Gene expression: %{z:.3f}<extra></extra>',
-        }
+                colorbar: {title:'Gene expression (a.u.)', titleside:'right'},
+        },
     ];
 
     var layout_signatures = {                     // all "layout" attributes: #layout
@@ -72,7 +73,7 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         'font': {
             color: 'white',
         },
-        title: { text: 'Gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+        title: { text: 'Celltype-wise gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
         margin: { t: 35, b: 10, },
         'xaxis': {
             autotick: false,
@@ -192,6 +193,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             hovertemplate: 'x: %{x}<br>' +
                 'y: %{y}<br>' +
                 'KDE: %{z:.3f}<extra></extra>',
+                colorbar: {title:'Overall local expression (a.u.)', titleside:'right'},
         },
 
     ];
@@ -318,7 +320,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             'font': {
                 color: 'white',
             },
-            title: { text: 'Covered areas:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            title: { text: 'Cell type abundance:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
             'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
             'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
@@ -414,6 +416,17 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 }
 
 
+function moveParametersToPreview(){
+    $('#parameter-coordinates-input-default').appendTo('#parameter-coordinates-input');
+    $('#parameter-vf-input-default').appendTo('#parameter-vf-input');
+    $('#parameter-celltypes-input-default').appendTo('#parameter-celltypes-input');
+}
+
+function moveParametersToPreview(){
+    $('#parameter-coordinates-input').appendTo('#parameter-coordinates-input-default');
+    $('#parameter-vf-input').appendTo('#parameter-vf-input-default');
+    $('#parameter-celltypes-input').appendTo('#parameter-celltypes-input-default');
+}
 
 function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}, highlight = null, cValGenGetter = null) {
 
@@ -464,14 +477,12 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
 };
 
-
-
 function displayParameterGenerator() {
-
     var buttonParameters = document.getElementById('bar-parameters');
     var previewGenerator = document.getElementById('preview-generator');
     previewGenerator.style.display = "block";
     buttonParameters.innerHTML = 'Close preview generator';
+    moveParametersToPreview();
 }
 
 function hideParameterGenerator() {
@@ -480,6 +491,7 @@ function hideParameterGenerator() {
 
     previewGenerator.style.display = "none";
     buttonParameters.innerHTML = 'Use preview generator for parameter search';
+    moveParametersToDefault();
 }
 
 function refreshParameterGenerator() {
