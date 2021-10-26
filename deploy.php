@@ -12,7 +12,7 @@
         'whoami',
         'git fetch --all',
         'git checkout --force "origin/shs"',
-        'git pull',
+        'git pull origin shs',
     );
 
     // exec commands
