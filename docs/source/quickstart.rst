@@ -16,7 +16,7 @@ Otherwise we would recommend that you have a look at the :ref:`user guide <user-
 Test data
 =========
 
-Download the test data from Zenodo (https://zenodo.org/record/5517607) and unzip it.
+Download the test data from Zenodo (https://zenodo.org/record/5517606) and unzip it.
 
 
 Open SSAM-lite

@@ -13,7 +13,7 @@ Test Data
 ==============
 
 If you want to follow our usage guide along with some sample data you can download a sample data set from
-Zenodo (https://zenodo.org/record/5517607).
+Zenodo (https://zenodo.org/record/5517606).
 
 Two sample data sets are available:
 
