@@ -12,9 +12,7 @@
         'whoami',
         'git fetch --all',
         'git checkout --force "origin/dev"',
-        'git submodule sync',
-        'git submodule update',
-        'git submodule status',
+        'git pull',
     );
 
     // exec commands
