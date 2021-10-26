@@ -309,15 +309,20 @@ function main() {
 
         div = $('#vf-norm-preview')[0];
 
-        // console.log(event)
+        // console.log(event);
 
-        if (!event["xaxis.autorange"]) {
-            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
-            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
+        if (event.autosize) {
+            // var plot_div = document.getElementById('vf-norm-preview');
+            var xrange = [div.layout.xaxis.range[0], div.layout.xaxis.range[1]]
+            var yrange = [div.layout.yaxis.range[0], div.layout.yaxis.range[1]]
         }
-        else {
+        else if (!event["xaxis.range[0]"]) {
             var xrange = [0, width];
             var yrange = [0, height];
+        }
+        else {
+            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
+            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
         }
 
         starty = yrange[0] + (yrange[1] - yrange[0]) / 8
@@ -376,15 +381,19 @@ function main() {
         div = $('#celltypes-preview')[0];
 
         // console.log(event);
-        if (!event["xaxis.autorange"]) {
 
-            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
-            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
-
+        if (event.autosize) {
+            // var plot_div = document.getElementById('celltypes-preview');
+            var xrange = [div.layout.xaxis.range[0], div.layout.xaxis.range[1]]
+            var yrange = [div.layout.yaxis.range[0], div.layout.yaxis.range[1]]
         }
-        else {
+        else if (!event["xaxis.range[0]"]) {
             var xrange = [0, width];
             var yrange = [0, height];
+        }
+        else {
+            var xrange = [event["xaxis.range[0]"], event["xaxis.range[1]"]]
+            var yrange = [event["yaxis.range[0]"], event["yaxis.range[1]"]]
         }
 
 
@@ -473,7 +482,10 @@ function main() {
                 umPerPx = xmax / width;
 
                 plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
-                document.getElementById('vf-norm-preview').on('plotly_relayout resize', updateVfNormScalebar);
+                document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
+                window.onresize = function(event) {
+                    updateVfNormScalebar;
+                }
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
@@ -501,8 +513,11 @@ function main() {
             plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
             plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
             umPerPx = xmax / width;
-            document.getElementById('celltypes-preview').on('plotly_relayout resize', updateCtMapScalebar);
+            document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
             document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
+            window.onresize = function(event) {
+                updateCtMapScalebar;
+            }
         }
     };
 
