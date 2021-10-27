@@ -11,8 +11,8 @@
         'echo $PWD',
         'whoami',
         'git fetch --all',
-        'git checkout --force "origin/dev"',
-        'git pull origin dev',
+        'git checkout --force "origin/main"',
+        'git pull origin main',
     );
 
     // exec commands
