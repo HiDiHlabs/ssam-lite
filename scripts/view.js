@@ -474,15 +474,15 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
 
 function moveParametersToPreview(){
-    $('#parameter-coordinates-input-default').appendTo('#parameter-coordinates-input');
-    $('#parameter-vf-input-default').appendTo('#parameter-vf-input');
-    $('#parameter-celltypes-input-default').appendTo('#parameter-celltypes-input');
+    $('#parameter-coordinates-input-default').children().appendTo('#parameter-coordinates-input');
+    $('#parameter-vf-input-default').children().appendTo('#parameter-vf-input');
+    $('#parameter-celltypes-input-default').children().appendTo('#parameter-celltypes-input');
 }
 
-function moveParametersToPreview(){
-    $('#parameter-coordinates-input').appendTo('#parameter-coordinates-input-default');
-    $('#parameter-vf-input').appendTo('#parameter-vf-input-default');
-    $('#parameter-celltypes-input').appendTo('#parameter-celltypes-input-default');
+function moveParametersToDefault(){
+    $('#parameter-coordinates-input').children().appendTo('#parameter-coordinates-input-default');
+    $('#parameter-vf-input').children().appendTo('#parameter-vf-input-default');
+    $('#parameter-celltypes-input').children().appendTo('#parameter-celltypes-input-default');
 }
 
 function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null, layout = {}, highlight = null, cValGenGetter = null) {

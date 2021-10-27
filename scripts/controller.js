@@ -226,12 +226,7 @@ function main() {
 
         $('#errCoords').remove();
 
-
-        // var colors = [];
-
-        // console.log(ZGenes);
         console.log('loading cMap');
-        // document.getElementById("coordinate-loader").style.display = "block";   //display waiting symbol
 
         if (fileToLoad.constructor.name != "File") {
             fileToLoad = document.getElementById("btn-cmap-hidden").files[0];
