@@ -193,7 +193,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             hovertemplate: 'x: %{x}<br>' +
                 'y: %{y}<br>' +
                 'KDE: %{z:.3f}<extra></extra>',
-                colorbar: {title:'Overall local expression (a.u.)', titleside:'right'},
+                colorbar: {title:'Total local expression (a.u.)', titleside:'right'},
         },
 
     ];
@@ -320,7 +320,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             'font': {
                 color: 'white',
             },
-            title: { text: 'Cell type abundance:', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            title: { text: 'Cell type abundance', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
             'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
             'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
@@ -348,7 +348,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
           result = JSON.stringify(result)
           var tsv = convertToTSV(result);
           console.log(tsv);
-          var exportedFilenmae = 'cellabundancies.tsv';
+          var exportedFilenmae = 'cell_type_abundance.tsv';
 
           var blob = new Blob([tsv], { type: 'text/csv;charset=utf-8;' });
           if (navigator.msSaveBlob) { // IE 10+
@@ -422,7 +422,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
     function convertToTSV(objArray) {
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-        var str = 'Cell_Type\tAbundancy\r\n';
+        var str = 'Cell_Type\tAbundance\r\n';
         console.log(array);
         console.log(array.length);
         for (const i in array){
