@@ -159,12 +159,21 @@ body {
   background-color: black;
 }
 
+.ytick {
+pointer-events:all;
+}
+
+/* .modebar-container {
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+} */
 /* 
  * Tutorial - Modal Content/Box 
  */
  .modal-content {
   text-align: left;
-  display:  none; 
+  display: none; 
   position: fixed;
   z-index: 1;
   top: 5%;
@@ -172,72 +181,62 @@ body {
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 500px;
+  max-width: 50%;
   color: black;
-  max-height: 70%;
+  max-height: 60%;
   overflow-y: auto;
 }
 #tutorial-modal-data{
   left: 5%;
-  display: none;
+  width: 450px;
 }
 
 #tutorial-modal{
-  display: none;
+  left: 5%;
+  width: 400px;
 }
 
 #tutorial-modal-data-coords{
   right: 5%;
   width: 400px;
-  display: none;
-  height: 500px;
 }
 
 #tutorial-modal-data-disp{
   right: 5%;
   width: 400px;
-  display: none;
 }
 
 #tutorial-modal-data-sigs{
   left: 5%;
   width: 400px;
-  display: none;
 }
 
 #tutorial-modal-parameters{
   left: 5%;
-  width: 300px;
-  display: none;
-  height: 500px;
+  width: 350px;
 }
 
 #tutorial-modal-parameters-coordinates{
   right: 5%;
-  width: 300px;
-  display: none;
+  width: 350px;
 }
 
 #tutorial-modal-parameters-sigma{
   left: 5%;
-  width: 300px;
-  display: none;
+  width: 350px;
 }
 
 #tutorial-modal-analysis-KDE{
-  display: none;
   right: 5%;
   width: 300px;
 }
 
 #tutorial-modal-analysis-assignments{
-  display: none;
   left: 5%;
   width: 300px;
 }
 
 #tutorial-modal-download{
-  display: none;
   left: 5%;
   width: 300px;
 }

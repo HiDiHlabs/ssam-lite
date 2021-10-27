@@ -60,4 +60,3 @@ function getColorValue(x) {
     var color = '#' + [r, g, b].map(toHex).join("");
     return color;
 }
-
