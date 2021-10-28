@@ -17,23 +17,24 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
 
     var layoutCoordinates = {
         ...{                     // all "layout" attributes: #layout
-            paper_bgcolor: 'rgba(0,0,0,0.4)',
-            plot_bgcolor: 'rgba(0,0,0,1)',
+            paper_bgcolor: 'black',
+            plot_bgcolor: 'black',
             title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, l: 15, r: 15 },
-            font: { color: '#dddddd' },
+            font: { color: 'white' },
             xaxis: { automargin: true, title: 'μm', },
             yaxis: { automargin: true, scaleanchor: "x", title: 'μm', },
         }, ...layoutCoordinates
     };
-
 
     for (var i = 0; i < ZGenes.length; i++) {
         var idx = uniqueGenes.indexOf(ZGenes[i]);
         (varcoords[idx])[1].push(X[i]);
         (varcoords[idx])[0].push(Y[i]);
     }
+
     var data = [];
+
     for (var i = 0; i < uniqueGenes.length; i++) {
         data.push({
             x: varcoords[i][0],
@@ -47,7 +48,23 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    Plotly.react(div, data, layoutCoordinates, { responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
+    var custom_filename="ssamlite_mRNA_map_" + new Date().toJSON().slice(0,19); 
+
+    var dl_config = {
+         toImageButtonOptions: {
+            format: 'svg',
+            filename: custom_filename,
+            height: 768,
+            width: 1024,
+            scale: 1
+         },
+         responsive: true, 
+         modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], 
+         displaylogo: false
+    };
+
+    Plotly.react(div, data, layoutCoordinates, dl_config);
+
     document.getElementById('divScale').style.display = 'block';
 
 };
@@ -68,12 +85,12 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
     ];
 
     var layout_signatures = {                     // all "layout" attributes: #layout
-        paper_bgcolor: 'rgba(0,0,0,0.5)',
-        plot_bgcolor: 'rgba(0,0,0,0.5)',
+        paper_bgcolor: 'black',
+        plot_bgcolor: 'black',
         'font': {
             color: 'white',
         },
-        title: { text: 'Celltype-wise gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+        title: { text: 'Cell-type-specific gene expression signatures', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
         margin: { t: 35, b: 10, },
         'xaxis': {
             autotick: false,
@@ -88,8 +105,22 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         yaxis: { automargin: true, title: 'Cell types', },
     }
 
+    var custom_filename="ssamlite_signatures_" + new Date().toJSON().slice(0,19);
 
-    Plotly.react(div, data, layout_signatures, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
+    var dl_config = {
+         toImageButtonOptions: {
+            format: 'svg',
+            filename: custom_filename,
+            height: 768,
+            width: 1024,
+            scale: 1
+         },
+         responsive: true,
+         modeBarButtonsToRemove: ['autoScale2d'],
+         displaylogo: false
+    };
+
+    Plotly.react(div, data, layout_signatures, dl_config);
 };
 
 function generateScalebar(start = 30, end = 120, umPerPx = 1) {
@@ -136,9 +167,9 @@ function generateScalebar(start = 30, end = 120, umPerPx = 1) {
                 y0: 0.012,
                 x1: end + 10,
                 y1: 0.06,
-                fillcolor: 'rgba(0,0,0,0.6)',
+                fillcolor: 'rgba(0,0,0,0)',
                 line: {
-                    color: 'rgba(255, 255, 255, 1)',
+                    color: 'rgba(255, 255, 255, 0)',
                     width: 1.2
                 },
             },
@@ -193,15 +224,15 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             hovertemplate: 'x: %{x}<br>' +
                 'y: %{y}<br>' +
                 'KDE: %{z:.3f}<extra></extra>',
-                colorbar: {title:'Total local expression (a.u.)', titleside:'right'},
+                colorbar: {title:'Total gene expression (a.u.)', titleside:'right'},
         },
 
     ];
 
     var layoutVfNorm = {
         ...{                  // all "layout" attributes: #layout
-            paper_bgcolor: 'rgba(0,0,0,0.7)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
+            paper_bgcolor: 'black',
+            plot_bgcolor: 'black',
             showlegend: false,
             showscale: true,
             font: { color: 'white', },
@@ -213,7 +244,22 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
         ...layoutVfNorm
     }
 
-    Plotly.react(div, data, layoutVfNorm, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
+    var custom_filename="ssamlite_gene_expression_field_" + new Date().toJSON().slice(0,19);
+
+    var dl_config = {
+         toImageButtonOptions: {
+            format: 'svg',
+            filename: custom_filename,
+            height: 768,
+            width: 1024,
+            scale: 1
+         },
+         responsive: true,
+         modeBarButtonsToRemove: ['autoScale2d'],
+         displaylogo: false
+    };
+
+    Plotly.react(div, data, layoutVfNorm, dl_config);
 
 };
 
@@ -313,14 +359,14 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
     var layout = {
         ...{
-            paper_bgcolor: 'rgba(0,0,0,0.7)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
+            paper_bgcolor: 'black',
+            plot_bgcolor: 'black',
             // showlegend: false,
             // showscale: false,
             'font': {
                 color: 'white',
             },
-            title: { text: 'Cell type abundance', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            title: { text: 'Cell-type abundance', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
             'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
             'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
@@ -348,35 +394,49 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
           
           result = JSON.stringify(result);
           var tsv = convertToTSV(result);
-          var exportedFilenmae = 'cell_type_abundance.tsv';
+          var exportedFilename = 'ssamlite_cellType_abundance' + new Date().toJSON().slice(0,19) + ".tsv";
 
           var blob = new Blob([tsv], { type: 'text/csv;charset=utf-8;' });
           if (navigator.msSaveBlob) { // IE 10+
-              navigator.msSaveBlob(blob, exportedFilenmae);
+              navigator.msSaveBlob(blob, exportedFilename);
           } else {
               var link = document.createElement("a");
               if (link.download !== undefined) { // feature detection
                   // Browsers that support HTML5 download attribute
                   var url = URL.createObjectURL(blob);
                   link.setAttribute("href", url);
-                  link.setAttribute("download", exportedFilenmae);
+                  link.setAttribute("download", exportedFilename);
                   link.style.visibility = 'hidden';
                   document.body.appendChild(link);
                   link.click();
                   document.body.removeChild(link);
               }
+            }
           }
-
-         }
-
-        },  "zoom2d", "pan2d",  "zoomIn2d", "zoomOut2d", "resetViewMapbox"
+        }, "resetViewMapbox"
     ]]
     function lala(){
         
     }
     // counts.reverse();
 
-    Plotly.react(div, data, layout, {  modeBarButtons: modeBarButtons, responsive: true, modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], displaylogo: false });
+    var custom_filename="ssamlite_cellType_abundance_" + new Date().toJSON().slice(0,19); 
+
+    var dl_config = {
+         toImageButtonOptions: {
+            format: 'svg',
+            filename: custom_filename,
+            height: 768,
+            width: 1024,
+            scale: 1
+         },
+         modeBarButtons: modeBarButtons,
+         responsive: true, 
+         modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d', 'pan', 'select2d', 'zoomIn2d', 'zoomOut2d', 'pan2d', 'zoom2d'], 
+         displaylogo: false
+    };
+
+    Plotly.react(div, data, layout, dl_config);
 
     var statsDiv = document.querySelector('#celltypes-stats');
     var yticks = statsDiv.querySelectorAll('.ytick');
@@ -496,14 +556,14 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
     var layout = {
         ...{
-            paper_bgcolor: 'rgba(0,0,0,0.7)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
+            paper_bgcolor: 'black',
+            plot_bgcolor: 'black',
             showlegend: true,
             showscale: false,
             'font': {
                 color: 'white',
             },
-            title: { text: 'Cell type map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+            title: { text: 'Cell-type map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, l: 15, r: 15 },
             'xaxis': { automargin: true, title: 'px', 'showgrid':false },
             'yaxis': { automargin: true, scaleanchor: "x", title: 'px', 'showgrid':false },
@@ -528,7 +588,22 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
     ];
 
-    Plotly.react(div, data, layout, { responsive: true, modeBarButtonsToRemove: ['autoScale2d'], displaylogo: false });
+    var custom_filename="ssamlite_cellType_map_" + new Date().toJSON().slice(0,19); 
+
+    var dl_config = {
+         toImageButtonOptions: {
+            format: 'svg',
+            filename: custom_filename,
+            height: 768,
+            width: 1024,
+            scale: 1
+         },
+         responsive: true, 
+         modeBarButtonsToRemove: ['autoScale2d'], 
+         displaylogo: false
+    };
+
+    Plotly.react(div, data, layout, dl_config);
 
     $('#section-cmap')[0].style.display = "block";
 
