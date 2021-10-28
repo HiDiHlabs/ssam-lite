@@ -384,7 +384,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
     var modeBarButtons = [[
         "toImage",
         {
-          name: 'Download Data',
+          name: 'Download data',
           icon: downloadIcon,
           click: function (gd) { //alert('clicked custom button!');
           var result =  gd.data[0].x.reduce(function(result, field, index) {
@@ -413,7 +413,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
               }
             }
           }
-        }, "resetViewMapbox"
+        }, "zoom2d", "pan2d",  "zoomIn2d", "zoomOut2d", "resetViewMapbox"
     ]]
     function lala(){
         
@@ -432,7 +432,6 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
          },
          modeBarButtons: modeBarButtons,
          responsive: true, 
-         modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d', 'pan', 'select2d', 'zoomIn2d', 'zoomOut2d', 'pan2d', 'zoom2d'], 
          displaylogo: false
     };
 
