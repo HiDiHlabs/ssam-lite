@@ -298,7 +298,6 @@ function main() {
 
     }
 
-
     function updateVfNormScalebar(event) {
 
 
@@ -442,7 +441,7 @@ function main() {
         }
         Plotly.update('celltypes-preview', {}, layout);
     }
-
+    
     function updateStats(event) {
 
         if (isNaN(event['xaxis.range[0]'])) {
@@ -465,6 +464,7 @@ function main() {
     }
 
     function runFullKDE() {
+
         $('#errCoords').remove();
         $('#errVF').remove();
         if (coordinatesLoaded) {
@@ -493,6 +493,7 @@ function main() {
     };
 
     function runCelltypeAssignments() {
+
         $('#errSign').remove();
         $('#errVF').remove();
         if (!signatureMatrix) {
@@ -515,6 +516,7 @@ function main() {
             }
         }
     };
+
 
     function updateVfShape() {
         // togglePreviewGenerator();
@@ -626,6 +628,16 @@ function main() {
             }
         }
     };
+
+
+    function updateValues(){
+        threshold = parseFloat(document.getElementById('threshold').value);
+        sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
+        height = parseInt(document.getElementById('vf-width').value);
+        width = Math.ceil(height * edgeRatio);
+        // updateScale();
+        console.log(threshold)
+    }
 
     // create the small parameter optimization mrna coordinates panel
     function createParameterCoodinatesPlot() {
@@ -765,6 +777,7 @@ function main() {
     getcurrrentVersion();
     initiateDataToggle();
     initiateButtons();
+    updateValues();
 
 
 }
