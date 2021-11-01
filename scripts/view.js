@@ -152,7 +152,7 @@ function generateScalebar(start = 30, end = 120, umPerPx = 1) {
             yref: 'paper',
             x: (start + end) / 2,
             xanchor: "center",
-            y: 0.05,
+            y: 0.019,
             yanchor: "bottom",
             font: {
                 size: 13,
@@ -167,9 +167,9 @@ function generateScalebar(start = 30, end = 120, umPerPx = 1) {
                 y0: 0.012,
                 x1: end + 10,
                 y1: 0.06,
-                fillcolor: 'rgba(0,0,0,0)',
+                fillcolor: 'rgba(0,0,0,0.7)',
                 line: {
-                    color: 'rgba(255, 255, 255, 0)',
+                    color: 'rgba(0,0,0,0.8)',
                     width: 1.2
                 },
             },
