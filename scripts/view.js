@@ -48,19 +48,19 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
         });
     }
 
-    var custom_filename="ssamlite_mRNA_map_" + new Date().toJSON().slice(0,19); 
+    var custom_filename = "ssamlite_mRNA_map_" + new Date().toJSON().slice(0, 19);
 
     var dl_config = {
-         toImageButtonOptions: {
+        toImageButtonOptions: {
             format: 'svg',
             filename: custom_filename,
             height: 768,
             width: 1024,
             scale: 1
-         },
-         responsive: true, 
-         modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'], 
-         displaylogo: false
+        },
+        responsive: true,
+        modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'],
+        displaylogo: false
     };
 
     Plotly.react(div, data, layoutCoordinates, dl_config);
@@ -80,7 +80,7 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             hovertemplate: 'Gene: %{x}<br>' +
                 'Cell type: %{y}<br>' +
                 'Gene expression: %{z:.3f}<extra></extra>',
-                colorbar: {title:'Gene expression (a.u.)', titleside:'right'},
+            colorbar: { title: 'Gene expression (a.u.)', titleside: 'right' },
         },
     ];
 
@@ -105,19 +105,19 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         yaxis: { automargin: true, title: 'Cell types', },
     }
 
-    var custom_filename="ssamlite_signatures_" + new Date().toJSON().slice(0,19);
+    var custom_filename = "ssamlite_signatures_" + new Date().toJSON().slice(0, 19);
 
     var dl_config = {
-         toImageButtonOptions: {
+        toImageButtonOptions: {
             format: 'svg',
             filename: custom_filename,
             height: 768,
             width: 1024,
             scale: 1
-         },
-         responsive: true,
-         modeBarButtonsToRemove: ['autoScale2d'],
-         displaylogo: false
+        },
+        responsive: true,
+        modeBarButtonsToRemove: ['autoScale2d'],
+        displaylogo: false
     };
 
     Plotly.react(div, data, layout_signatures, dl_config);
@@ -224,7 +224,7 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
             hovertemplate: 'x: %{x}<br>' +
                 'y: %{y}<br>' +
                 'KDE: %{z:.3f}<extra></extra>',
-                colorbar: {title:'Total gene expression (a.u.)', titleside:'right'},
+            colorbar: { title: 'Total gene expression (a.u.)', titleside: 'right' },
         },
 
     ];
@@ -244,19 +244,19 @@ function plotVfNorm(div, vfNorm, layoutVfNorm = {}) {
         ...layoutVfNorm
     }
 
-    var custom_filename="ssamlite_gene_expression_field_" + new Date().toJSON().slice(0,19);
+    var custom_filename = "ssamlite_gene_expression_field_" + new Date().toJSON().slice(0, 19);
 
     var dl_config = {
-         toImageButtonOptions: {
+        toImageButtonOptions: {
             format: 'svg',
             filename: custom_filename,
             height: 768,
             width: 1024,
             scale: 1
-         },
-         responsive: true,
-         modeBarButtonsToRemove: ['autoScale2d'],
-         displaylogo: false
+        },
+        responsive: true,
+        modeBarButtonsToRemove: ['autoScale2d'],
+        displaylogo: false
     };
 
     Plotly.react(div, data, layoutVfNorm, dl_config);
@@ -369,7 +369,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
             title: { text: 'Cell-type abundance', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, },
             'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
-            'yaxis': { automargin: true, scaleanchor: "x",'showgrid': false, },
+            'yaxis': { automargin: true, scaleanchor: "x", 'showgrid': false, },
         }, ...layout
     }
     var downloadIcon = {
@@ -378,61 +378,61 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
         'path': "M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 0 1 1.757 4.243V426a6 6 0 0 1-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z",
         //'transform': 'matrix(0.75 0 0 -0.75 0 1000)'
         'transform': 'scale(2)'
-      }
-      
+    }
+
 
     var modeBarButtons = [[
         "toImage",
         {
-          name: 'Download data',
-          icon: downloadIcon,
-          click: function (gd) { //alert('clicked custom button!');
-          var result =  gd.data[0].x.reduce(function(result, field, index) {
-            result[gd.data[0].y[index]] = field;
-            return result;
-          }, {})
-          
-          result = JSON.stringify(result);
-          var tsv = convertToTSV(result);
-          var exportedFilename = 'ssamlite_cellType_abundance' + new Date().toJSON().slice(0,19) + ".tsv";
+            name: 'Download data',
+            icon: downloadIcon,
+            click: function (gd) { //alert('clicked custom button!');
+                var result = gd.data[0].x.reduce(function (result, field, index) {
+                    result[gd.data[0].y[index]] = field;
+                    return result;
+                }, {})
 
-          var blob = new Blob([tsv], { type: 'text/csv;charset=utf-8;' });
-          if (navigator.msSaveBlob) { // IE 10+
-              navigator.msSaveBlob(blob, exportedFilename);
-          } else {
-              var link = document.createElement("a");
-              if (link.download !== undefined) { // feature detection
-                  // Browsers that support HTML5 download attribute
-                  var url = URL.createObjectURL(blob);
-                  link.setAttribute("href", url);
-                  link.setAttribute("download", exportedFilename);
-                  link.style.visibility = 'hidden';
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-              }
+                result = JSON.stringify(result);
+                var tsv = convertToTSV(result);
+                var exportedFilename = 'ssamlite_cellType_abundance' + new Date().toJSON().slice(0, 19) + ".tsv";
+
+                var blob = new Blob([tsv], { type: 'text/csv;charset=utf-8;' });
+                if (navigator.msSaveBlob) { // IE 10+
+                    navigator.msSaveBlob(blob, exportedFilename);
+                } else {
+                    var link = document.createElement("a");
+                    if (link.download !== undefined) { // feature detection
+                        // Browsers that support HTML5 download attribute
+                        var url = URL.createObjectURL(blob);
+                        link.setAttribute("href", url);
+                        link.setAttribute("download", exportedFilename);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                }
             }
-          }
-        }, "zoom2d", "pan2d",  "zoomIn2d", "zoomOut2d", "resetViewMapbox"
+        }, "zoom2d", "pan2d", "zoomIn2d", "zoomOut2d", "resetViewMapbox"
     ]]
-    function lala(){
-        
+    function lala() {
+
     }
     // counts.reverse();
 
-    var custom_filename="ssamlite_cellType_abundance_" + new Date().toJSON().slice(0,19); 
+    var custom_filename = "ssamlite_cellType_abundance_" + new Date().toJSON().slice(0, 19);
 
     var dl_config = {
-         toImageButtonOptions: {
+        toImageButtonOptions: {
             format: 'svg',
             filename: custom_filename,
             height: 768,
             width: 1024,
             scale: 1
-         },
-         modeBarButtons: modeBarButtons,
-         responsive: true, 
-         displaylogo: false
+        },
+        modeBarButtons: modeBarButtons,
+        responsive: true,
+        displaylogo: false
     };
 
     Plotly.react(div, data, layout, dl_config);
@@ -471,7 +471,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
                 ytick.getElementsByTagName('text')[0].style.fill = (ytick.getElementsByTagName('text')[0].style.fill == 'white') ? 'grey' : 'white';
             }
             highlights.unshift(ytick.getElementsByTagName('text')[0].style.fill == 'white');
-            
+
 
         })
         // repaintTicks(yticks, x);
@@ -484,8 +484,8 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
     function convertToTSV(objArray) {
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
         var str = 'Cell_Type\tAbundance\r\n';
-        for (const i in array){
-            str+=i+'\t'+array[i]+'\r\n';
+        for (const i in array) {
+            str += i + '\t' + array[i] + '\r\n';
         }
         return str;
     }
@@ -532,13 +532,13 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 }
 
 
-function moveParametersToPreview(){
+function moveParametersToPreview() {
     $('#parameter-coordinates-input-default').children().appendTo('#parameter-coordinates-input');
     $('#parameter-vf-input-default').children().appendTo('#parameter-vf-input');
     $('#parameter-celltypes-input-default').children().appendTo('#parameter-celltypes-input');
 }
 
-function moveParametersToDefault(){
+function moveParametersToDefault() {
     $('#parameter-coordinates-input').children().appendTo('#parameter-coordinates-input-default');
     $('#parameter-vf-input').children().appendTo('#parameter-vf-input-default');
     $('#parameter-celltypes-input').children().appendTo('#parameter-celltypes-input-default');
@@ -564,8 +564,8 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
             },
             title: { text: 'Cell-type map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
             margin: { t: 35, b: 10, l: 15, r: 15 },
-            'xaxis': { automargin: true, title: 'px', 'showgrid':false },
-            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', 'showgrid':false },
+            'xaxis': { automargin: true, title: 'px', 'showgrid': false },
+            'yaxis': { automargin: true, scaleanchor: "x", title: 'px', 'showgrid': false },
             'uirevision': false,
             'showgrid': false,
 
@@ -587,19 +587,19 @@ function plotCelltypeMap(div, celltypeMap, clusterLabels, getClusterLabel = null
 
     ];
 
-    var custom_filename="ssamlite_cellType_map_" + new Date().toJSON().slice(0,19); 
+    var custom_filename = "ssamlite_cellType_map_" + new Date().toJSON().slice(0, 19);
 
     var dl_config = {
-         toImageButtonOptions: {
+        toImageButtonOptions: {
             format: 'svg',
             filename: custom_filename,
             height: 768,
             width: 1024,
             scale: 1
-         },
-         responsive: true, 
-         modeBarButtonsToRemove: ['autoScale2d'], 
-         displaylogo: false
+        },
+        responsive: true,
+        modeBarButtonsToRemove: ['autoScale2d'],
+        displaylogo: false
     };
 
     Plotly.react(div, data, layout, dl_config);
@@ -677,4 +677,5 @@ function setVfSizeIndicator(width, height, genes) {
     }
 
     document.getElementById("vf-size-information").innerHTML =
-        "total size: (" + width + "," + height + "," + genes.length + "); " + size;
+        "total size: (" + width + "," + height + "," + genes.length + "); " + size
+};
