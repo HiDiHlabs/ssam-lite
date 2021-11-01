@@ -703,8 +703,8 @@ function main() {
             .addEventListener('change', importCoordinates);
         document.getElementById('btn-cmap-hidden')
             .addEventListener('change', importColorMap);
-        document.getElementById('liveParameterUpdateCheckbox')
-            .addEventListener('change', liveChecked);
+        // document.getElementById('liveParameterUpdateCheckbox')
+        //     .addEventListener('change', liveChecked);
         // document.getElementById('liveParameterUpdateCheckbox')
         //     .addEventListener('uncheck', liveUnChecked);
 
