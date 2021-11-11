@@ -1,6 +1,7 @@
 # SSAM-lite
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Documentation Status](https://readthedocs.org/projects/ssam-lite/badge/?version=latest)](https://ssam-lite.readthedocs.io/en/latest)
 [![DOI:10.1101/2021.09.29.462194](http://img.shields.io/badge/DOI-10.1101/2021.09.29.462194-B31B1B.svg)](https://doi.org/10.1101/2021.09.29.462194)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5517606.svg)](https://doi.org/10.5281/zenodo.5517606)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/eba53f5b-8273-4ac3-9d7b-fcb577e2815c/deploy-status)](https://app.netlify.com/sites/ssam-lite/deploys)
