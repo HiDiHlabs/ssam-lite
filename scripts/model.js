@@ -12,7 +12,7 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds = 2
 
     console.log(sigma, n_steps);
 
-    var normalization = 1 / (1 * Math.PI * sigma ** 2) ** 0.5
+    var normalization = 1 / (2 * Math.PI * sigma ** 2) ** 0.5
 
     for (var i = 0; i < Zgenes.length; i++) {
 
@@ -28,7 +28,7 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds = 2
                 for (var n = -n_steps; n <= n_steps; n++) {
 
                     if (((x + m) > 0) && ((y + n) > 0) && ((x + m) < height - 1) && ((y + n) < width - 1)) {
-                        val = Math.exp(-(Math.pow(n, 2) + Math.pow(m, 2)) / Math.pow(sigma, 2)) * normalization;
+                        val = Math.exp(-(Math.pow(n, 2) + Math.pow(m, 2)) / Math.pow(sigma, 2) / 2) * normalization;
                         vfBuffer.set(vfBuffer.get(x + m, y + n, z) + val, x + m, y + n, z);
 
                     }
@@ -65,14 +65,25 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
 
         intermediates = [];
         var inter;
+        var signaturesMoments = tf.moments(signatureMatrix, axis = 1);
+        var signaturesMean = signaturesMoments.mean;
+        var signaturesStd = signaturesMoments.variance.pow(0.5);
+        var signaturesCentered = signatureMatrix.sub(signaturesMean.expandDims(1))
+
+        var interMoments;
+        var interMean;
+        var interStd;
+        var correlations;
 
         for (var i = 0; i < vf.shape[0]; i++) {
 
             inter = vf.gather(i);
-            inter = inter.add(1).log();
-            inter = inter.transpose().div(inter.sum(1)).transpose();
-            inter = inter.matMul(signatureMatrix.transpose());
-            intermediates.push(inter.argMax(1).expandDims(0));
+            interMoments = tf.moments(inter, axis = 1);
+            interMean = interMoments.mean;
+            interStd = interMoments.variance.pow(0.5)
+            interCentered = inter.sub(interMean.expandDims(1))  // 0 mean
+            correlations = signaturesCentered.mul(interCentered.expandDims(1)).mean(2).div(interStd.expandDims(1)).div(signaturesStd.expandDims(0));
+            intermediates.push(correlations.argMax(1).expandDims(0));
         }
 
         intermediates = tf.concat(intermediates);
@@ -86,7 +97,7 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
     return celltypeMap;
 };
 
-function calculateStats(celltypeMap,nClasses) {
+function calculateStats(celltypeMap, nClasses) {
 
 
     celltypeCounts = tf.tidy(() => {
@@ -94,16 +105,16 @@ function calculateStats(celltypeMap,nClasses) {
         // var intMat = tf.zerosLike(celltypeMap);
         intermediates = [];
         var inter;
-        for (var i = 0; i < nClasses+1; i++) {
-            inter = celltypeMap.equal(tf.scalar(i,dtype='int32')).sum();
+        for (var i = 0; i < nClasses + 1; i++) {
+            inter = celltypeMap.equal(tf.scalar(i, dtype = 'int32')).sum();
             intermediates.push(inter.arraySync());
             // intMat = intMat.add(tf.scalar(1, dtype='int32'));
         }
 
         var sum = intermediates.reduce((a, b) => a + b, 0);
 
-        return intermediates.map(x => x/sum);
-        
+        return intermediates.map(x => x / sum);
+
 
     });
 
