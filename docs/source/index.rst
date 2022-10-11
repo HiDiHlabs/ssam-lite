@@ -14,7 +14,8 @@ Citations
 
 Sebastian Tiesmeyer, Shashwat Sahay, Niklas Müller-Bötticher, Roland Eils, Sebastian D. Mackowiak, Naveed Ishaque.
 2021.
-"`SSAM-lite: a light-weight web app for rapid analysis of spatially resolved transcriptomics data <https://www.biorxiv.org/content/10.1101/2021.09.29.462194>`__"
+"`SSAM-lite: a light-weight web app for rapid analysis of spatially resolved transcriptomics data <https://doi.org/10.3389/fgene.2022.785877>`__"
+*Frontiers Genetics*. doi: 10.3389/fgene.2022.785877
 *bioRxiv*. doi: 10.1101/2021.09.29.462194
 
 

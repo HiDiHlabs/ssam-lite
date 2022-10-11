@@ -13,6 +13,8 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
 
     uniqueGenes = Array.from(new Set(ZGenes));
 
+    uniqueGenes.sort();
+
     var varcoords = Array(uniqueGenes.length).fill(0).map(() => new Array(2).fill(0).map(() => []));
 
     var layoutCoordinates = {
