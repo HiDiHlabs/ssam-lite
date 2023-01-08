@@ -48,15 +48,17 @@ function processSignatures(allText) {
 function processCoordinates(allText) {
     var allTextLines = allText.trim().split(/\r\n|\n/);
 
-    genes = [];
-    ZGenes = [];
-    X = [];
-    Y = [];
-    var x = 0;
-    var y = 0;
-    var line;
-    xmax = 0;
-    ymax = 0;
+    let genes = [];
+    let ZGenes = [];
+    let X = [];
+    let Y = [];
+    let x = 0;
+    let y = 0;
+    let line;
+    let xmin = 0;
+    let ymin = 0;
+    let xmax = 0;
+    let ymax = 0;
 
     for (var i = 1; i < allTextLines.length; i++) {
         line = allTextLines[i].split(',');
@@ -64,6 +66,8 @@ function processCoordinates(allText) {
         x = parseFloat(line[1]) || 0;
         y = parseFloat(line[2]) || 0;
 
+        xmin = Math.min(x, xmin);
+        ymin = Math.min(x, ymin);
         xmax = Math.max(x, xmax);
         ymax = Math.max(y, ymax);
 
@@ -73,9 +77,16 @@ function processCoordinates(allText) {
         if (!genes.includes(line[0])) genes.push(line[0]);
     }
 
+    X.map(x => x - xmin);
+    Y.map(x => x - ymin);
+    xmax -= xmin;
+    ymax -= ymin;
+
     var edgeRatio = Math.ceil(xmax / ymax);
-    var width = Math.ceil(500);
+    var width = Math.ceil(parseInt(document.getElementById('vf-width').value));
+    // width = Math.ceil(height * edgeRatio);
     var height = Math.ceil(width / edgeRatio);
+    // var height = Math.ceil(width / edgeRatio);
 
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
@@ -134,13 +145,15 @@ function main() {
         var ymax;       // lowest coordinate
         var sigma = 3;   // KDE kernel width
 
-        var height = 500;         // vf height (pixels)
+        var height = 1400;         // vf height (pixels)
         var width = 0;      // vf width (pixels)
         var edgeRatio = 1;// radion height/width
         var threshold = 2;     // cell/ecm cutoff
         var vf;         // tensor vectorfield
         var vfNorm;     // tensor vfNorm
         var scale = 1;
+        var localMaxX;
+        var localMaxY;
 
         var parameterWindow = [250, 250];
         var parameterWidth = 50;
@@ -150,6 +163,8 @@ function main() {
         var vfParameter;
         var vfNormParameter;
         var cGen = getColorValue;
+
+        var modularizedKDEWindowWidth = 500;
 
 
         var pointerCoordinates = parameterWindow;
@@ -208,11 +223,17 @@ function main() {
         width = Math.ceil(height * edgeRatio);
         setVfSizeIndicator(width, height, genes);
 
+
+        coordinatesLoaded = true;
         plotCoordinates('coordinates-preview', X, Y, ZGenes, { 'showlegend': true, }).then(function () {
             document.getElementById("coordinate-loader").style.display = "none";
         });
 
-        coordinatesLoaded = true;
+        // await runDeNovo();
+
+        // console.log("Running de novo!")
+        // await runCelltypeAssignments();
+
     };
 
 
@@ -441,7 +462,7 @@ function main() {
         }
         Plotly.update('celltypes-preview', {}, layout);
     }
-    
+
     function updateStats(event) {
 
         if (isNaN(event['xaxis.range[0]'])) {
@@ -456,14 +477,70 @@ function main() {
             var x_ = Math.max(0, Math.round(event['yaxis.range[0]']));
             var _x = Math.min(width - 1, Math.round(event['yaxis.range[1]']));
         }
-        // console.log('kewl', x_, _x, y_, _y);
-        var celltypeCounts = calculateStats(celltypeMap.slice([x_, y_], [_x - x_ + 1, _y - y_ + 1]), clusterLabels.length - 1);
-        // console.log(celltypeCounts);
-        plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
+        // // console.log('kewl', x_, _x, y_, _y);
+        // var celltypeCounts = calculateStats(celltypeMap.slice([x_, y_], [_x - x_ + 1, _y - y_ + 1]), clusterLabels.length - 1);
+        // // console.log(celltypeCounts);
+        // plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
 
     }
 
+    async function runModularizedCTAssignment() {
+
+        let celltypeMap = tf.buffer([width, height], dtype = 'float32',);
+        let umPerPx = xmax / width;
+
+        for (let x_ = 0; x_ < width; x_ += modularizedKDEWindowWidth) {
+            for (let y_ = 0; y_ < height; y_ += modularizedKDEWindowWidth) {
+                // console.log("Coords: ", x_, y_, width, height);
+
+                [subsetX, subsetY, subsetGenes] = spatialSubset(X, Y, ZGenes,  
+                                                                x_ * umPerPx, (x_ + modularizedKDEWindowWidth) * umPerPx, 
+                                                                y_ * umPerPx, (y_ + modularizedKDEWindowWidth) * umPerPx, true);
+
+                console.log(x_,y_,subsetX.length );
+
+                if (subsetX.length > 0) {
+
+                    [vfPatch, vfNormPatch] = runKDE(subsetX.map(x => x/umPerPx), subsetY.map(x => x/umPerPx), subsetGenes, genes, 
+                                                modularizedKDEWindowWidth, modularizedKDEWindowWidth, sigma,
+                                                    modularizedKDEWindowWidth, modularizedKDEWindowWidth, 2);
+
+                    // console.log("Patch-max: ", vfNormPatch.max().arraySync());
+
+                    let celltypeMapPatch = await (assignCelltypes(vfPatch, vfNormPatch, signatureMatrix, threshold).buffer());
+
+                    // console.log("celltypeMapPatch: ", celltypeMapPatch);
+                    // console.log("celltypeMapPatchMax: ", celltypeMapPatch.toTensor().max().arraySync());
+
+                    for (let i = 0; i < modularizedKDEWindowWidth; i++) {
+                        for (let j = 0; j < modularizedKDEWindowWidth; j++) {
+                            celltypeMap.set(celltypeMapPatch.get(i, j), i + x_, j + y_)
+                        }
+                    }
+                    
+                }
+
+                else {
+
+                    for (let i = 0; i < modularizedKDEWindowWidth; i++) {
+                        for (let j = 0; j < modularizedKDEWindowWidth; j++) {
+                            celltypeMap.set(-1, i + x_, j + y_)
+                        }
+                    }
+
+                }
+            }
+            // break
+        }
+
+        // modularizedKDEWindowWidth
+
+        console.log(celltypeMap);
+        return celltypeMap.toTensor();
+    }
+
     function runFullKDE() {
+
 
         $('#errCoords').remove();
         $('#errVF').remove();
@@ -478,7 +555,7 @@ function main() {
 
                 plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
                 document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
-                window.onresize = function(event) {
+                window.onresize = function (event) {
                     updateVfNormScalebar;
                 }
             }
@@ -492,26 +569,110 @@ function main() {
         }
     };
 
-    function runCelltypeAssignments() {
+
+    async function localMaxFilter() {
+
+        threshold = parseFloat(document.getElementById('threshold').value);
+        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, threshold = threshold);
+        console.log('localmax filter completed', localMaxX, localMaxY);
+
+        plotCoordinates('coordinates-preview', localMaxX, localMaxY, localMaxY.map( x=> 'kewl'), { 'showlegend': true, })
+    }
+
+    function runGlobalKDE() {
+
+        $('#errCoords').remove();
+        $('#errVF').remove();
+
+        if (coordinatesLoaded) {
+
+            try {
+                $('#errMemory').remove();
+                // let time = Date.now();
+
+                [vf, vfNorm] = runKDE(X, Y, null, ['global'], xmax, ymax, sigma / xmax * height, width, height);
+
+                umPerPx = xmax / width;
+
+                // plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
+                // document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
+                // window.onresize = function (event) {
+                //     updateVfNormScalebar;
+                // }
+            }
+            catch (ex) {
+                printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
+                console.log(ex);
+            }
+
+
+        }
+        else {
+            printErr('#vf-norm-preview', 'errCoords', "Please load a coordinate file first.")
+        }
+
+
+    };
+
+    async function createLocalmaxSignatures() {
+        [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 20,);
+        // localmaxSignatures = await runPCA(localmaxExpressions);
+        localmaxSignatures = await runKMeans(localmaxExpressions);
+        // console.log(localmaxSignatures.arraySync(),localmaxExpressions.arraySync());
+
+        plotSignatures('signatures-preview', genes, Array.from({ length: localmaxSignatures.shape[0] }, (x, i) => i), localmaxSignatures.arraySync()).then(function () {
+            document.getElementById("signature-loader").style.display = "none";
+        });
+
+
+        let umapCoords =  runUMAP(localmaxExpressions.arraySync());
+
+        console.log("UMAP coords: ", umapCoords);
+        plotCoordinates('coordinates-preview',umapCoords.map(x=>x[0]),umapCoords.map(x=>x[1]),umapCoords);
+
+        clusterLabels = Array.from({ length: localmaxSignatures.shape[0] }, (x, i) => i);
+        signatureMatrix = localmaxSignatures;
+
+    }
+
+    async function runDeNovo() {
+        runGlobalKDE();
+
+        await localMaxFilter();
+
+        await createLocalmaxSignatures();
+
+    }
+
+    async function runCelltypeAssignments() {
 
         $('#errSign').remove();
         $('#errVF').remove();
         if (!signatureMatrix) {
-            printErr('#celltypes-preview', 'errSign', 'Please load a signature matrix first.');
+            await runDeNovo();
+            // printErr('#celltypes-preview', 'errSign', 'Please load a signature matrix first.');
         }
-        else if (!vf) {
-            printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
-        }
+        // else if (!vf) {
+        //     printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
+        // }
         else {
-            const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+            // const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
+            
+            umPerPx = xmax / width;
+
+            const celltypeMap = await runModularizedCTAssignment()
+
+            console.log("ct_map: ", celltypeMap);
             var celltypeCounts = calculateStats(celltypeMap, clusterLabels.length - 1);
+
+
 
             plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
             plotCelltypeStats('celltypes-stats', celltypeCounts, clusterLabels, layout = {}, highlight = null, cValGenGetter = getColorMap);
             umPerPx = xmax / width;
             document.getElementById('celltypes-preview').on('plotly_relayout', updateCtMapScalebar);
             document.getElementById('celltypes-preview').on('plotly_relayout', updateStats);
-            window.onresize = function(event) {
+            window.onresize = function (event) {
                 updateCtMapScalebar;
             }
         }
@@ -611,26 +772,24 @@ function main() {
 
     // remove coordinates outside box for preview 
     function updateParameterCoordinates() {
-        parameterX = []
-        parameterY = []
+        // parameterX = []
+        // parameterY = []
 
         var rectCenter = [parameterWindow[0] / width * xmax, parameterWindow[1] / height * ymax];
         var rectEdge = parameterWidth / width * xmax;
 
-        for (var i = 0; i < X.length; i++) {
-            if (X[i] > rectCenter[0] - rectEdge &&
-                Y[i] > rectCenter[1] - rectEdge &&
-                X[i] < rectCenter[0] + rectEdge &&
-                Y[i] < rectCenter[1] + rectEdge) {
-                parameterX.push(X[i] - rectCenter[0] + rectEdge);
-                parameterY.push(Y[i] - rectCenter[1] + rectEdge);
-                parameterZ.push(ZGenes[i]);
-            }
-        }
+        console.log(rectCenter, rectEdge);
+        [subsetX, subsetY, subsetZ] = spatialSubset(X, Y, ZGenes, rectCenter[0] - rectEdge,
+            rectCenter[0] + rectEdge,
+            rectCenter[1] - rectEdge,
+            rectCenter[1] + rectEdge, true);
+        parameterX = subsetX;
+        parameterY = subsetY;
+        parameterZ = subsetZ;
     };
 
 
-    function updateValues(){
+    function updateValues() {
         threshold = parseFloat(document.getElementById('threshold').value);
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
         height = parseInt(document.getElementById('vf-width').value);
@@ -717,8 +876,8 @@ function main() {
         document.getElementById('signatures-dragzone')
             .addEventListener("drop", dropSignatures);
 
-        document.getElementById('btn-KDE')
-            .addEventListener('click', runFullKDE);
+        // document.getElementById('btn-KDE')
+        //     .addEventListener('click', runFullKDE);
         document.getElementById('btn-types')
             .addEventListener('click', runCelltypeAssignments);
         document.getElementById('btn-reload')
@@ -745,7 +904,7 @@ function main() {
         //     .addEventListener("change", togglePreviewGenerator);
 
         // Reset values @ page reload
-        // document.getElementById('vf-width').value = 500;
+        document.getElementById('vf-width').value = 1400;
         // document.getElementById('KDE-bandwidth').value = 1;
         // document.getElementById('threshold').value = 2;
 

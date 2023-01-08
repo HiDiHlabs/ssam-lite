@@ -517,7 +517,7 @@
                 </div>
             </div>
 
-            <div id="section-KDE" style="padding: 30px;">
+            <!-- <div id="section-KDE" style="padding: 30px;">
                 <h3>Step 1: Kernel Density Estimation </h3>
                 <p class="lead">As a first step, we run a KDE that creates a density of mRNA expression.
                 </p>
@@ -529,12 +529,12 @@
                     </div>
                 </div>
                 </p>
-            </div>
-
+            </div> -->
+<!-- 
             <div id="vf-norm-preview" class="d-row container-fluid"
-                style="width: 80vw; max-width: 120vh; height: 80vh; max-height: 120vw; padding: 0px"></div>
+                style="width: 80vw; max-width: 120vh; height: 80vh; max-height: 120vw; padding: 0px"></div> -->
 
-            <div id="section-assignments" class="d-row" style="height:10vh; width:100%"></div>
+            <div id="section-assignments" class="d-row" style="height:1vh; width:100%"></div>
 
             <div id="tutorial-modal-analysis-assignments" class="modal-content">
                 <p>On to the last step of the SSAM-lite pipeline: Click 'Infer Cell Types' to obtain an interactive cell
@@ -572,7 +572,7 @@
 
 
             <div id="section-assignments-title" class="" style="padding: 10px;">
-                <h3>Step 2: Cell Assignments</h3>
+                <!-- <h3>Step 2: Cell Assignments</h3> -->
                 <p class="lead">We can now infer cell types.</p>
                 <div id="btn-types" class="btn btn-lg btn-secondary">
                     <div id="Progress-Types Progress">
@@ -732,7 +732,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script src="./scripts/pkgs/plotly/plotly-2.5.1.min.js"></script>
 
-
+    <script src="./scripts/getKNearestNeighbors.js"></script>
+    <script src="./scripts/PCA.js"></script>
+    <script src="./scripts/umapJs.js"></script>
+    <script src="./scripts/kMeans.js"></script>
     <script src="./scripts/model.js"></script>
     <script src="./scripts/tutorial_generator.js"></script>
     <script src="./scripts/view.js"></script>
