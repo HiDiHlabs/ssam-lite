@@ -60,21 +60,62 @@ function processCoordinates(allText) {
     let xmax = 0;
     let ymax = 0;
 
+    let geneCol = 0
+    let xCol = 1
+    let yCol = 2
+    geneColFound = false;
+    xColFound = false;
+
+    let header = allTextLines[0].split(',');
+
+    for (var i = 1; i < header.length; i++) {
+        if (["target", "gene", "Gene"].some(x => header[i].includes(x))) {
+            geneCol = i;
+            geneColFound = true;
+            if (xColFound) break;
+            continue;
+        }
+        let yIdx = header.map(x => x.replace("y", "$")).indexOf((header[i].replace("x", "$")));
+        if (yIdx == (-1)) {
+            yIdx = header.map(x => x.replace("Y", "$")).indexOf((header[i].replace("X", "$")));
+
+            if (yIdx != (-1)) {
+                xCol = i;
+                yCol = yIdx;
+
+                xColFound = true;
+                if (geneColFound) break;
+                continue;
+            }
+        }
+    }
+
+    if (~geneColFound) {
+        for (var i = 0; i < 3; i++) {
+            if ((xCol != i) & (yCol != i)) {
+                geneCol = i
+                break
+            }
+        };
+    }
+
+    console.log(header, "genes: ", geneCol, "X:", xCol, "Y:", yCol);
+
     for (var i = 1; i < allTextLines.length; i++) {
         line = allTextLines[i].split(',');
 
-        x = parseFloat(line[1]) || 0;
-        y = parseFloat(line[2]) || 0;
+        x = parseFloat(line[xCol]) || 0;
+        y = parseFloat(line[yCol]) || 0;
 
         xmin = Math.min(x, xmin);
-        ymin = Math.min(x, ymin);
+        ymin = Math.min(y, ymin);
         xmax = Math.max(x, xmax);
         ymax = Math.max(y, ymax);
 
         X.push(x);
         Y.push(y);
-        ZGenes.push(line[0]);
-        if (!genes.includes(line[0])) genes.push(line[0]);
+        ZGenes.push(line[geneCol]);
+        if (!genes.includes(line[geneCol])) genes.push(line[geneCol]);
     }
 
     X.map(x => x - xmin);
@@ -229,10 +270,7 @@ function main() {
             document.getElementById("coordinate-loader").style.display = "none";
         });
 
-        // await runDeNovo();
 
-        // console.log("Running de novo!")
-        // await runCelltypeAssignments();
 
     };
 
@@ -493,17 +531,17 @@ function main() {
             for (let y_ = 0; y_ < height; y_ += modularizedKDEWindowWidth) {
                 // console.log("Coords: ", x_, y_, width, height);
 
-                [subsetX, subsetY, subsetGenes] = spatialSubset(X, Y, ZGenes,  
-                                                                x_ * umPerPx, (x_ + modularizedKDEWindowWidth) * umPerPx, 
-                                                                y_ * umPerPx, (y_ + modularizedKDEWindowWidth) * umPerPx, true);
+                [subsetX, subsetY, subsetGenes] = spatialSubset(X, Y, ZGenes,
+                    x_ * umPerPx, (x_ + modularizedKDEWindowWidth) * umPerPx,
+                    y_ * umPerPx, (y_ + modularizedKDEWindowWidth) * umPerPx, true);
 
-                console.log(x_,y_,subsetX.length );
+                console.log(x_, y_, subsetX.length);
 
                 if (subsetX.length > 0) {
 
-                    [vfPatch, vfNormPatch] = runKDE(subsetX.map(x => x/umPerPx), subsetY.map(x => x/umPerPx), subsetGenes, genes, 
-                                                modularizedKDEWindowWidth, modularizedKDEWindowWidth, sigma,
-                                                    modularizedKDEWindowWidth, modularizedKDEWindowWidth, 2);
+                    [vfPatch, vfNormPatch] = runKDE(subsetX.map(x => x / umPerPx), subsetY.map(x => x / umPerPx), subsetGenes, genes,
+                        modularizedKDEWindowWidth, modularizedKDEWindowWidth, sigma,
+                        modularizedKDEWindowWidth, modularizedKDEWindowWidth, 2);
 
                     // console.log("Patch-max: ", vfNormPatch.max().arraySync());
 
@@ -517,7 +555,7 @@ function main() {
                             celltypeMap.set(celltypeMapPatch.get(i, j), i + x_, j + y_)
                         }
                     }
-                    
+
                 }
 
                 else {
@@ -576,7 +614,7 @@ function main() {
         [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, threshold = threshold);
         console.log('localmax filter completed', localMaxX, localMaxY);
 
-        plotCoordinates('coordinates-preview', localMaxX, localMaxY, localMaxY.map( x=> 'kewl'), { 'showlegend': true, })
+        plotCoordinates('coordinates-preview', localMaxX, localMaxY, localMaxY.map(x => 'kewl'), { 'showlegend': true, })
     }
 
     function runGlobalKDE() {
@@ -625,10 +663,10 @@ function main() {
         });
 
 
-        let umapCoords =  runUMAP(localmaxExpressions.arraySync());
+        let umapCoords = runUMAP(localmaxExpressions.arraySync());
 
         console.log("UMAP coords: ", umapCoords);
-        plotCoordinates('coordinates-preview',umapCoords.map(x=>x[0]),umapCoords.map(x=>x[1]),umapCoords);
+        plotCoordinates('coordinates-preview', umapCoords.map(x => x[0]), umapCoords.map(x => x[1]), umapCoords);
 
         clusterLabels = Array.from({ length: localmaxSignatures.shape[0] }, (x, i) => i);
         signatureMatrix = localmaxSignatures;
@@ -657,7 +695,7 @@ function main() {
         // }
         else {
             // const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
-            
+
             umPerPx = xmax / width;
 
             const celltypeMap = await runModularizedCTAssignment()
