@@ -162,4 +162,4 @@ cython_debug/
 
 # npm js scripts 
 
-scripts/browserize-content/node_modules
+scripts/browserize-content

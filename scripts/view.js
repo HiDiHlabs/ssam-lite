@@ -11,7 +11,7 @@ $('.smooth-scroll').click(function () {
 
 async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
 
-    uniqueGenes = Array.from(new Set(ZGenes));
+    uniqueGenes = Array.from(new Set(ZGenes)).sort();
 
     var varcoords = Array(uniqueGenes.length).fill(0).map(() => new Array(2).fill(0).map(() => []));
 
@@ -42,7 +42,10 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
             name: uniqueGenes[i],
             mode: 'markers',
             opacity: 0.5,
-            markers: { size: 0.1, symbol: 'triangle-left' },
+            markers: {
+                size: 0.1,
+                symbol: 'triangle-left',
+            },
             type: 'scattergl',
             hoverinfo: 'none',
         });
@@ -64,6 +67,58 @@ async function plotCoordinates(div, X, Y, ZGenes, layoutCoordinates = {}) {
     };
 
     Plotly.react(div, data, layoutCoordinates, dl_config);
+
+    document.getElementById('divScale').style.display = 'block';
+
+};
+async function plotUmap(div, X, Y, colors = null) {
+
+    console.log("colors:", colors[0]);
+
+    var layoutCoordinates = {
+        // all "layout" attributes: #layout
+        paper_bgcolor: 'black',
+        plot_bgcolor: 'black',
+        title: { text: 'mRNA map', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
+        margin: { t: 35, b: 10, l: 15, r: 15 },
+        font: { color: 'white' },
+        xaxis: { automargin: true, title: 'μm', },
+        yaxis: { automargin: true, scaleanchor: "x", title: 'μm', },
+    };
+
+
+    var data = [{
+        x: X,
+        y: Y,
+        name: 'umap',
+        mode: 'markers',
+        opacity: 0.5,
+        marker: {
+            // size: 0.1,
+            // symbol: 'triangle-left',
+            color: colors,
+            colorscale: 'Jet',
+        },
+        type: 'scattergl',
+        hoverinfo: 'none',
+    }];
+
+    // var custom_filename = "ssamlite_mRNA_map_" + new Date().toJSON().slice(0, 19);
+
+    // var dl_config = {
+    //     toImageButtonOptions: {
+    //         format: 'svg',
+    //         filename: custom_filename,
+    //         height: 768,
+    //         width: 1024,
+    //         scale: 1
+    //     },
+    //     responsive: true,
+    //     modeBarButtonsToRemove: ['lasso2d', 'autoScale2d', 'select2d'],
+    //     displaylogo: false
+    // };
+
+    Plotly.react(div, data, layoutCoordinates);
 
     document.getElementById('divScale').style.display = 'block';
 
@@ -338,7 +393,7 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
 
     // console.log(colorArray);
 
-    // console.log(counts, clusterLabels, colorArray);
+    console.log(counts, clusterLabels, colorArray);
     counts = [...counts].reverse();
     clusterLabels = clusterLabels.slice().reverse();
     // console.log(counts);
@@ -367,9 +422,9 @@ function plotCelltypeStats(div, counts, clusterLabels, layout = {}, highlight = 
                 color: 'white',
             },
             title: { text: 'Cell-type abundance', yref: "paper", y: 1, yanchor: "bottom", pad: { b: 10 }, },
-            margin: { t: 35, b: 10, },
-            'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
-            'yaxis': { automargin: true, scaleanchor: "x", 'showgrid': false, },
+            // margin: { t: 35, b: 10, },
+            xaxis: {title:'relative area'},// 'xaxis': { automargin: true, title: 'relative area', 'showgrid': false, },
+            // 'yaxis': { automargin: true, scaleanchor: "x", 'showgrid': false, },
         }, ...layout
     }
     var downloadIcon = {

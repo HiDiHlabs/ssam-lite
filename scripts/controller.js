@@ -15,17 +15,24 @@ function readFileAsync(file) {
 
 
 
-function processSignatures(allText) {
+function processSignatures(allText, geneList = null) {
 
-    var genes;
+    // var genes;
     var clusterLabels;
     var signatureBuffer;
-
+    var n;
     var allTextLines = allText.split(/\r\n|\n/);
     var nClusters = allTextLines.length - 2;
-    genes = allTextLines[0].split(',').slice(1);
-    var nGenes = genes.length;
 
+    console.log(geneList);
+
+    var header, nGenes;
+    if (geneList == null) {
+        geneList = allTextLines[0].split(',').slice(1).sort();
+    }
+    header = allTextLines[0].split(',').slice(1);
+
+    nGenes = geneList.length;
     signatureBuffer = tf.buffer([nClusters, nGenes]);
 
     clusterLabels = [];
@@ -34,7 +41,10 @@ function processSignatures(allText) {
         line = allTextLines[i + 1].split(',');
 
         for (var j = 0; j < nGenes; j++) {
-            signatureBuffer.set(parseFloat(line[j + 1]), i, j);
+            n = header.indexOf(geneList[j])
+            if (n > 0) {
+                signatureBuffer.set(parseFloat(line[j + 1]), i, n);
+            }
         }
 
         clusterLabels.push(line[0]);
@@ -42,7 +52,9 @@ function processSignatures(allText) {
 
     signatureBuffer = signatureBuffer.toTensor();
 
-    return [signatureBuffer, clusterLabels, genes];
+    genes = geneList;
+
+    return [signatureBuffer, clusterLabels, geneList];
 };
 
 function processCoordinates(allText) {
@@ -54,7 +66,7 @@ function processCoordinates(allText) {
     let Y = [];
     let x = 0;
     let y = 0;
-    let line;
+    let line, yIdx;
     let xmin = 0;
     let ymin = 0;
     let xmax = 0;
@@ -68,18 +80,35 @@ function processCoordinates(allText) {
 
     let header = allTextLines[0].split(',');
 
-    for (var i = 1; i < header.length; i++) {
-        if (["target", "gene", "Gene"].some(x => header[i].includes(x))) {
+    for (var i = 0; i < header.length; i++) {
+        if (["target", "gene", "Gene", "feature_name"].some(x => header[i].includes(x))) {
+            console.log("Found geneCol: ", i);
             geneCol = i;
             geneColFound = true;
             if (xColFound) break;
             continue;
         }
-        let yIdx = header.map(x => x.replace("y", "$")).indexOf((header[i].replace("x", "$")));
-        if (yIdx == (-1)) {
-            yIdx = header.map(x => x.replace("Y", "$")).indexOf((header[i].replace("X", "$")));
+
+        if ((header[i].includes("x"))) {
+            yIdx = header.map(x => x.replace("y", "$")).indexOf((header[i].replace("x", "$")));
 
             if (yIdx != (-1)) {
+                console.log("Found xCol: ", i, yIdx);
+
+                xCol = i;
+                yCol = yIdx;
+
+                xColFound = true;
+                if (geneColFound) break;
+                continue;
+            }
+        }
+
+        else if ((header[i].includes("X"))) {
+            yIdx = header.map(x => x.replace("Y", "$")).indexOf((header[i].replace("X", "$")));
+            if (yIdx != (-1)) {
+                console.log("Found xCol: ", i, yIdx);
+
                 xCol = i;
                 yCol = yIdx;
 
@@ -90,7 +119,7 @@ function processCoordinates(allText) {
         }
     }
 
-    if (~geneColFound) {
+    if (!geneColFound) {
         for (var i = 0; i < 3; i++) {
             if ((xCol != i) & (yCol != i)) {
                 geneCol = i
@@ -129,6 +158,8 @@ function processCoordinates(allText) {
     var height = Math.ceil(width / edgeRatio);
     // var height = Math.ceil(width / edgeRatio);
 
+    genes = genes.sort()
+
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
 
@@ -155,7 +186,7 @@ function processColorMap(allText, clusterLabels) {
         }
         else {
 
-            console.log(clusterLabels[i], idx, colorList[idx])
+            // console.log(clusterLabels[i], idx, colorList[idx])
             colors.push(colorList[idx]);
         }
     }
@@ -172,7 +203,7 @@ function reloadPage() {
 function main() {
 
     {
-        var genes = [];
+        var genes;
         var clusterLabels;
         var signatureMatrix;
 
@@ -205,8 +236,7 @@ function main() {
         var vfNormParameter;
         var cGen = getColorValue;
 
-        var modularizedKDEWindowWidth = 500;
-
+        var modularizedKDEWindowWidth = 300;
 
         var pointerCoordinates = parameterWindow;
 
@@ -225,8 +255,11 @@ function main() {
             fileToLoad = document.getElementById("btn-signatures-hidden").files[0];
         }
 
-        [signatureMatrix, clusterLabels, genes] = (processSignatures(await readFileAsync(fileToLoad)));
+        [signatureMatrix, clusterLabels, geneList] = processSignatures(await readFileAsync(fileToLoad), genes);
 
+        genes = geneList;
+
+        console.log(genes, geneList);
         setVfSizeIndicator(width, height, genes);
 
         plotSignatures('signatures-preview', genes, clusterLabels, signatureMatrix.arraySync()).then(function () {
@@ -237,6 +270,25 @@ function main() {
         $('#errSign').remove();
 
     };
+
+    // async function assignPanglaoMAP(markerLists){
+    //     let [header, panglaoFrame,panglaoDicts] = await loadPanglao();
+
+    //     console.log("PD:",panglaoDicts);
+    //     // header = await header;
+
+    //     let markerListsCleaned = [];
+
+
+    //     for (let i=0;i<markerLists.length;i++){
+    //         let markerList = markerLists[i];
+
+    //         markerList.map(x=> panglaoDicts['gene'].indexOf(x.toUpperCase()));  
+
+    //         console.log(markerList);
+    //     }
+
+    // }
 
     async function importCoordinates(fileToLoad) {
 
@@ -249,8 +301,8 @@ function main() {
         xmax = [];       // highest coordinate
         ymax = [];       // lowest coordinate
 
-        console.log(ZGenes);
-        console.log('loading coordinates');
+        // console.log(ZGenes);
+        // console.log('loading coordinates');
         document.getElementById("coordinate-loader").style.display = "block";   //display waiting symbol
 
         if (fileToLoad.constructor.name != "File") {
@@ -258,7 +310,7 @@ function main() {
         }
 
         [X, Y, ZGenes, coordGenes, xmax, ymax, edgeRatio, width, height] = processCoordinates(await readFileAsync(fileToLoad));
-        if (!genes.length) genes = coordGenes; //use genes from the coordinate file for now, e.g. kde
+        if (genes == null) genes = coordGenes; //use genes from the coordinate file for now, e.g. kde
 
         edgeRatio = xmax / ymax;
         width = Math.ceil(height * edgeRatio);
@@ -285,7 +337,7 @@ function main() {
 
         $('#errCoords').remove();
 
-        console.log('loading cMap');
+        // console.log('loading cMap');
 
         if (fileToLoad.constructor.name != "File") {
             fileToLoad = document.getElementById("btn-cmap-hidden").files[0];
@@ -529,51 +581,51 @@ function main() {
 
         for (let x_ = 0; x_ < width; x_ += modularizedKDEWindowWidth) {
             for (let y_ = 0; y_ < height; y_ += modularizedKDEWindowWidth) {
-                // console.log("Coords: ", x_, y_, width, height);
 
                 [subsetX, subsetY, subsetGenes] = spatialSubset(X, Y, ZGenes,
                     x_ * umPerPx, (x_ + modularizedKDEWindowWidth) * umPerPx,
                     y_ * umPerPx, (y_ + modularizedKDEWindowWidth) * umPerPx, true);
 
-                console.log(x_, y_, subsetX.length);
+                // console.log(x_, y_, subsetX.length);
 
                 if (subsetX.length > 0) {
+                    console.log("Coords: ", x_, y_, width, height);
 
                     [vfPatch, vfNormPatch] = runKDE(subsetX.map(x => x / umPerPx), subsetY.map(x => x / umPerPx), subsetGenes, genes,
-                        modularizedKDEWindowWidth, modularizedKDEWindowWidth, sigma,
-                        modularizedKDEWindowWidth, modularizedKDEWindowWidth, 2);
+                        modularizedKDEWindowWidth, modularizedKDEWindowWidth, sigma / umPerPx,
+                        modularizedKDEWindowWidth, modularizedKDEWindowWidth, 3);
 
                     // console.log("Patch-max: ", vfNormPatch.max().arraySync());
 
-                    let celltypeMapPatch = await (assignCelltypes(vfPatch, vfNormPatch, signatureMatrix, threshold).buffer());
+                    let celltypeMapPatch = await assignCelltypes(vfPatch, vfNormPatch, signatureMatrix, threshold).buffer();
 
                     // console.log("celltypeMapPatch: ", celltypeMapPatch);
                     // console.log("celltypeMapPatchMax: ", celltypeMapPatch.toTensor().max().arraySync());
 
-                    for (let i = 0; i < modularizedKDEWindowWidth; i++) {
-                        for (let j = 0; j < modularizedKDEWindowWidth; j++) {
+                    for (let i = 0; (i < modularizedKDEWindowWidth) & ((i + x_) < width); i++) {
+                        for (let j = 0; (j < modularizedKDEWindowWidth) & ((j + y_) < height); j++) {
                             celltypeMap.set(celltypeMapPatch.get(i, j), i + x_, j + y_)
                         }
                     }
-
                 }
 
                 else {
 
-                    for (let i = 0; i < modularizedKDEWindowWidth; i++) {
-                        for (let j = 0; j < modularizedKDEWindowWidth; j++) {
+                    for (let i = 0; (i < modularizedKDEWindowWidth) & ((i + x_) < width); i++) {
+                        for (let j = 0; (j < modularizedKDEWindowWidth) & ((j + y_) < height); j++) {
                             celltypeMap.set(-1, i + x_, j + y_)
                         }
                     }
 
                 }
+                // if (y_ > 0) break;
             }
             // break
         }
 
         // modularizedKDEWindowWidth
 
-        console.log(celltypeMap);
+        // console.log(celltypeMap);
         return celltypeMap.toTensor();
     }
 
@@ -599,7 +651,7 @@ function main() {
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
-                console.log(ex);
+                // console.log(ex);
             }
         }
         else {
@@ -610,11 +662,9 @@ function main() {
 
     async function localMaxFilter() {
 
-        threshold = parseFloat(document.getElementById('threshold').value);
-        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, threshold = threshold);
-        console.log('localmax filter completed', localMaxX, localMaxY);
-
-        plotCoordinates('coordinates-preview', localMaxX, localMaxY, localMaxY.map(x => 'kewl'), { 'showlegend': true, })
+        localmaxThreshold = parseFloat(document.getElementById('threshold').value);
+        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, localmaxThreshold = localmaxThreshold);
+        // console.log('localmax filter completed', localMaxX, localMaxY);
     }
 
     function runGlobalKDE() {
@@ -640,7 +690,7 @@ function main() {
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
-                console.log(ex);
+                // console.log(ex);
             }
 
 
@@ -652,24 +702,108 @@ function main() {
 
     };
 
-    async function createLocalmaxSignatures() {
-        [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 20,);
-        // localmaxSignatures = await runPCA(localmaxExpressions);
-        localmaxSignatures = await runKMeans(localmaxExpressions);
-        // console.log(localmaxSignatures.arraySync(),localmaxExpressions.arraySync());
+    async function createUmapColors(localmaxExpressions, umapCoords, localMaxXumap, localMaxYumap,) {
+        // perform 3d/color embedding:
+        let umapColorCoords = runUMAP(localmaxExpressions.arraySync(), nComponents = 3, minDist = 0.0, nNeighbors = 20);// initData = umapCoords.map(x=>x.push(0)));
 
-        plotSignatures('signatures-preview', genes, Array.from({ length: localmaxSignatures.shape[0] }, (x, i) => i), localmaxSignatures.arraySync()).then(function () {
+        umapColorCoords = await PCA(umapColorCoords, 3)
+
+        // console.log('facs:',facs);// #= tf.tensor(facs)
+
+        uCCmins = [0, 1, 2].map(x => Math.min(...umapColorCoords.map(y => y[x])));
+        umapColorCoords = umapColorCoords.map(x => [x[0] - uCCmins[0], x[1] - uCCmins[1], x[2] - uCCmins[2]]);
+        uCCmaxs = [0, 1, 2].map(x => Math.max(...umapColorCoords.map(y => y[x])));
+        umapColorCoords = umapColorCoords.map(x => [x[0] / uCCmaxs[0], x[1] / uCCmaxs[1], x[2] / uCCmaxs[2]]);
+        umapColorCoordsRgb = umapColorCoords.map(x => `rgb(${Math.floor(x[0] * 256)},${Math.floor(x[1] * 256)},${Math.floor(x[2] * 256)})`);
+
+        // console.log('umap exps:',signatureMatrix);      
+
+        [_, umapLocalMaxColors] = await determineWeightedExpression(localMaxXumap, localMaxYumap,
+            umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), tf.tensor(umapColorCoords), sigmaWE = 1)
+
+        umapLocalMaxColors = umapLocalMaxColors.arraySync().map(x => `rgb(${Math.floor(x[0] * 256)},${Math.floor(x[1] * 256)},${Math.floor(x[2] * 256)})`);
+
+        console.log([umapLocalMaxColors, umapColorCoordsRgb]);
+
+        return [umapLocalMaxColors, umapColorCoordsRgb];
+    }
+
+    async function identifyMarkerGenes(signatures){
+        let celltypeWiseMeans = signatures.mean(1).arraySync();
+
+        signatures = signatures.arraySync();
+
+        markerLists = []
+
+        for  (let i=0;i<celltypeWiseMeans.length;i++){
+            let markerList = []
+
+            for  (let j=0;j<genes.length;j++){
+                if (signatures[i][j]>celltypeWiseMeans[i]){
+                    markerList.push(genes[j])
+                }
+            }
+            markerLists.push(markerList);
+        }
+        return markerLists;
+
+    }
+
+    async function createLocalmaxSignatures() {
+
+        // Determine local expression patterns at localmaxs through KNN graph:
+        let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 20,);
+
+        // Embed localmax expressions:
+        let umapCoords = runUMAP(localmaxExpressions.arraySync(), nComponents = 2, minDist = 0.0,);
+        umapCoords = umapCoords.map(x => x.map(y => y * 8));
+
+        // KDE on 2d embedding:
+        uCmins = [0, 1,].map(x => Math.min(...umapCoords.map(y => y[x])));
+        uCmaxs = [0, 1,].map(x => Math.max(...umapCoords.map(y => y[x])));
+        [_, umapHeatmap] = runKDE(umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), null, ['global'], null, null, 1);
+
+        // localmax detection in 2d embedding:
+        [localMaxXumap, localMaxYumap] = await runLocalMaxFilter(umapHeatmap, umapHeatmap.shape[1], umapHeatmap.shape[0], radius = 3, localmaxThreshold = 0.000001,);
+
+        // Inverse localmax embedding(->retrieves signatures from umap coords...)
+        [_, umapExpression] = await determineWeightedExpression(localMaxXumap, localMaxYumap,
+            umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), localmaxExpressions, sigmaWE = 1)
+
+        signatureMatrix = umapExpression;
+
+        // markerLists=identifyMarkerGenes(signatureMatrix);
+        // panglaoMAPs = markerLists.then(assignPanglaoMAP);
+
+        // return ;
+        clusterLabels = [...Array(localMaxXumap.length).keys()];
+
+        [umapLocalMaxColors, umapColorCoordsRgb] = await createUmapColors(localmaxExpressions, umapCoords, localMaxXumap, localMaxYumap,);
+
+        function colorGenerator(val) {
+            // console.log("generated: ", val)
+            if (val == 0) {
+                return "rgb(0,0,0)";
+            }
+            else {
+                return umapLocalMaxColors[Math.floor(val * (umapLocalMaxColors.length - 1))];
+            }
+        }
+
+        cGen = colorGenerator;
+
+        console.log(umapLocalMaxColors);
+
+
+        plotSignatures('signatures-preview', genes, Array.from({ length: signatureMatrix.shape[0] }, (x, i) => i), signatureMatrix.arraySync()).then(function () {
             document.getElementById("signature-loader").style.display = "none";
         });
 
-
-        let umapCoords = runUMAP(localmaxExpressions.arraySync());
-
-        console.log("UMAP coords: ", umapCoords);
-        plotCoordinates('coordinates-preview', umapCoords.map(x => x[0]), umapCoords.map(x => x[1]), umapCoords);
-
-        clusterLabels = Array.from({ length: localmaxSignatures.shape[0] }, (x, i) => i);
-        signatureMatrix = localmaxSignatures;
+        console.log("umapCoords:", umapCoords);
+        // plotVfNorm('localmax-preview', umapHeatmap.arraySync());
+        // plotUmap('umap-preview', localMaxYumap, localMaxXumap, colors = umapLocalMaxColors);
+        plotUmap('umap-preview', umapCoords.map(x => x[0]), umapCoords.map(x => x[1]), colors = umapColorCoordsRgb);
+        plotUmap('localmax-preview', localMaxY, localMaxX, colors = umapColorCoordsRgb);
 
     }
 
@@ -918,6 +1052,8 @@ function main() {
         //     .addEventListener('click', runFullKDE);
         document.getElementById('btn-types')
             .addEventListener('click', runCelltypeAssignments);
+        document.getElementById('btn-denovo')
+            .addEventListener('click', runDeNovo);
         document.getElementById('btn-reload')
             .addEventListener('click', reloadPage);
 
@@ -978,4 +1114,5 @@ function main() {
 
 
 }
+
 main();

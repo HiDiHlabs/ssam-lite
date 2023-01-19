@@ -1,8 +1,13 @@
 // const umapJs = require("./browserize-content/umapJs");
 
-function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds = 2) {
+function runKDE(X, Y, Zgenes, genes, xmax = null, ymax = null, sigma = 1, height = null, width = null, nStds = 2) {
 
-    // console.log(X);
+    if (ymax == null) { ymax = Math.max(...Y); }
+    if (xmax == null) { xmax = Math.max(...X); }
+    if (height == null) { height = Math.ceil(xmax - Math.min(...X)); }
+    if (width == null) { width = Math.ceil(ymax - Math.min(...Y)); }
+
+    //  console.log(X);
     var vfBuffer = tf.buffer([height, width, genes.length], dtype = 'float32');
 
     var x = 0;
@@ -12,7 +17,8 @@ function runKDE(X, Y, Zgenes, genes, xmax, ymax, sigma, height, width, nStds = 2
     var counter = 0;
     var n_steps = Math.ceil(sigma * nStds);
 
-    // console.log(sigma, n_steps);
+
+    //  console.log(sigma, n_steps);
 
     var normalization = 1 / (1 * Math.PI * sigma ** 2) ** 0.5
 
@@ -73,7 +79,7 @@ function spatialSubset(X, Y, ZGenes, x_, _x, y_, _y, reCenter = true) {
     let centraSubtractorX = reCenter ? (x_) : 0;
     let centraSubtractorY = reCenter ? (y_) : 0;
 
-    // console.log(subsetX);
+    //  console.log(subsetX);
 
     for (var i = 0; i < X.length; i++) {
         if (X[i] > (x_) &&
@@ -86,7 +92,7 @@ function spatialSubset(X, Y, ZGenes, x_, _x, y_, _y, reCenter = true) {
         }
     }
 
-    // console.log(X,subsetX,x_,_x,y_,_y);
+    //  console.log(X,subsetX,x_,_x,y_,_y);
 
     return [subsetX, subsetY, subsetZ];
 };
@@ -97,14 +103,25 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
 
         intermediates = [];
         var inter;
+        var signaturesMoments = tf.moments(signatureMatrix, axis = 1);
+        var signaturesMean = signaturesMoments.mean;
+        var signaturesStd = signaturesMoments.variance.pow(0.5);
+        var signaturesCentered = signatureMatrix.sub(signaturesMean.expandDims(1))
+
+        var interMoments;
+        var interMean;
+        var interStd;
+        var correlations;
 
         for (var i = 0; i < vf.shape[0]; i++) {
 
             inter = vf.gather(i);
-            inter = inter.add(1).log();
-            inter = inter.transpose().div(inter.sum(1)).transpose();
-            inter = inter.matMul(signatureMatrix.transpose());
-            intermediates.push(inter.argMax(1).expandDims(0));
+            interMoments = tf.moments(inter, axis = 1);
+            interMean = interMoments.mean;
+            interStd = interMoments.variance.pow(0.5)
+            interCentered = inter.sub(interMean.expandDims(1))  // 0 mean
+            correlations = signaturesCentered.mul(interCentered.expandDims(1)).mean(2).div(interStd.expandDims(1)).div(signaturesStd.expandDims(0));
+            intermediates.push(correlations.argMax(1).expandDims(0));
         }
 
         intermediates = tf.concat(intermediates);
@@ -114,12 +131,38 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
 
     });
 
+
     return celltypeMap;
 };
 
+// function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
+//     celltypeMap = tf.tidy(() => {
+
+//         intermediates = [];
+//         var inter;
+
+//         for (var i = 0; i < vf.shape[0]; i++) {
+
+//             inter = vf.gather(i);
+//             inter = inter.add(1).log();
+//             inter = inter.transpose().div(inter.sum(1)).transpose();
+//             inter = inter.matMul(signatureMatrix.transpose());
+//             intermediates.push(inter.argMax(1).expandDims(0));
+//         }
+
+//         intermediates = tf.concat(intermediates);
+//         var inters = intermediates.mul(vfNorm.greater(threshold));
+
+//         return inters.sub(vfNorm.less(threshold));
+
+//     });
+
+//     return celltypeMap;
+// };
 
 
-async function runLocalMaxFilter(vfNorm, height, width, radius = 3, threshold = 10) {
+
+async function runLocalMaxFilter(vfNorm, height, width, radius = 3, localmaxThreshold = 10) {
 
     var buffer = await vfNorm.buffer();
 
@@ -146,7 +189,7 @@ async function runLocalMaxFilter(vfNorm, height, width, radius = 3, threshold = 
 
         for (var y = 0; y < height; y++) {
             var centralValue = buffer.get(x, y);
-            if (centralValue > threshold) {
+            if (centralValue > localmaxThreshold) {
                 isMax = true;
                 for (var i = 0; i < filterX.length; i++) {
 
@@ -159,13 +202,13 @@ async function runLocalMaxFilter(vfNorm, height, width, radius = 3, threshold = 
                             break;
                         };
                     }
-                    else {
-                        isMax = false;
-                        break;
-                    }
+                    // else {
+                    //     isMax = false;
+                    //     break;
+                    // }
                 }
                 if (isMax) {
-                    // console.log('Found max at', x, y, ":)", "norm is ", centralValue)
+                    //  console.log('Found max at', x, y, ":)", "norm is ", centralValue)
                     localmaxX.push(x);
                     localmaxY.push(y);
                 }
@@ -183,11 +226,11 @@ function transpose(matrix) {
 
 function determineLocalExpression(queryX, queryY, X, Y, ZGenes, genes, sigma) {
 
-    // console.log("kewl", transpose([X, Y]), transpose([queryX, queryY]));
+    //  console.log("kewl", transpose([X, Y]), transpose([queryX, queryY]));
     knns = getKNearestNeighbors(transpose([X, Y]), transpose([queryX, queryY]), 50);
 
     let expressionSamples = tf.buffer([knns.length, genes.length], dtype = 'float32');
-    console.log("nLocalMaxs: ", queryX.length);
+    // console.log("nLocalMaxs: ", queryX.length);
     let normalization = 1 / (1 * Math.PI * sigma ** 2) ** 0.5;
     let k, dist, signal, g;
 
@@ -202,10 +245,60 @@ function determineLocalExpression(queryX, queryY, X, Y, ZGenes, genes, sigma) {
 
             dist = Math.pow(Math.pow(X[k] - x, 2) + Math.pow(Y[k] - y, 2), 0.5);
             signal = Math.exp(-(dist / Math.pow(sigma, 2))) * normalization;
-            // console.log(dist,signal);
+            //  console.log(dist,signal);
 
             expressionSamples.set(expressionSamples.get(i, g) + signal, i, g);
         }
+    }
+
+    try {
+        expressionSamples = expressionSamples.toTensor();
+    }
+    catch {
+        throw ("Exceeded");
+    }
+    return [knns, expressionSamples];
+};
+
+async function determineWeightedExpression(queryX, queryY, X, Y, localmaxExpressions, sigmaWE) {
+
+    localmaxExpressions = await localmaxExpressions.buffer();
+    //  console.log("kewl", transpose([X, Y]), transpose([queryX, queryY]));
+    knns = getKNearestNeighbors(transpose([X, Y]), transpose([queryX, queryY]), 10);
+
+    let expressionSamples = tf.buffer([knns.length, localmaxExpressions.shape[1]], dtype = 'float32');
+    console.log("nLocalMaxs: ", localmaxExpressions);
+    let normalization = 1 / (1 * Math.PI * sigmaWE ** 2) ** 0.5;
+    let k, dist, signal, w;
+
+
+    for (let i = 0; i < knns.length; i++) {
+
+        x = queryX[i];
+        y = queryY[i];
+        w=0;
+
+        for (let j = 0; j < knns[0].length; j++) {
+            k = knns[i][j];
+            // g = genes.indexOf(ZGenes[k]);
+
+            dist = Math.pow(Math.pow(X[k] - x, 2) + Math.pow(Y[k] - y, 2), 0.5);
+            signal = Math.exp(-(dist / Math.pow(sigmaWE, 2)));
+            //  console.log(dist,signal);
+
+            w+=signal;
+
+            for (let g = 0; g < localmaxExpressions.shape[1]; g++) {
+                expressionSamples.set(expressionSamples.get(i, g) + localmaxExpressions.get(k, g) * signal, i, g);
+            }
+
+
+        }
+        
+        for (let g = 0; g < localmaxExpressions.shape[1]; g++) {
+            expressionSamples.set(expressionSamples.get(i, g) /w, i, g);
+        }
+        
     }
 
     try {
@@ -241,16 +334,16 @@ async function runKMeans(data, nClusters = 30) {
 
     let kMeansOut = await kMeans(data, k = nClusters);
 
-    console.log("kMeansOut:", kMeansOut);
+    //  console.log("kMeansOut:", kMeansOut);
 
     let signatures = tf.tensor(kMeansOut.groups.map(x => x.centroid))
 
 
-    return signatures//.transpose()
+    return [signatures, kMeansOut]
 }
 
-function runUMAP(data){
-    coordinates = umapJs(data);
+function runUMAP(data, nComponents = 2, spread = 1.0, nNeighbors = 30, minDist = 0.1, initData = false) {
+    coordinates = umapJs(data, nComponents = nComponents, initData = initData);
     return coordinates;
 }
 
