@@ -69,6 +69,87 @@ function runKDE(X, Y, Zgenes, genes, xmax = null, ymax = null, sigma = 1, height
 
 };
 
+function argsort(arr){
+
+    return ([...Array(arr.length).keys()]).map(x=>[arr[x],x]).sort((a,b)=>(a[0]-b[0])).map(x=>x[1]) 
+}
+
+function unique(arr) {
+    let uniques = [];
+    let counts = [];
+    let indices = [];
+
+    for (let i = 0; i < arr.length; i++) {
+
+        if (!(uniques.includes(arr[i]))) {
+            uniques.push(arr[i]);
+            counts.push(0);
+            // console.log(uniques);
+        }
+
+        counts[uniques.indexOf(arr[i])] += 1;
+        indices.push(counts.indexOf[arr[i]]);
+        // console.log(counts);
+
+        
+
+    }
+
+    let sortIdcs = argsort(counts);
+    counts = ([...Array(counts.length).keys()]).map(x=>counts[sortIdcs[x]])
+    uniques = ([...Array(counts.length).keys()]).map(x=>uniques[sortIdcs[x]])
+    indices = ([...Array(counts.length).keys()]).map(x=>sortIdcs[x])
+
+    // console.log(sortIdcs,counts,uniques,indices,arr);
+
+    return [counts, uniques,indices]
+}
+
+
+    
+function applyLinearRotation(input, theta) {
+
+    let x = theta[0];
+    let y = theta[1];
+    let z = theta[2];
+
+    let translationMatrix = tf.tensor([
+        [1, 0, 0],
+        [0, Math.cos(x), -Math.sin(x)],
+        [0, Math.sin(x), Math.cos(x)]
+    ]);
+
+    translationMatrix = translationMatrix.matMul(tf.tensor([
+        [Math.cos(y), 0, Math.sin(y)],
+        [0, 1, 0],
+        [-Math.sin(y), 0, Math.cos(y)]
+    ]));
+
+    translationMatrix = translationMatrix.matMul(tf.tensor([
+        [Math.cos(z), -Math.sin(z), 0],
+        [Math.sin(z), Math.cos(z), 0],
+        [0, 0, 1]
+    ]));
+
+    return input.matMul(translationMatrix);
+}
+
+function scaleTo01(input, axis=0) {
+
+    let min = input.min(axis).arraySync();
+    let max = input.max(axis).arraySync();
+
+    let output = input.sub(min, axis).div(max-min, axis);
+    return output;
+}
+
+function getAllIndexes(arr, val) {
+    var indexes = [], i;
+    for (i = 0; i < arr.length; i++)
+        if (arr[i] === val)
+            indexes.push(i);
+    return indexes;
+}
 
 // remove coordinates outside box for preview 
 function spatialSubset(X, Y, ZGenes, x_, _x, y_, _y, reCenter = true) {
@@ -276,7 +357,7 @@ async function determineWeightedExpression(queryX, queryY, X, Y, localmaxExpress
 
         x = queryX[i];
         y = queryY[i];
-        w=0;
+        w = 0;
 
         for (let j = 0; j < knns[0].length; j++) {
             k = knns[i][j];
@@ -286,7 +367,7 @@ async function determineWeightedExpression(queryX, queryY, X, Y, localmaxExpress
             signal = Math.exp(-(dist / Math.pow(sigmaWE, 2)));
             //  console.log(dist,signal);
 
-            w+=signal;
+            w += signal;
 
             for (let g = 0; g < localmaxExpressions.shape[1]; g++) {
                 expressionSamples.set(expressionSamples.get(i, g) + localmaxExpressions.get(k, g) * signal, i, g);
@@ -294,11 +375,11 @@ async function determineWeightedExpression(queryX, queryY, X, Y, localmaxExpress
 
 
         }
-        
+
         for (let g = 0; g < localmaxExpressions.shape[1]; g++) {
-            expressionSamples.set(expressionSamples.get(i, g) /w, i, g);
+            expressionSamples.set(expressionSamples.get(i, g) / w, i, g);
         }
-        
+
     }
 
     try {
@@ -340,6 +421,28 @@ async function runKMeans(data, nClusters = 30) {
 
 
     return [signatures, kMeansOut]
+}
+
+async function runDBSCAN(data, eps = 0.5, minSamples = 10) {
+
+    let dbscanOut = new OPTICS();// DBSCAN()#.eps(eps).minSamples(minSamples).run(data.arraySync());
+
+    let clusterLabels = await dbscanOut.run(data, eps, minSamples);
+
+    console.log(data, clusterLabels);
+
+    let centroids = [];
+    for (let i = 0; i < clusterLabels.length; i++) {
+        centroids.push(tf.mean(clusterLabels[i].map(x=>data[x]), axis = 0))
+    }
+
+    for (let i = 0; i < dbscanOut.length; i++) {
+        centroids[i] = await centroids[i].arraySync();
+    }
+
+    centroids = tf.stack(centroids);
+
+    return [clusterLabels, centroids, dbscanOut]
 }
 
 function runUMAP(data, nComponents = 2, spread = 1.0, nNeighbors = 30, minDist = 0.1, initData = false) {

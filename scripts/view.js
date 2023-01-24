@@ -172,7 +172,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
         },
         responsive: true,
         modeBarButtonsToRemove: ['autoScale2d'],
-        displaylogo: false
+        displaylogo: false,
+        editable: true,
     };
 
     Plotly.react(div, data, layout_signatures, dl_config);

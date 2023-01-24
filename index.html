@@ -241,6 +241,12 @@
                         <div class="d-row" id="signatures-preview" ,
                             style="width: 100%; height: 60vh; max-height: 100vw;">
                         </div>
+                        <div class="d-row" id="signatures-download">
+                            <div class="container-fluid justify-content-center" style="padding-left: 17vw;">
+                                <a id="button-download-signatures" class="btn btn-lg btn-secondary"
+                                    style="display: none; margin: 10px; width: 100%; height: 100%; color: black">Download</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -349,22 +355,7 @@
                                 style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
                             <div id="parameter-coordinates-input" class="d-flex flex-column slidecontainer"
                                 style="min-height: 125px; padding: 10px">
-                                <!-- <div class="d-flex justify-content-center">
-                                    <label for="vf-width" data-toggle="vf-width"
-                                        title="The size of our discrete analysis/output area in pixels">Pixel width
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
-                                        </svg>
-                                    </label>
-                                </div> -->
-                                <!-- <div class="d-flex p-2 justify-content-center">
-                                    <input type="number" id="vf-width" name="vf-width" min="1" value="500">
-                                </div>
-                                <div class="d-flex justify-content-center">
-                                    <div id="vf-size-information">total size: -</div>
-                                </div> -->
+
                             </div>
                         </div>
 
@@ -374,21 +365,7 @@
                                 style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
                             <div id="parameter-vf-input" class="d-flex flex-column slidecontainer"
                                 style="min-height: 125px; padding: 10px">
-                                <!-- <div class="d-flex  justify-content-center">
-                                    <label for="KDE-bandwidth" data-toggle="KDE-bandwidth"
-                                        title="The 'smoothing factor' applied to the mRNA locations">KDE kernel
-                                        bandwidth
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
-                                        </svg>
-                                    </label>
-                                </div> -->
-                                <!-- <div class="d-flex p-2 justify-content-center">
-                                    <input type="number" id="KDE-bandwidth" name="KDE-bandwidth" step="0.1" min="0.1"
-                                        value="3">
-                                </div> -->
+
                             </div>
                         </div>
                         <!-- field cell type: -->
@@ -397,20 +374,7 @@
                                 style="height: 90%; min-height: 250px; border: 2px solid white; padding: 0px"></div>
                             <div id="parameter-celltypes-input" class="d-flex flex-column  slidecontainer"
                                 style="min-height: 125px; padding: 10px">
-                                <!-- <div class="d-flex  justify-content-center">
-                                    <label for="vf-width" data-toggle="threshold"
-                                        title="Threshold for discarding areas with low expression signal">Expression
-                                        threshold
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
-                                        </svg>
-                                    </label>
-                                </div> -->
-                                <!-- <div class="d-flex p-2 justify-content-center">
-                                    <input type="number" id="threshold" name="threshold" step=0.1 min="0" value="2">
-                                </div> -->
+
 
                             </div>
                         </div>
@@ -484,6 +448,81 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div id="preview-default" style="display: block;">
+
+                    <div class="d-flex flex-row flex-wrap justify-content-center" style="min-height: 5vh;">
+
+                        <!-- field coordinates: -->
+                        <!-- <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
+                            <div id="parameter-coordinates-input-default" class="d-flex flex-column slidecontainer"
+                                style="min-height: 125px; padding: 10px">
+                                <div class="d-flex justify-content-center">
+                                    <label for="vf-width" data-toggle="vf-width"
+                                        title="The size of our discrete analysis/output area in pixels">Pixel width
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                        </svg>
+                                    </label>
+                                </div>
+                                <div class="d-flex p-2 justify-content-center">
+                                    <input type="number" id="vf-width" name="vf-width" min="1" value="500">
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <div id="vf-size-information">total size: -</div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- field vf: -->
+                        <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
+                            <div id="parameter-vf-input-default" class="d-flex flex-column slidecontainer"
+                                style="min-height: 75px; padding: 2px">
+                                <div class="d-flex  justify-content-center">
+                                    <label for="clustering-sensitivity" data-toggle="clustering-sensitivity"
+                                        title="Sensitivity of the clustering algorithm">Clustering sensitivity
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                        </svg>
+                                    </label>
+                                </div>
+                                <div class="d-flex p-2 justify-content-center">
+
+                                    <select name="clustering-sensitivity" id="clustering-sensitivity">
+                                        <option value="low">low (few clusters)</option>
+                                        <option value="intermediate">intermediate</option>
+                                        <option value="high">high</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- field cell type: -->
+                        <!-- <div class="d-flex flex-column justify-content-center" style="width: 30%; min-width: 250px;">
+                            <div id="parameter-celltypes-input-default" class="d-flex flex-column  slidecontainer"
+                                style="min-height: 125px; padding: 10px">
+                                <div class="d-flex  justify-content-center">
+                                    <label for="vf-width" data-toggle="threshold"
+                                        title="Threshold for discarding areas with low expression signal">Expression
+                                        threshold
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
+                                        </svg>
+                                    </label>
+                                </div>
+                                <div class="d-flex p-2 justify-content-center">
+                                    <input type="number" id="threshold" name="threshold" step=0.1 min="0" value="2">
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
 

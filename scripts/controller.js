@@ -17,44 +17,80 @@ function readFileAsync(file) {
 
 function processSignatures(allText, geneList = null) {
 
-    // var genes;
-    var clusterLabels;
-    var signatureBuffer;
-    var n;
-    var allTextLines = allText.split(/\r\n|\n/);
-    var nClusters = allTextLines.length - 2;
+    // process the csv string 'allText', return a tensor of signatures, a 'clusterLabels' (column labels) list and 'genes' (row labels) list.
 
-    console.log(geneList);
+    var nClusters, nGenes, genes, clusterLabels;
 
-    var header, nGenes;
+    let allTextLines = allText.trim().split(/\r\n|\n/);
+    let header = allTextLines[0].split(',').slice(1);
+
     if (geneList == null) {
-        geneList = allTextLines[0].split(',').slice(1).sort();
+        geneList = allTextLines.map(x => x.split(',')[0]);
     }
-    header = allTextLines[0].split(',').slice(1);
-
     nGenes = geneList.length;
-    signatureBuffer = tf.buffer([nClusters, nGenes]);
 
-    clusterLabels = [];
+    nClusters = header.length
 
-    for (var i = 0; i < nClusters; i++) {
-        line = allTextLines[i + 1].split(',');
+    clusterLabels = header;
+    let signatureBuffer = tf.buffer([nClusters, nGenes]);
 
-        for (var j = 0; j < nGenes; j++) {
-            n = header.indexOf(geneList[j])
-            if (n > 0) {
-                signatureBuffer.set(parseFloat(line[j + 1]), i, n);
+    for (var i = 1; i < allTextLines.length; i++) {
+        let line = allTextLines[i].split(',');
+        let gene = line[0];
+        let geneIdx = geneList.indexOf(gene);
+        if (!(geneIdx == -1)) {
+            for (var j = 0; j < nClusters; j++) {
+                signatureBuffer.set(parseFloat(line[j + 1]), j, geneIdx);
             }
         }
-
-        clusterLabels.push(line[0]);
     }
 
     signatureBuffer = signatureBuffer.toTensor();
 
     genes = geneList;
 
+    console.log(clusterLabels,geneList)
+
     return [signatureBuffer, clusterLabels, geneList];
+
+    // // var genes;
+    // var clusterLabels;
+    // var signatureBuffer;
+    // var n;
+    // var allTextLines = allText.split(/\r\n|\n/);
+    // var nClusters = allTextLines.length - 2;
+
+    // console.log(geneList);
+
+    // var header, nGenes;
+    // if (geneList == null) {
+    //     geneList = allTextLines[0].split(',').slice(1).sort();
+    // }
+    // header = allTextLines[0].split(',').slice(1);
+
+    // nGenes = geneList.length;
+    // signatureBuffer = tf.buffer([nClusters, nGenes]);
+
+    // clusterLabels = [];
+
+    // for (var i = 0; i < nClusters; i++) {
+    //     line = allTextLines[i + 1].split(',');
+
+    //     for (var j = 0; j < nGenes; j++) {
+    //         n = header.indexOf(geneList[j])
+    //         if (n > 0) {
+    //             signatureBuffer.set(parseFloat(line[j + 1]), i, n);
+    //         }
+    //     }
+
+    //     clusterLabels.push(line[0]);
+    // }
+
+    // signatureBuffer = signatureBuffer.toTensor();
+
+    // genes = geneList;
+
+    // return [signatureBuffer, clusterLabels, geneList];
 };
 
 function processCoordinates(allText) {
@@ -266,29 +302,264 @@ function main() {
             document.getElementById("signature-loader").style.display = "none";
         });
 
+        $("#button-download-signatures").show();
+
         signaturesLoaded = true;
         $('#errSign').remove();
 
+        cGen = getColorValue;
+
     };
 
-    // async function assignPanglaoMAP(markerLists){
-    //     let [header, panglaoFrame,panglaoDicts] = await loadPanglao();
+    // markerLists is a list of lists of marker genes. Each list corresponds to a cluster and contains the marker genes of that cluster.
+    //  markerLists = [[marker1, marker2, ...], [marker1, marker2, ...], ...]
+    // panglaoFrame is a dataframe implemented as a js object. It contains the PanglaoDB marker genes and their cell type and tissue annotations.
+    // panglaoFrame = {cluster:[celltype1, celltype2, ...], label:[tissue1, tissue2, ...], p0:[occurrence_probability0, occurrence_probability1, ...], 
+    // sample_tissue:[tissue1, tissue2, ...], gene:[marker1, marker2, ...]}
+    // panglaoFrame stores its data in categorical form. The cell type and tissue annotations are stored as integers. 
+    // The mapping between the integers and the actual annotations is stored in panglaoDicts.
 
-    //     console.log("PD:",panglaoDicts);
-    //     // header = await header;
+    function panglaoCategoricalToText(panglaoFrame, panglaoDicts, rows, categories) {
 
-    //     let markerListsCleaned = [];
+        let panglaoFrameText = {};
+
+        for (let i = 0; i < categories.length; i++) {
+            panglaoFrameText[categories[i]] = [];
+        }
+
+        for (let i = 0; i < rows.length; i++) {
+            let row = rows[i];
+            for (let j = 0; j < categories.length; j++) {
+                let category = categories[j];
+                panglaoFrameText[category].push(panglaoDicts[category][panglaoFrame[category][row]]);
+            }
+        }
+
+        return panglaoFrameText;
+    }
+
+    async function assignCelltype(markerLists) {
+
+        let [header, panglaoFrame, panglaoDicts] = await loadPanglao();
+
+        let celltypeMAPs = [];
+        let celltypeProbs = [];
+
+        for (let i = 0; i < markerLists.length; i++) {
+
+            let markerList = markerLists[i];
+
+            let celltypeMAP = [];
+            let celltypeProb = [];
+
+            for (let j = 0; j < panglaoFrame['gene'].length; j++) {
+
+                let panglaoGene = panglaoFrame['gene'][j];
+
+                if (markerList.includes(panglaoGene)) {
+
+                    celltypeMAP.push(panglaoFrame['cluster'][j]);
+                    celltypeProb.push(panglaoFrame['p0'][j]);
+                }
+            }
+
+            celltypeMAPs.push(celltypeMAP);
+            celltypeProbs.push(celltypeProb);
+        }
+
+        return [celltypeMAPs, celltypeProbs];
+    }
+
+    function translateMakerListsIndices(markerLists, panglaoDicts) {
+        // translate marker lists from gene names to indices
+        let markerListsIndices = [];
+        for (let i = 0; i < markerLists.length; i++) {
+            let markerList = markerLists[i];
+            for (let j = 0; j < markerList.length; j++) {
+                markerList[j] = (panglaoDicts['gene'].indexOf(markerList[j]));
+
+            }
+            markerListsIndices.push(markerList);
+
+        }
+        return markerListsIndices;
+    }
+
+    function findUniqueRows(celltypeMAPs, tissueMAPs, tissueProbs) {
+        // remove duplicates, integrate probabilities
+        let uniqueRows = [];
+        let uniqueProbs = [];
+
+        for (let i = 0; i < celltypeMAPs.length; i++) {
+
+            let uniqueRow = [];
+            let uniqueProb = [];
+
+            for (let j = 0; j < celltypeMAPs[i].length; j++) {
+
+                let celltypeMAP = celltypeMAPs[i][j];
+                let tissueMAP = tissueMAPs[i][j];
+                let tissueProb = tissueProbs[i][j];
+
+                let row = [celltypeMAP, tissueMAP];
+
+                if (!uniqueRow.includes(row)) {
+                    uniqueRow.push(row);
+                    uniqueProb.push(tissueProb);
+                }
+
+                else {
+                    let index = uniqueRow.indexOf(row);
+                    uniqueProb[index] = uniqueProb[index] + tissueProb;
+                }
+            }
+
+            uniqueRows.push(uniqueRow);
+            uniqueProbs.push(uniqueProb);
+        }
+
+        return [uniqueRows, uniqueProbs];
+    }
+
+    function filterPanglaoRows(markerListsIndices, panglaoFrame) {
+        // filter PanglaoDB rows to only include marker genes
+        // markerListsIndices is a list of lists of marker genes. Each list corresponds to a cluster and contains the marker genes of that cluster.
+        //  markerListsIndices = [[marker1, marker2, ...], [marker1, marker2, ...], ...]
+        // panglaoFrame is a dataframe implemented as a js object. It contains the PanglaoDB marker genes and their cell type and tissue annotations.
+
+        let celltypeMAPs = [];
+        let tissueMAPs = [];
+        let tissueProbs = [];
+        let markerList;
+
+        for (let i = 0; i < markerListsIndices.length; i++) {
+
+            markerList = markerListsIndices[i];
+
+            let celltypeMAP = [];
+            let tissueMAP = [];
+            let tissueProb = [];
+
+            for (let j = 0; j < panglaoFrame['gene'].length; j++) {
+
+                let panglaoGene = panglaoFrame['gene'][j];
+
+                if ((panglaoGene >= 0) & (markerList.length > 0) & markerList.includes(panglaoGene)) {
+
+                    celltypeMAP.push(panglaoFrame['label'][j]);
+                    tissueMAP.push(panglaoFrame['sample_tissue'][j]);
+                    tissueProb.push(panglaoFrame['p0'][j]);
+
+                }
+            }
+
+            celltypeMAPs.push(celltypeMAP);
+            tissueMAPs.push(tissueMAP);
+            tissueProbs.push(tissueProb);
+        }
+
+        return [celltypeMAPs, tissueMAPs, tissueProbs];
+    }
+
+    function createDistributionVectors(uniqueRows, uniqueProbs, panglaoDicts) {
+
+        let tissueDistributions = [];
+        let celltypeDistributions = [];
+        let globalTissueDistribution = panglaoDicts['sample_tissue'].map(x => 0);
+
+        for (let i = 0; i < uniqueRows.length; i++) {
+
+            let celltypeDistribution = panglaoDicts['label'].map(x => 0);
+            let tissueDistribution = panglaoDicts['sample_tissue'].map(x => 0);
+
+            for (let j = 0; j < uniqueRows[i].length; j++) {
+
+                let celltype = uniqueRows[i][j][0];
+                let tissue = uniqueRows[i][j][1];
+                let prob = uniqueProbs[i][j];
+
+                celltypeDistribution[celltype] = celltypeDistribution[celltype] + prob;
+                tissueDistribution[tissue] = tissueDistribution[tissue] + prob;
+                globalTissueDistribution[tissue] = globalTissueDistribution[tissue] + prob;
+            }
+
+            let celltypeDistributionsSum = celltypeDistribution.reduce((a, b) => a + b, 0);
+            let tissueDistributionsSum = tissueDistribution.reduce((a, b) => a + b, 0);
+
+            if (celltypeDistributionsSum == 0) celltypeDistributionsSum = 1;
+            if (tissueDistributionsSum == 0) tissueDistributionsSum = 1;
+
+            celltypeDistributions.push(celltypeDistribution.map(x => x / celltypeDistributionsSum));
+            tissueDistributions.push(tissueDistribution.map(x => x / tissueDistributionsSum));
+        }
+
+        let globalTissueDistributionSum = globalTissueDistribution.reduce((a, b) => a + b, 0);
+
+        globalTissueDistribution = globalTissueDistribution.map(x => x / globalTissueDistributionSum);
+
+        return [tissueDistributions, celltypeDistributions, globalTissueDistribution];
+    }
+
+    async function bayesianCelltypeTissueAssignment(markerLists) {
+        // markerLists is a list of lists of marker genes. Each list corresponds to a cluster and contains the marker genes of that cluster.
 
 
-    //     for (let i=0;i<markerLists.length;i++){
-    //         let markerList = markerLists[i];
+        [header, panglaoFrame, panglaoDicts] = await loadPanglao();
 
-    //         markerList.map(x=> panglaoDicts['gene'].indexOf(x.toUpperCase()));  
+        panglaoFrame.p0 = panglaoFrame.p0.map(x => 1);
 
-    //         console.log(markerList);
-    //     }
+        markerListsIndices = translateMakerListsIndices(markerLists, panglaoDicts);
 
-    // }
+        [celltypeMAPs, tissueMAPs, tissueProbs] = filterPanglaoRows(markerListsIndices, panglaoFrame);
+        [uniqueRows, uniqueProbs] = findUniqueRows(celltypeMAPs, tissueMAPs, tissueProbs);
+
+        [tissueDistributions, celltypeDistributions, globalTissueDistribution] = createDistributionVectors(uniqueRows, uniqueProbs, panglaoDicts);
+
+        console.log("uniqueRows:", uniqueRows, "uniqueProbs:", uniqueProbs, "tissueDistributions:", tissueDistributions, "celltypeDistributions:", celltypeDistributions, "globalTissueDistribution:", globalTissueDistribution);
+
+
+        // Update uniqueprobs usig globalTissueDistribution
+        for (let i = 0; i < uniqueProbs.length; i++) {
+            for (let j = 0; j < uniqueProbs[i].length; j++) {
+                let tissue = uniqueRows[i][j][1];
+                uniqueProbs[i][j] = uniqueProbs[i][j] * globalTissueDistribution[tissue];
+            }
+        }
+
+        [tissueDistributions, celltypeDistributions, globalTissueDistribution] = createDistributionVectors(uniqueRows, uniqueProbs, panglaoDicts);
+        console.log("tissueDistributions:", tissueDistributions, "celltypeDistributions:", celltypeDistributions, "globalTissueDistribution:", globalTissueDistribution)
+
+        // find the most likely cell type and tissue for each cluster
+        let celltypeAssignments = [];
+        let tissueAssignments = [];
+        for (let i = 0; i < uniqueRows.length; i++) {
+            let maxCelltype = celltypeDistributions[i].indexOf(Math.max(...celltypeDistributions[i]));
+            let maxTissue = tissueDistributions[i].indexOf(Math.max(...tissueDistributions[i]));
+            celltypeAssignments.push(maxCelltype);
+            tissueAssignments.push(maxTissue);
+        }
+
+        // find the most likely global tissue
+        let globalTissueAssignment = globalTissueDistribution.indexOf(Math.max(...globalTissueDistribution));
+        let globalTissueAssignmentName = panglaoDicts['sample_tissue'][globalTissueAssignment];
+
+        // translate the indices to the actual cell types and tissues
+        let celltypeAssignmentsNames = [];
+        let tissueAssignmentsNames = [];
+        for (let i = 0; i < celltypeAssignments.length; i++) {
+            celltypeAssignmentsNames.push(panglaoDicts['label'][celltypeAssignments[i]]);
+            tissueAssignmentsNames.push(panglaoDicts['sample_tissue'][tissueAssignments[i]]);
+        }
+
+        console.log("celltypeAssignmentsNames:", celltypeAssignmentsNames, "tissueAssignmentsNames:", tissueAssignmentsNames, "globalTissueAssignmentName:", globalTissueAssignmentName);
+
+
+        return [celltypeAssignmentsNames, tissueAssignmentsNames, globalTissueAssignmentName];
+
+    }
+
+
+
 
     async function importCoordinates(fileToLoad) {
 
@@ -723,23 +994,23 @@ function main() {
 
         umapLocalMaxColors = umapLocalMaxColors.arraySync().map(x => `rgb(${Math.floor(x[0] * 256)},${Math.floor(x[1] * 256)},${Math.floor(x[2] * 256)})`);
 
-        console.log([umapLocalMaxColors, umapColorCoordsRgb]);
+        // console.log([umapLocalMaxColors, umapColorCoordsRgb]);
 
         return [umapLocalMaxColors, umapColorCoordsRgb];
     }
 
-    async function identifyMarkerGenes(signatures){
+    async function identifyMarkerGenes(signatures) {
         let celltypeWiseMeans = signatures.mean(1).arraySync();
 
         signatures = signatures.arraySync();
 
         markerLists = []
 
-        for  (let i=0;i<celltypeWiseMeans.length;i++){
+        for (let i = 0; i < celltypeWiseMeans.length; i++) {
             let markerList = []
 
-            for  (let j=0;j<genes.length;j++){
-                if (signatures[i][j]>celltypeWiseMeans[i]){
+            for (let j = 0; j < genes.length; j++) {
+                if (signatures[i][j] > celltypeWiseMeans[i]) {
                     markerList.push(genes[j])
                 }
             }
@@ -749,10 +1020,69 @@ function main() {
 
     }
 
+    function signaturesToCsv(signatureMatrix, genes, clusterLabels) {
+        // Create a .csv format string from the values of the signature matrix, with genes as row annotations and clusterLabels as column annotations
+        let csvString = 'celltype,' + clusterLabels.join(',') + '\n';
+
+        for (let i = 0; i < signatureMatrix.shape[1]; i++) {
+
+            csvString += genes[i] + ',' + signatureMatrix.slice([0, i], [-1, 1]).arraySync().join(',') + '\n';
+
+        }
+        return csvString;
+
+    }
+
+    function downloadSignatures() {
+        let csvString = signaturesToCsv(signatureMatrix, genes, clusterLabels);
+        let dataString = "data:text/csv;charset=utf-8," + csvString;
+        download(csvString, 'signatures.csv', 'text/csv;encoding:utf-8');
+    }
+
+
+    // The download function takes a CSV string, the filename and mimeType as parameters
+    // Scroll/look down at the bottom of this snippet to see how download is called
+    var download = function (content, fileName, mimeType) {
+        var a = document.createElement('a');
+        mimeType = mimeType || 'application/octet-stream';
+
+        if (navigator.msSaveBlob) { // IE10
+            navigator.msSaveBlob(new Blob([content], {
+                type: mimeType
+            }), fileName);
+        } else if (URL && 'download' in a) { //html5 A[download]
+            a.href = URL.createObjectURL(new Blob([content], {
+                type: mimeType
+            }));
+            a.setAttribute('download', fileName);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } else {
+            location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
+        }
+    }
+
+    function determineClusteringParameters() {
+
+        let clusterLocalmaxRadius, clusterBandwidth, DBRadius, DBMinSamples;
+
+        let selectedSensitivity = document.getElementById("clustering-sensitivity").selectedIndex;
+
+        clusterLocalmaxRadius = [8, 5, 3][selectedSensitivity];
+        clusterBandwidth = [8, 4, 1][selectedSensitivity];
+        DBRadius = [0.4, 0.3, 0.2][selectedSensitivity];
+        DBMinSamples = [2, 2, 2][selectedSensitivity];
+
+        return [clusterLocalmaxRadius, clusterBandwidth, DBRadius, DBMinSamples,];
+    }
+
     async function createLocalmaxSignatures() {
 
+        [clusterLocalmaxRadius, clusterBandwidth, DBRadius, DBMinSamples,] = determineClusteringParameters();
+
         // Determine local expression patterns at localmaxs through KNN graph:
-        let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 20,);
+        let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 3*sigma/(xmax / width),   );
 
         // Embed localmax expressions:
         let umapCoords = runUMAP(localmaxExpressions.arraySync(), nComponents = 2, minDist = 0.0,);
@@ -761,24 +1091,28 @@ function main() {
         // KDE on 2d embedding:
         uCmins = [0, 1,].map(x => Math.min(...umapCoords.map(y => y[x])));
         uCmaxs = [0, 1,].map(x => Math.max(...umapCoords.map(y => y[x])));
-        [_, umapHeatmap] = runKDE(umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), null, ['global'], null, null, 1);
+        [_, umapHeatmap] = runKDE(umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), null, ['global'], null, null, clusterBandwidth);
 
         // localmax detection in 2d embedding:
-        [localMaxXumap, localMaxYumap] = await runLocalMaxFilter(umapHeatmap, umapHeatmap.shape[1], umapHeatmap.shape[0], radius = 3, localmaxThreshold = 0.000001,);
+        [localMaxXumap, localMaxYumap] = await runLocalMaxFilter(umapHeatmap, umapHeatmap.shape[1], umapHeatmap.shape[0], radius = clusterLocalmaxRadius, localmaxThreshold = 0.000001,);
 
         // Inverse localmax embedding(->retrieves signatures from umap coords...)
         [_, umapExpression] = await determineWeightedExpression(localMaxXumap, localMaxYumap,
             umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), localmaxExpressions, sigmaWE = 1)
 
         signatureMatrix = umapExpression;
+        console.log("signatures:", signatureMatrix);
 
-        // markerLists=identifyMarkerGenes(signatureMatrix);
-        // panglaoMAPs = markerLists.then(assignPanglaoMAP);
+        // markerLists = identifyMarkerGenes(signatureMatrix);
+        // panglaoInfo = markerLists.then(bayesianCelltypeTissueAssignment);
+        // // panglaoMAPs = markerLists.then(assignPanglaoMAP);
 
         // return ;
-        clusterLabels = [...Array(localMaxXumap.length).keys()];
 
         [umapLocalMaxColors, umapColorCoordsRgb] = await createUmapColors(localmaxExpressions, umapCoords, localMaxXumap, localMaxYumap,);
+
+        let [clusters, centroids, dbscanOut] = await runDBSCAN(signatureMatrix.arraySync(), DBRadius, DBMinSamples,);
+
 
         function colorGenerator(val) {
             // console.log("generated: ", val)
@@ -790,16 +1124,24 @@ function main() {
             }
         }
 
+        console.log("signatures:", dbscanOut);
+        signatureMatrix = centroids;
+        clusterLabels = [...Array(signatureMatrix.shape[0]).keys()];
+
         cGen = colorGenerator;
 
-        console.log(umapLocalMaxColors);
+        // console.log(umapLocalMaxColors);
 
 
         plotSignatures('signatures-preview', genes, Array.from({ length: signatureMatrix.shape[0] }, (x, i) => i), signatureMatrix.arraySync()).then(function () {
             document.getElementById("signature-loader").style.display = "none";
         });
+        signaturesLoaded = true;
 
-        console.log("umapCoords:", umapCoords);
+        $("#button-download-signatures").show();
+
+
+        // console.log("umapCoords:", umapCoords);
         // plotVfNorm('localmax-preview', umapHeatmap.arraySync());
         // plotUmap('umap-preview', localMaxYumap, localMaxXumap, colors = umapLocalMaxColors);
         plotUmap('umap-preview', umapCoords.map(x => x[0]), umapCoords.map(x => x[1]), colors = umapColorCoordsRgb);
@@ -834,7 +1176,7 @@ function main() {
 
             const celltypeMap = await runModularizedCTAssignment()
 
-            console.log("ct_map: ", celltypeMap);
+            // console.log("ct_map: ", celltypeMap);
             var celltypeCounts = calculateStats(celltypeMap, clusterLabels.length - 1);
 
 
@@ -950,7 +1292,7 @@ function main() {
         var rectCenter = [parameterWindow[0] / width * xmax, parameterWindow[1] / height * ymax];
         var rectEdge = parameterWidth / width * xmax;
 
-        console.log(rectCenter, rectEdge);
+        // console.log(rectCenter, rectEdge);
         [subsetX, subsetY, subsetZ] = spatialSubset(X, Y, ZGenes, rectCenter[0] - rectEdge,
             rectCenter[0] + rectEdge,
             rectCenter[1] - rectEdge,
@@ -1065,6 +1407,9 @@ function main() {
             .addEventListener('change', updateSigma);
         document.getElementById('threshold')
             .addEventListener('change', updateThreshold);
+
+        document.getElementById("button-download-signatures")
+            .addEventListener("click", downloadSignatures);
         //     .addEventListener("change", togglePreviewGenerator);
         document.getElementById('exampleScale')
             .addEventListener("change", updateScale);
