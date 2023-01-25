@@ -49,7 +49,7 @@ function processSignatures(allText, geneList = null) {
 
     genes = geneList;
 
-    console.log(clusterLabels,geneList)
+    console.log(clusterLabels, geneList)
 
     return [signatureBuffer, clusterLabels, geneList];
 
@@ -900,41 +900,12 @@ function main() {
         return celltypeMap.toTensor();
     }
 
-    function runFullKDE() {
-
-
-        $('#errCoords').remove();
-        $('#errVF').remove();
-        if (coordinatesLoaded) {
-
-            try {
-                $('#errMemory').remove();
-                // let time = Date.now();
-                [vf, vfNorm] = runKDE(X, Y, ZGenes, genes, xmax, ymax, sigma / xmax * height, width, height);
-                // console.log(Date.now() - time);
-                umPerPx = xmax / width;
-
-                plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
-                document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
-                window.onresize = function (event) {
-                    updateVfNormScalebar;
-                }
-            }
-            catch (ex) {
-                printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
-                // console.log(ex);
-            }
-        }
-        else {
-            printErr('#vf-norm-preview', 'errCoords', "Please load a coordinate file first.")
-        }
-    };
 
 
     async function localMaxFilter() {
 
         localmaxThreshold = parseFloat(document.getElementById('threshold').value);
-        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, localmaxThreshold = localmaxThreshold);
+        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, radius = Math.max(sigma * 3,9) / xmax * width, localmaxThreshold = localmaxThreshold);
         // console.log('localmax filter completed', localMaxX, localMaxY);
     }
 
@@ -944,14 +915,14 @@ function main() {
         $('#errVF').remove();
 
         if (coordinatesLoaded) {
-
+            umPerPx = xmax / width;
             try {
                 $('#errMemory').remove();
                 // let time = Date.now();
 
-                [vf, vfNorm] = runKDE(X, Y, null, ['global'], xmax, ymax, sigma / xmax * height, width, height);
+                [vf, vfNorm] = runKDE(X, Y, null, ['global'], xmax, ymax, sigma / umPerPx, width, height);
 
-                umPerPx = xmax / width;
+
 
                 // plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
                 // document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
@@ -1082,7 +1053,7 @@ function main() {
         [clusterLocalmaxRadius, clusterBandwidth, DBRadius, DBMinSamples,] = determineClusteringParameters();
 
         // Determine local expression patterns at localmaxs through KNN graph:
-        let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 3*sigma/(xmax / width),   );
+        let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 3 * sigma / (xmax / width),);
 
         // Embed localmax expressions:
         let umapCoords = runUMAP(localmaxExpressions.arraySync(), nComponents = 2, minDist = 0.0,);

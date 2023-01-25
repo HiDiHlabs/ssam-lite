@@ -20,7 +20,7 @@ function runKDE(X, Y, Zgenes, genes, xmax = null, ymax = null, sigma = 1, height
 
     //  console.log(sigma, n_steps);
 
-    var normalization = 1 / (1 * Math.PI * sigma ** 2) ** 0.5
+    var normalization = 1 ;// (1 * Math.PI * sigma ** 2) ** 0.5
 
     for (var i = 0; i < X.length; i++) {
 
@@ -243,7 +243,7 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
 
 
 
-async function runLocalMaxFilter(vfNorm, height, width, radius = 3, localmaxThreshold = 10) {
+async function runLocalMaxFilter(vfNorm, height, width, radius = 3, localmaxThreshold = 1) {
 
     var buffer = await vfNorm.buffer();
 
@@ -312,7 +312,7 @@ function determineLocalExpression(queryX, queryY, X, Y, ZGenes, genes, sigma) {
 
     let expressionSamples = tf.buffer([knns.length, genes.length], dtype = 'float32');
     // console.log("nLocalMaxs: ", queryX.length);
-    let normalization = 1 / (1 * Math.PI * sigma ** 2) ** 0.5;
+    let normalization = 1 ;/// (1 * Math.PI * sigma ** 2) ** 0.5;
     let k, dist, signal, g;
 
     for (let i = 0; i < knns.length; i++) {
