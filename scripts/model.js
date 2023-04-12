@@ -10,6 +10,7 @@ function runKDE(X, Y, Zgenes, genes, xmax = null, ymax = null, sigma = 1, height
     //  console.log(X);
     var vfBuffer = tf.buffer([height, width, genes.length], dtype = 'float32');
 
+
     var x = 0;
     var y = 0;
     var z = 0;
@@ -18,6 +19,7 @@ function runKDE(X, Y, Zgenes, genes, xmax = null, ymax = null, sigma = 1, height
     var n_steps = Math.ceil(sigma * nStds);
 
 
+    // console.log("vf dimensions: ",height, width, xmax, genes.length,sigma, nStds, n_steps);
     //  console.log(sigma, n_steps);
 
     var normalization = 1 ;// (1 * Math.PI * sigma ** 2) ** 0.5
@@ -216,37 +218,17 @@ function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
     return celltypeMap;
 };
 
-// function assignCelltypes(vf, vfNorm, signatureMatrix, threshold) {
-//     celltypeMap = tf.tidy(() => {
-
-//         intermediates = [];
-//         var inter;
-
-//         for (var i = 0; i < vf.shape[0]; i++) {
-
-//             inter = vf.gather(i);
-//             inter = inter.add(1).log();
-//             inter = inter.transpose().div(inter.sum(1)).transpose();
-//             inter = inter.matMul(signatureMatrix.transpose());
-//             intermediates.push(inter.argMax(1).expandDims(0));
-//         }
-
-//         intermediates = tf.concat(intermediates);
-//         var inters = intermediates.mul(vfNorm.greater(threshold));
-
-//         return inters.sub(vfNorm.less(threshold));
-
-//     });
-
-//     return celltypeMap;
-// };
-
 
 
 async function runLocalMaxFilter(vfNorm, height, width, radius = 3, localmaxThreshold = 1) {
 
     var buffer = await vfNorm.buffer();
 
+
+    [width,height] = vfNorm.shape;
+    height = height - 1;
+    width = width - 1;
+    // console.log("localmax filter specs:", height,vfNorm.shape);
 
     var localmaxX = Array();
     var localmaxY = Array();
@@ -340,6 +322,51 @@ function determineLocalExpression(queryX, queryY, X, Y, ZGenes, genes, sigma) {
     }
     return [knns, expressionSamples];
 };
+
+
+async function runModularizedLocalMaxSampling(queryX, queryY, X, Y, ZGenes, genes, sigma, height, width, xmax,ymax) {
+
+    // queryX,queryY have different resolutions that X,Y by the factor height/xmax 
+
+    let localmaxExpressions = tf.buffer([queryX.length, genes.length], dtype = 'float32');
+    let n = 0;
+
+    // console.log(sigma, umPerPx, xmax, width)
+    
+
+    for (let g=0; g<genes.length;g++){
+        // Subset mask to filter X,Y,ZGenes:
+        console.log(g+': '+genes[g])
+        let subsetMask = ZGenes.map(x=> x==genes[g])
+        let [vfPatch, vfNormPatch] = runKDE(X.filter((x,i)=>subsetMask[i]),
+                                            Y.filter((x,i)=>subsetMask[i]),
+                                            ZGenes.filter((x,i)=>subsetMask[i]),
+                                            [genes[g]],
+                                            xmax=xmax,
+                                            ymax=ymax,
+                                            sigma = 1,
+                                            height=height,
+                                            width=width);
+
+        vfPatch = await vfPatch.buffer();
+        // console.log(vfPatch.shape)
+
+        for (let i=0; i<queryX.length; i++){
+            localmaxExpressions.set(vfPatch.get(queryY[i],queryX[i]),i,g);
+        }
+        
+    }
+
+    // Normalize localmaxExpressions to sum to 1 along the genes axis:
+    localmaxExpressions = localmaxExpressions.toTensor();
+    // localmaxExpressions = localmaxExpressions.div(localmaxExpressions.sum(1).expandDims(1));
+    console.log(localmaxExpressions.shape);
+
+    // console.log('exps', localmaxExpressions.toTensor().arraySync());
+    return  localmaxExpressions
+}
+
+
 
 async function determineWeightedExpression(queryX, queryY, X, Y, localmaxExpressions, sigmaWE) {
 

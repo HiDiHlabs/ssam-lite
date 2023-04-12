@@ -156,8 +156,8 @@ async function plotSignatures(div, genes, clusterLabels, signatureMatrix) {
             'showgrid': false,
         },
         'showlegend': false,
-        xaxis: { automargin: true, title: 'Genes', },
-        yaxis: { automargin: true, title: 'Cell types', },
+        xaxis: { automargin: true, title: 'Cell types', },
+        yaxis: { automargin: true, title: 'Genes', },
     }
 
     var custom_filename = "ssamlite_signatures_" + new Date().toJSON().slice(0, 19);

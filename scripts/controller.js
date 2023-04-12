@@ -53,48 +53,14 @@ function processSignatures(allText, geneList = null) {
 
     return [signatureBuffer, clusterLabels, geneList];
 
-    // // var genes;
-    // var clusterLabels;
-    // var signatureBuffer;
-    // var n;
-    // var allTextLines = allText.split(/\r\n|\n/);
-    // var nClusters = allTextLines.length - 2;
-
-    // console.log(geneList);
-
-    // var header, nGenes;
-    // if (geneList == null) {
-    //     geneList = allTextLines[0].split(',').slice(1).sort();
-    // }
-    // header = allTextLines[0].split(',').slice(1);
-
-    // nGenes = geneList.length;
-    // signatureBuffer = tf.buffer([nClusters, nGenes]);
-
-    // clusterLabels = [];
-
-    // for (var i = 0; i < nClusters; i++) {
-    //     line = allTextLines[i + 1].split(',');
-
-    //     for (var j = 0; j < nGenes; j++) {
-    //         n = header.indexOf(geneList[j])
-    //         if (n > 0) {
-    //             signatureBuffer.set(parseFloat(line[j + 1]), i, n);
-    //         }
-    //     }
-
-    //     clusterLabels.push(line[0]);
-    // }
-
-    // signatureBuffer = signatureBuffer.toTensor();
-
-    // genes = geneList;
-
-    // return [signatureBuffer, clusterLabels, geneList];
 };
 
 function processCoordinates(allText) {
-    var allTextLines = allText.trim().split(/\r\n|\n/);
+    // 
+    // parameters needed for streaming the input file
+    // to avoid memory overflow:
+    let CHUNK_SIZE = 2**20;
+    let offset=0;
 
     let genes = [];
     let ZGenes = [];
@@ -113,6 +79,10 @@ function processCoordinates(allText) {
     let yCol = 2
     geneColFound = false;
     xColFound = false;
+
+    console.log('Processing coordinates:')
+
+    var allTextLines = allText.trim().split(/\r\n|\n/);
 
     let header = allTextLines[0].split(',');
 
@@ -167,6 +137,10 @@ function processCoordinates(allText) {
     console.log(header, "genes: ", geneCol, "X:", xCol, "Y:", yCol);
 
     for (var i = 1; i < allTextLines.length; i++) {
+
+        if (!(i%10000)){
+            console.log(i);
+        }
         line = allTextLines[i].split(',');
 
         x = parseFloat(line[xCol]) || 0;
@@ -198,6 +172,244 @@ function processCoordinates(allText) {
 
     return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
 };
+
+class TextReader {
+    CHUNK_SIZE = 8192000*32; // I FOUND THIS TO BE BEST FOR MY NEEDS, CAN BE ADJUSTED
+    position = 0;
+    length = 0;
+
+    byteBuffer = new Uint8Array(0);
+
+    lines = [];
+    lineCount = 0;
+    lineIndexTracker = 0;
+
+    fileReader = new FileReader();
+    textDecoder = new TextDecoder(`utf-8`);
+
+    get allCachedLinesAreDispatched() {
+        return !(this.lineIndexTracker < this.lineCount);
+    }
+
+    get blobIsReadInFull() {
+        return !(this.position < this.length);
+    }
+
+    get bufferIsEmpty() {
+        return this.byteBuffer.length === 0;
+    }
+
+    get endOfStream() {
+        return this.blobIsReadInFull && this.allCachedLinesAreDispatched && this.bufferIsEmpty;
+    }
+
+    constructor(blob) {
+        this.blob = blob;
+        this.length = blob.size;
+    }
+
+    blob2arrayBuffer(blob) {
+        return new Promise((resolve, reject) => {
+            this.fileReader.onerror = reject;
+            this.fileReader.onload = () => {
+                resolve(this.fileReader.result);
+            };
+
+            this.fileReader.readAsArrayBuffer(blob);
+        });
+    }
+
+    read(offset, count) {
+        return new Promise(async (resolve, reject) => {
+            if (!Number.isInteger(offset) || !Number.isInteger(count) || count < 1 || offset < 0 || offset > this.length - 1) {
+                resolve(new ArrayBuffer(0));
+                return
+            }
+
+            let endIndex = offset + count;
+
+            if (endIndex > this.length) endIndex = this.length;
+
+            let blobSlice = this.blob.slice(offset, endIndex);
+
+            resolve(await this.blob2arrayBuffer(blobSlice));
+        });
+    }
+
+    readLine() {
+        return new Promise(async (resolve, reject) => {
+
+            if (!this.allCachedLinesAreDispatched) {
+                resolve(this.lines[this.lineIndexTracker++] + `\n`);
+                return;
+            }
+
+            while (!this.blobIsReadInFull) {
+                let arrayBuffer = await this.read(this.position, this.CHUNK_SIZE);
+                this.position += arrayBuffer.byteLength;
+
+                let tempByteBuffer = new Uint8Array(this.byteBuffer.length + arrayBuffer.byteLength);
+                tempByteBuffer.set(this.byteBuffer);
+                tempByteBuffer.set(new Uint8Array(arrayBuffer), this.byteBuffer.length);
+
+                this.byteBuffer = tempByteBuffer;
+
+                let lastIndexOfLineFeedCharacter = this.byteBuffer.lastIndexOf(10); // LINE FEED CHARACTER (\n) IS ONE BYTE LONG IN UTF-8 AND IS 10 IN ITS DECIMAL FORM
+
+                if (lastIndexOfLineFeedCharacter > -1) {
+                    let lines = this.textDecoder.decode(this.byteBuffer).split(`\n`);
+                    this.byteBuffer = this.byteBuffer.slice(lastIndexOfLineFeedCharacter + 1);
+
+                    let firstLine = lines[0];
+
+                    this.lines = lines.slice(1, lines.length - 1);
+                    this.lineCount = this.lines.length;
+                    this.lineIndexTracker = 0;
+
+                    resolve(firstLine + `\n`);
+                    return;
+                }
+            }
+
+            if (!this.bufferIsEmpty) {
+                let line = this.textDecoder.decode(this.byteBuffer);
+                this.byteBuffer = new Uint8Array(0);
+                resolve(line);
+                return;
+            }
+
+            resolve(null);
+        });
+    }
+}
+
+async function processCoordinatesAsync(file) {
+    // 
+    // parameters needed for streaming the input file
+    // to avoid memory overflow:
+    let textReader = new TextReader(file);
+
+    let genes = [];
+    let ZGenes = [];
+    let X = [];
+    let Y = [];
+    let x = 0;
+    let y = 0;
+    let line, yIdx;
+    let xmin = 0;
+    let ymin = 0;
+    let xmax = 0;
+    let ymax = 0;
+
+    let geneCol = 0
+    let xCol = 1
+    let yCol = 2
+    geneColFound = false;
+    xColFound = false;
+
+    console.log('Processing coordinates:')
+
+    // var allTextLines = allText.trim().split(/\r\n|\n/);
+
+    let header = (await textReader.readLine()).split(',');
+
+    console.log(header);
+
+
+    for (var i = 0; i < header.length; i++) {
+        if (["target", "gene", "Gene", "feature_name"].some(x => header[i].includes(x))) {
+            console.log("Found geneCol: ", i);
+            geneCol = i;
+            geneColFound = true;
+            if (xColFound) break;
+            continue;
+        }
+
+        if ((header[i].includes("x"))) {
+            yIdx = header.map(x => x.replace("y", "$")).indexOf((header[i].replace("x", "$")));
+
+            if (yIdx != (-1)) {
+                console.log("Found xCol: ", i, yIdx);
+
+                xCol = i;
+                yCol = yIdx;
+
+                xColFound = true;
+                if (geneColFound) break;
+                continue;
+            }
+        }
+
+        else if ((header[i].includes("X"))) {
+            yIdx = header.map(x => x.replace("Y", "$")).indexOf((header[i].replace("X", "$")));
+            if (yIdx != (-1)) {
+                console.log("Found xCol: ", i, yIdx);
+
+                xCol = i;
+                yCol = yIdx;
+
+                xColFound = true;
+                if (geneColFound) break;
+                continue;
+            }
+        }
+    }
+
+    if (!geneColFound) {
+        for (var i = 0; i < 3; i++) {
+            if ((xCol != i) & (yCol != i)) {
+                geneCol = i
+                break
+            }
+        };
+    }
+
+    console.log(header, "genes: ", geneCol, "X:", xCol, "Y:", yCol);
+
+    let n_lines = 1;
+
+    while (!textReader.endOfStream) {
+
+        let line = (await textReader.readLine()).split(',');
+        // PROCESS LINE
+    
+        // console.log(line);
+        if (!(n_lines%1000000)){
+            console.log(n_lines+':',line);
+        }
+
+        x = parseFloat(line[xCol]) || 0;
+        y = parseFloat(line[yCol]) || 0;
+
+        xmin = Math.min(x, xmin);
+        ymin = Math.min(y, ymin);
+        xmax = Math.max(x, xmax);
+        ymax = Math.max(y, ymax);
+
+        X.push(x);
+        Y.push(y);
+        ZGenes.push(line[geneCol]);
+        if (!genes.includes(line[geneCol])) genes.push(line[geneCol]);
+
+        n_lines++;
+    }
+
+    X.map(x => x - xmin);
+    Y.map(x => x - ymin);
+    xmax -= xmin;
+    ymax -= ymin;
+
+    var edgeRatio = Math.ceil(xmax / ymax);
+    var width = Math.ceil(parseInt(document.getElementById('vf-width').value));
+    // width = Math.ceil(height * edgeRatio);
+    var height = Math.ceil(width / edgeRatio);
+    // var height = Math.ceil(width / edgeRatio);
+
+    genes = genes.sort()
+
+    return [X, Y, ZGenes, genes, xmax, ymax, edgeRatio, width, height];
+};
+
 
 function processColorMap(allText, clusterLabels) {
 
@@ -272,7 +484,7 @@ function main() {
         var vfNormParameter;
         var cGen = getColorValue;
 
-        var modularizedKDEWindowWidth = 300;
+        var modularizedKDEWindowWidth = 100;
 
         var pointerCoordinates = parameterWindow;
 
@@ -298,7 +510,7 @@ function main() {
         console.log(genes, geneList);
         setVfSizeIndicator(width, height, genes);
 
-        plotSignatures('signatures-preview', genes, clusterLabels, signatureMatrix.arraySync()).then(function () {
+        plotSignatures('signatures-preview', clusterLabels, genes, signatureMatrix.transpose().arraySync()).then(function () {
             document.getElementById("signature-loader").style.display = "none";
         });
 
@@ -580,7 +792,7 @@ function main() {
             fileToLoad = document.getElementById("btn-coordinates-hidden").files[0];
         }
 
-        [X, Y, ZGenes, coordGenes, xmax, ymax, edgeRatio, width, height] = processCoordinates(await readFileAsync(fileToLoad));
+        [X, Y, ZGenes, coordGenes, xmax, ymax, edgeRatio, width, height] = await processCoordinatesAsync(fileToLoad);
         if (genes == null) genes = coordGenes; //use genes from the coordinate file for now, e.g. kde
 
         edgeRatio = xmax / ymax;
@@ -901,11 +1113,10 @@ function main() {
     }
 
 
-
     async function localMaxFilter() {
 
         localmaxThreshold = parseFloat(document.getElementById('threshold').value);
-        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, height, width, radius = Math.max(sigma * 3,9) / xmax * width, localmaxThreshold = localmaxThreshold);
+        [localMaxX, localMaxY] = await runLocalMaxFilter(vfNorm, Math.ceil(xmax/sigma)+200,  Math.ceil(ymax/sigma)+200, radius = 3, localmaxThreshold = localmaxThreshold);
         // console.log('localmax filter completed', localMaxX, localMaxY);
     }
 
@@ -919,20 +1130,16 @@ function main() {
             try {
                 $('#errMemory').remove();
                 // let time = Date.now();
+                
+                // Detect vfNorm, while setting parameters so that sigma=1
+                [vf, vfNorm] = runKDE(X, Y, null, ['global'], xmax, ymax, 1, Math.ceil(xmax/sigma), Math.ceil(ymax/sigma), 2);
+                
+                // Plot vfNorm:
+                plotVfNorm('localmax-preview', vfNorm.arraySync()); 
 
-                [vf, vfNorm] = runKDE(X, Y, null, ['global'], xmax, ymax, sigma / umPerPx, width, height);
-
-
-
-                // plotVfNorm('vf-norm-preview', vfNorm.arraySync(), generateScalebar(width / 10, width / 3, umPerPx));
-                // document.getElementById('vf-norm-preview').on('plotly_relayout', updateVfNormScalebar);
-                // window.onresize = function (event) {
-                //     updateVfNormScalebar;
-                // }
             }
             catch (ex) {
                 printErr('#vf-norm-preview', 'errMemory', "Memory exceeded. Please use a smaller vector field size.")
-                // console.log(ex);
             }
 
 
@@ -1052,8 +1259,15 @@ function main() {
 
         [clusterLocalmaxRadius, clusterBandwidth, DBRadius, DBMinSamples,] = determineClusteringParameters();
 
-        // Determine local expression patterns at localmaxs through KNN graph:
-        let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 3 * sigma / (xmax / width),);
+
+        // Determine local expression patterns at localmaxs:
+        let localmaxExpressions = await runModularizedLocalMaxSampling(localMaxY, localMaxX, X, Y, ZGenes, genes, 1, vfNorm.shape[0], vfNorm.shape[1], xmax,ymax)
+        // let [knns, localmaxExpressions] = determineLocalExpression(localMaxX.map(x => x * umPerPx), localMaxY.map(x => x * umPerPx), X, Y, ZGenes, genes, 3 * sigma / (xmax / width),);
+
+        plotSignatures('signatures-preview', genes, Array.from({ length: localmaxExpressions.shape[0] }, (x, i) => i), localmaxExpressions.arraySync()).then(function () {
+            document.getElementById("signature-loader").style.display = "none";
+        });
+
 
         // Embed localmax expressions:
         let umapCoords = runUMAP(localmaxExpressions.arraySync(), nComponents = 2, minDist = 0.0,);
@@ -1062,23 +1276,28 @@ function main() {
         // KDE on 2d embedding:
         uCmins = [0, 1,].map(x => Math.min(...umapCoords.map(y => y[x])));
         uCmaxs = [0, 1,].map(x => Math.max(...umapCoords.map(y => y[x])));
-        [_, umapHeatmap] = runKDE(umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), null, ['global'], null, null, clusterBandwidth);
+        [_, umapHeatmap] = runKDE(umapCoords.map(x => x[0] - uCmins[0]), 
+                                    umapCoords.map(x => x[1] - uCmins[1]), null, ['global'], null, null, clusterBandwidth);
+        // plotVfNorm('umap-preview', umapHeatmap.arraySync()); 
+ 
+
 
         // localmax detection in 2d embedding:
         [localMaxXumap, localMaxYumap] = await runLocalMaxFilter(umapHeatmap, umapHeatmap.shape[1], umapHeatmap.shape[0], radius = clusterLocalmaxRadius, localmaxThreshold = 0.000001,);
 
+        console.log("localmaxs:", localMaxXumap, localMaxYumap);
         // Inverse localmax embedding(->retrieves signatures from umap coords...)
         [_, umapExpression] = await determineWeightedExpression(localMaxXumap, localMaxYumap,
             umapCoords.map(x => x[0] - uCmins[0]), umapCoords.map(x => x[1] - uCmins[1]), localmaxExpressions, sigmaWE = 1)
 
-        signatureMatrix = umapExpression;
+
+        
+        // asign signaturMatrix the values of the umapExpression tensor, 
+        // and divide by the row-wise sum to get a signature matrix:
+
+        signatureMatrix = umapExpression.div(umapExpression.sum(1).reshape([umapExpression.shape[0], 1]));
+
         console.log("signatures:", signatureMatrix);
-
-        // markerLists = identifyMarkerGenes(signatureMatrix);
-        // panglaoInfo = markerLists.then(bayesianCelltypeTissueAssignment);
-        // // panglaoMAPs = markerLists.then(assignPanglaoMAP);
-
-        // return ;
 
         [umapLocalMaxColors, umapColorCoordsRgb] = await createUmapColors(localmaxExpressions, umapCoords, localMaxXumap, localMaxYumap,);
 
@@ -1095,8 +1314,8 @@ function main() {
             }
         }
 
-        console.log("signatures:", dbscanOut);
-        signatureMatrix = centroids;
+        // console.log("signatures:", dbscanOut);
+        // signatureMatrix = centroids;
         clusterLabels = [...Array(signatureMatrix.shape[0]).keys()];
 
         cGen = colorGenerator;
@@ -1112,10 +1331,27 @@ function main() {
         $("#button-download-signatures").show();
 
 
-        // console.log("umapCoords:", umapCoords);
-        // plotVfNorm('localmax-preview', umapHeatmap.arraySync());
-        // plotUmap('umap-preview', localMaxYumap, localMaxXumap, colors = umapLocalMaxColors);
         plotUmap('umap-preview', umapCoords.map(x => x[0]), umapCoords.map(x => x[1]), colors = umapColorCoordsRgb);
+        
+
+        // Add localMaxXumap, localMaxYumap to umap-preview:
+        Plotly.addTraces('umap-preview', {
+            x: localMaxXumap.map(x => x + uCmins[0]),
+            y: localMaxYumap.map(x => x + uCmins[1]),
+            mode: 'markers',
+            marker: {
+                color: 'rgba(0, 0, 0,0.5)',
+                size: 20,
+                line: {
+                    color: umapLocalMaxColors,
+                    width: 2
+                },
+            
+              },
+              
+            type: 'scatter',
+        });
+        
         plotUmap('localmax-preview', localMaxY, localMaxX, colors = umapColorCoordsRgb);
 
     }
@@ -1137,9 +1373,8 @@ function main() {
             await runDeNovo();
             // printErr('#celltypes-preview', 'errSign', 'Please load a signature matrix first.');
         }
-        // else if (!vf) {
-        //     printErr('#celltypes-preview', 'errVF', 'Please run a KDE first.');
-        // }
+
+        
         else {
             // const celltypeMap = assignCelltypes(vf, vfNorm, signatureMatrix, threshold);
 
@@ -1242,7 +1477,6 @@ function main() {
         });
         // console.log(labelsShort);
         plotCelltypeMap('parameter-celltypes', parameterCelltypeMap.arraySync(), labelsShort, getClusterLabel, layout = {}, highlight = null, cValGenGetter = getColorMap);
-        // plotCelltypeMap('celltypes-preview', celltypeMap.arraySync(), clusterLabels, getClusterLabel, layout = generateScalebar(width / 10, width / 3, umPerPx), highlight = null, cValGenGetter = getColorMap);
 
     }
 
@@ -1275,11 +1509,12 @@ function main() {
 
 
     function updateValues() {
+        // scale = parseFloat(document.getElementById('exampleScale').value);
         threshold = parseFloat(document.getElementById('threshold').value);
         sigma = parseFloat(document.getElementById('KDE-bandwidth').value);
         height = parseInt(document.getElementById('vf-width').value);
         width = Math.ceil(height * edgeRatio);
-        // updateScale();
+        updateScale();
         console.log(threshold)
     }
 
